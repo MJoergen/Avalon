@@ -2,11 +2,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
--- This module is a simple kind of RAM test.
--- It fills the HyperRAM with pseudo-random data,
--- and verifies the data can be read back again.
-
-entity trafic_gen is
+entity avm_master is
    generic (
       G_ADDRESS_SIZE : integer; -- Number of bits
       G_DATA_SIZE    : integer  -- Number of bits
@@ -26,14 +22,14 @@ entity trafic_gen is
       avm_waitrequest_i   : in  std_logic;
       -- Debug output (HDMI and LED)
       address_o           : out std_logic_vector(G_ADDRESS_SIZE-1 downto 0);
-      data_exp_o          : out std_logic_vector(15 downto 0);
-      data_read_o         : out std_logic_vector(15 downto 0);
+      data_exp_o          : out std_logic_vector(G_DATA_SIZE-1 downto 0);
+      data_read_o         : out std_logic_vector(G_DATA_SIZE-1 downto 0);
       active_o            : out std_logic;
       error_o             : out std_logic
    );
-end entity trafic_gen;
+end entity avm_master;
 
-architecture synthesis of trafic_gen is
+architecture synthesis of avm_master is
 
    constant C_DATA_INIT   : std_logic_vector(63 downto 0) := X"CAFEBABEDEADBEEF";
    constant C_BURST_COUNT : integer := 1;

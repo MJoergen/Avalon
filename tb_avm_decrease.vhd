@@ -13,6 +13,9 @@ architecture simulation of tb_avm_decrease is
 
    signal clk                  : std_logic;
    signal rst                  : std_logic;
+   signal start                : std_logic;
+   signal active               : std_logic;
+   signal stop_test            : std_logic := '0';
 
    signal sp_avm_write         : std_logic;
    signal sp_avm_read          : std_logic;
@@ -68,6 +71,9 @@ begin
       wait for C_CLK_PERIOD/2;
       clk <= '0';
       wait for C_CLK_PERIOD/2;
+      if stop_test = '1' then
+         wait;
+      end if;
    end process p_clk;
 
    p_rst : process
@@ -78,6 +84,28 @@ begin
       rst <= '0';
       wait;
    end process p_rst;
+
+
+   p_start : process
+   begin
+      start <= '0';
+      wait until rst = '0';
+      wait until clk = '1';
+      start <= '1';
+      wait until clk = '1';
+      start <= '0';
+      wait;
+   end process p_start;
+
+   p_stop_test : process
+   begin
+      wait until start = '1';
+      wait until active = '0';
+      wait until clk = '1';
+      stop_test <= '1';
+      wait;
+   end process p_stop_test;
+
 
 
    ---------------------------------------------------------
@@ -92,6 +120,8 @@ begin
       port map (
          clk_i               => clk,
          rst_i               => rst,
+         start_i             => start,
+         active_o            => active,
          avm_write_o         => sp_avm_write,
          avm_read_o          => sp_avm_read,
          avm_address_o       => sp_avm_address,

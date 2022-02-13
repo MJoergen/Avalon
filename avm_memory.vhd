@@ -2,7 +2,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity mem is
+entity avm_memory is
    generic (
       G_ADDRESS_SIZE : integer; -- Number of bits
       G_DATA_SIZE    : integer  -- Number of bits
@@ -20,9 +20,9 @@ entity mem is
       avm_readdatavalid_o : out std_logic;
       avm_waitrequest_o   : out std_logic
    );
-end entity mem;
+end entity avm_memory;
 
-architecture simulation of mem is
+architecture simulation of avm_memory is
 
    -- This defines a type containing an array of bytes
    type mem_t is array (0 to 2**G_ADDRESS_SIZE-1) of std_logic_vector(G_DATA_SIZE-1 downto 0);
