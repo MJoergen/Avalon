@@ -7,55 +7,60 @@ end entity tb_avm_decrease;
 
 architecture simulation of tb_avm_decrease is
 
-   constant C_SLAVE_DATA_SIZE  : integer := 32;
-   constant C_MASTER_DATA_SIZE : integer := 16;
-   constant C_ADDRESS_SIZE     : integer := 3;
+   constant C_SLAVE_DATA_SIZE     : integer := 32;
+   constant C_MASTER_DATA_SIZE    : integer := 16;
+   constant C_ADDRESS_SIZE        : integer := 5;
 
-   signal clk                  : std_logic;
-   signal rst                  : std_logic;
-   signal start                : std_logic;
-   signal active               : std_logic;
-   signal stop_test            : std_logic := '0';
+   signal clk                     : std_logic;
+   signal rst                     : std_logic;
+   signal tb_start                : std_logic;
+   signal tb_wait                 : std_logic;
+   signal stop_test               : std_logic := '0';
 
-   signal sp_avm_write         : std_logic;
-   signal sp_avm_read          : std_logic;
-   signal sp_avm_address       : std_logic_vector(C_ADDRESS_SIZE-1 downto 0);
-   signal sp_avm_writedata     : std_logic_vector(C_SLAVE_DATA_SIZE-1 downto 0);
-   signal sp_avm_byteenable    : std_logic_vector(C_SLAVE_DATA_SIZE/8-1 downto 0);
-   signal sp_avm_burstcount    : std_logic_vector(7 downto 0);
-   signal sp_avm_readdata      : std_logic_vector(C_SLAVE_DATA_SIZE-1 downto 0);
-   signal sp_avm_readdatavalid : std_logic;
-   signal sp_avm_waitrequest   : std_logic;
+   signal sp_avm_start            : std_logic;
+   signal sp_avm_wait             : std_logic;
+   signal sp_avm_write_burstcount : std_logic_vector(7 downto 0);
+   signal sp_avm_read_burstcount  : std_logic_vector(7 downto 0);
 
-   signal s_avm_write          : std_logic;
-   signal s_avm_read           : std_logic;
-   signal s_avm_address        : std_logic_vector(C_ADDRESS_SIZE-1 downto 0);
-   signal s_avm_writedata      : std_logic_vector(C_SLAVE_DATA_SIZE-1 downto 0);
-   signal s_avm_byteenable     : std_logic_vector(C_SLAVE_DATA_SIZE/8-1 downto 0);
-   signal s_avm_burstcount     : std_logic_vector(7 downto 0);
-   signal s_avm_readdata       : std_logic_vector(C_SLAVE_DATA_SIZE-1 downto 0);
-   signal s_avm_readdatavalid  : std_logic;
-   signal s_avm_waitrequest    : std_logic;
+   signal sp_avm_write            : std_logic;
+   signal sp_avm_read             : std_logic;
+   signal sp_avm_address          : std_logic_vector(C_ADDRESS_SIZE-1 downto 0);
+   signal sp_avm_writedata        : std_logic_vector(C_SLAVE_DATA_SIZE-1 downto 0);
+   signal sp_avm_byteenable       : std_logic_vector(C_SLAVE_DATA_SIZE/8-1 downto 0);
+   signal sp_avm_burstcount       : std_logic_vector(7 downto 0);
+   signal sp_avm_readdata         : std_logic_vector(C_SLAVE_DATA_SIZE-1 downto 0);
+   signal sp_avm_readdatavalid    : std_logic;
+   signal sp_avm_waitrequest      : std_logic;
 
-   signal m_avm_write          : std_logic;
-   signal m_avm_read           : std_logic;
-   signal m_avm_address        : std_logic_vector(C_ADDRESS_SIZE-1 downto 0);
-   signal m_avm_writedata      : std_logic_vector(C_MASTER_DATA_SIZE-1 downto 0);
-   signal m_avm_byteenable     : std_logic_vector(C_MASTER_DATA_SIZE/8-1 downto 0);
-   signal m_avm_burstcount     : std_logic_vector(7 downto 0);
-   signal m_avm_readdata       : std_logic_vector(C_MASTER_DATA_SIZE-1 downto 0);
-   signal m_avm_readdatavalid  : std_logic;
-   signal m_avm_waitrequest    : std_logic;
+   signal s_avm_write             : std_logic;
+   signal s_avm_read              : std_logic;
+   signal s_avm_address           : std_logic_vector(C_ADDRESS_SIZE-1 downto 0);
+   signal s_avm_writedata         : std_logic_vector(C_SLAVE_DATA_SIZE-1 downto 0);
+   signal s_avm_byteenable        : std_logic_vector(C_SLAVE_DATA_SIZE/8-1 downto 0);
+   signal s_avm_burstcount        : std_logic_vector(7 downto 0);
+   signal s_avm_readdata          : std_logic_vector(C_SLAVE_DATA_SIZE-1 downto 0);
+   signal s_avm_readdatavalid     : std_logic;
+   signal s_avm_waitrequest       : std_logic;
 
-   signal mp_avm_write         : std_logic;
-   signal mp_avm_read          : std_logic;
-   signal mp_avm_address       : std_logic_vector(C_ADDRESS_SIZE-1 downto 0);
-   signal mp_avm_writedata     : std_logic_vector(C_MASTER_DATA_SIZE-1 downto 0);
-   signal mp_avm_byteenable    : std_logic_vector(C_MASTER_DATA_SIZE/8-1 downto 0);
-   signal mp_avm_burstcount    : std_logic_vector(7 downto 0);
-   signal mp_avm_readdata      : std_logic_vector(C_MASTER_DATA_SIZE-1 downto 0);
-   signal mp_avm_readdatavalid : std_logic;
-   signal mp_avm_waitrequest   : std_logic;
+   signal m_avm_write             : std_logic;
+   signal m_avm_read              : std_logic;
+   signal m_avm_address           : std_logic_vector(C_ADDRESS_SIZE-1 downto 0);
+   signal m_avm_writedata         : std_logic_vector(C_MASTER_DATA_SIZE-1 downto 0);
+   signal m_avm_byteenable        : std_logic_vector(C_MASTER_DATA_SIZE/8-1 downto 0);
+   signal m_avm_burstcount        : std_logic_vector(7 downto 0);
+   signal m_avm_readdata          : std_logic_vector(C_MASTER_DATA_SIZE-1 downto 0);
+   signal m_avm_readdatavalid     : std_logic;
+   signal m_avm_waitrequest       : std_logic;
+
+   signal mp_avm_write            : std_logic;
+   signal mp_avm_read             : std_logic;
+   signal mp_avm_address          : std_logic_vector(C_ADDRESS_SIZE-1 downto 0);
+   signal mp_avm_writedata        : std_logic_vector(C_MASTER_DATA_SIZE-1 downto 0);
+   signal mp_avm_byteenable       : std_logic_vector(C_MASTER_DATA_SIZE/8-1 downto 0);
+   signal mp_avm_burstcount       : std_logic_vector(7 downto 0);
+   signal mp_avm_readdata         : std_logic_vector(C_MASTER_DATA_SIZE-1 downto 0);
+   signal mp_avm_readdatavalid    : std_logic;
+   signal mp_avm_waitrequest      : std_logic;
 
    constant C_CLK_PERIOD : time := 10 ns;
 
@@ -88,24 +93,41 @@ begin
 
    p_start : process
    begin
-      start <= '0';
+      tb_start <= '0';
       wait until rst = '0';
       wait until clk = '1';
-      start <= '1';
+      tb_start <= '1';
       wait until clk = '1';
-      start <= '0';
+      tb_start <= '0';
       wait;
    end process p_start;
 
    p_stop_test : process
    begin
-      wait until start = '1';
-      wait until active = '0';
+      wait until tb_start = '1';
+      wait until tb_wait = '0';
       wait until clk = '1';
       stop_test <= '1';
       wait;
    end process p_stop_test;
 
+
+
+   ---------------------------------------------------------
+   -- Instantiate burst controller
+   ---------------------------------------------------------
+
+   i_burst_ctrl : entity work.burst_ctrl
+      port map (
+         clk_i              => clk,
+         rst_i              => rst,
+         start_i            => tb_start,
+         wait_o             => tb_wait,
+         start_o            => sp_avm_start,
+         wait_i             => sp_avm_wait,
+         write_burstcount_o => sp_avm_write_burstcount,
+         read_burstcount_o  => sp_avm_read_burstcount
+      ); -- i_burst_ctrl
 
 
    ---------------------------------------------------------
@@ -120,8 +142,10 @@ begin
       port map (
          clk_i               => clk,
          rst_i               => rst,
-         start_i             => start,
-         active_o            => active,
+         start_i             => sp_avm_start,
+         wait_o              => sp_avm_wait,
+         write_burstcount_i  => sp_avm_write_burstcount,
+         read_burstcount_i   => sp_avm_read_burstcount,
          avm_write_o         => sp_avm_write,
          avm_read_o          => sp_avm_read,
          avm_address_o       => sp_avm_address,

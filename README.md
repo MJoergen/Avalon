@@ -30,7 +30,10 @@ This generates a block of memory (BRAM).
 This acts as an Avalon Master (instead of a CPU) to generate some test trafic.
 
 ## `avm_decrease.vhd`
-This utility connects a Master and a Slave, where the two have different data widths.
+This utility connects a Master and a Slave, where the two have different data
+widths. Specifically, the Master data width is expected to be larger than the
+Slave data width. A single Master request is converted into a burst mode
+request to the Slave.
 
 ## `avm_pause.vhd`
 This inserts small pauses into the Avalon Memory Map interface. This is useful to

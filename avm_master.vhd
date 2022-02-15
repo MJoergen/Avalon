@@ -34,8 +34,8 @@ entity avm_master is
       avm_waitrequest_i   : in  std_logic;
       -- Debug output
       address_o           : out std_logic_vector(G_ADDRESS_SIZE-1 downto 0);
-      data_exp_o          : out std_logic_vector(15 downto 0);
-      data_read_o         : out std_logic_vector(15 downto 0);
+      data_exp_o          : out std_logic_vector(G_DATA_SIZE-1 downto 0);
+      data_read_o         : out std_logic_vector(G_DATA_SIZE-1 downto 0);
       error_o             : out std_logic
    );
 end entity avm_master;
