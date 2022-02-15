@@ -1,0 +1,35 @@
+[*]
+[*] GTKWave Analyzer v3.3.103 (w)1999-2019 BSI
+[*] Tue Feb 15 07:01:42 2022
+[*]
+[dumpfile] "/home/mike/git/MJoergen/Avalon/tb_burst_ctrl.ghw"
+[dumpfile_mtime] "Tue Feb 15 06:59:48 2022"
+[dumpfile_size] 308208
+[savefile] "/home/mike/git/MJoergen/Avalon/tb_burst_ctrl.gtkw"
+[timestart] 0
+[size] 1351 826
+[pos] -2074 -155
+*-28.505585 250000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] top.
+[treeopen] top.tb_burst_ctrl.
+[treeopen] top.tb_burst_ctrl.i_avm_memory.
+[sst_width] 354
+[signals_width] 294
+[sst_expanded] 1
+[sst_vpaned_height] 345
+@28
+top.tb_burst_ctrl.i_avm_memory.avm_write_i
+top.tb_burst_ctrl.i_avm_memory.avm_read_i
+#{top.tb_burst_ctrl.i_avm_memory.avm_address_i[2:0]} top.tb_burst_ctrl.i_avm_memory.avm_address_i[2] top.tb_burst_ctrl.i_avm_memory.avm_address_i[1] top.tb_burst_ctrl.i_avm_memory.avm_address_i[0]
+@22
+#{top.tb_burst_ctrl.i_avm_memory.avm_writedata_i[15:0]} top.tb_burst_ctrl.i_avm_memory.avm_writedata_i[15] top.tb_burst_ctrl.i_avm_memory.avm_writedata_i[14] top.tb_burst_ctrl.i_avm_memory.avm_writedata_i[13] top.tb_burst_ctrl.i_avm_memory.avm_writedata_i[12] top.tb_burst_ctrl.i_avm_memory.avm_writedata_i[11] top.tb_burst_ctrl.i_avm_memory.avm_writedata_i[10] top.tb_burst_ctrl.i_avm_memory.avm_writedata_i[9] top.tb_burst_ctrl.i_avm_memory.avm_writedata_i[8] top.tb_burst_ctrl.i_avm_memory.avm_writedata_i[7] top.tb_burst_ctrl.i_avm_memory.avm_writedata_i[6] top.tb_burst_ctrl.i_avm_memory.avm_writedata_i[5] top.tb_burst_ctrl.i_avm_memory.avm_writedata_i[4] top.tb_burst_ctrl.i_avm_memory.avm_writedata_i[3] top.tb_burst_ctrl.i_avm_memory.avm_writedata_i[2] top.tb_burst_ctrl.i_avm_memory.avm_writedata_i[1] top.tb_burst_ctrl.i_avm_memory.avm_writedata_i[0]
+@28
+#{top.tb_burst_ctrl.i_avm_memory.avm_byteenable_i[1:0]} top.tb_burst_ctrl.i_avm_memory.avm_byteenable_i[1] top.tb_burst_ctrl.i_avm_memory.avm_byteenable_i[0]
+@22
+#{top.tb_burst_ctrl.i_avm_memory.avm_burstcount_i[7:0]} top.tb_burst_ctrl.i_avm_memory.avm_burstcount_i[7] top.tb_burst_ctrl.i_avm_memory.avm_burstcount_i[6] top.tb_burst_ctrl.i_avm_memory.avm_burstcount_i[5] top.tb_burst_ctrl.i_avm_memory.avm_burstcount_i[4] top.tb_burst_ctrl.i_avm_memory.avm_burstcount_i[3] top.tb_burst_ctrl.i_avm_memory.avm_burstcount_i[2] top.tb_burst_ctrl.i_avm_memory.avm_burstcount_i[1] top.tb_burst_ctrl.i_avm_memory.avm_burstcount_i[0]
+#{top.tb_burst_ctrl.i_avm_memory.avm_readdata_o[15:0]} top.tb_burst_ctrl.i_avm_memory.avm_readdata_o[15] top.tb_burst_ctrl.i_avm_memory.avm_readdata_o[14] top.tb_burst_ctrl.i_avm_memory.avm_readdata_o[13] top.tb_burst_ctrl.i_avm_memory.avm_readdata_o[12] top.tb_burst_ctrl.i_avm_memory.avm_readdata_o[11] top.tb_burst_ctrl.i_avm_memory.avm_readdata_o[10] top.tb_burst_ctrl.i_avm_memory.avm_readdata_o[9] top.tb_burst_ctrl.i_avm_memory.avm_readdata_o[8] top.tb_burst_ctrl.i_avm_memory.avm_readdata_o[7] top.tb_burst_ctrl.i_avm_memory.avm_readdata_o[6] top.tb_burst_ctrl.i_avm_memory.avm_readdata_o[5] top.tb_burst_ctrl.i_avm_memory.avm_readdata_o[4] top.tb_burst_ctrl.i_avm_memory.avm_readdata_o[3] top.tb_burst_ctrl.i_avm_memory.avm_readdata_o[2] top.tb_burst_ctrl.i_avm_memory.avm_readdata_o[1] top.tb_burst_ctrl.i_avm_memory.avm_readdata_o[0]
+@28
+top.tb_burst_ctrl.i_avm_memory.avm_readdatavalid_o
+top.tb_burst_ctrl.i_avm_memory.avm_waitrequest_o
+[pattern_trace] 1
+[pattern_trace] 0

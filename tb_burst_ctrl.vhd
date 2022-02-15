@@ -8,7 +8,7 @@ end entity tb_burst_ctrl;
 architecture simulation of tb_burst_ctrl is
 
    constant C_DATA_SIZE           : integer := 16;
-   constant C_ADDRESS_SIZE        : integer := 3;
+   constant C_ADDRESS_SIZE        : integer := 4;
 
    signal clk                     : std_logic;
    signal rst                     : std_logic;

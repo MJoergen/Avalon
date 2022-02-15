@@ -1,10 +1,14 @@
+-- This module is a simple kind of RAM test.
+--
+-- It generates first a sequence of WRITE operations (writing pseudo-random data),
+-- and then a corresponding sequence of READ operations, verifying that the
+-- correct values are read back again.
+--
+-- Created by Michael Jørgensen in 2022 (mjoergen.github.io/HyperRAM).
+
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
-
--- This module is a simple kind of RAM test.
--- It fills the HyperRAM with pseudo-random data,
--- and verifies the data can be read back again.
 
 entity avm_master is
    generic (
@@ -43,7 +47,7 @@ architecture synthesis of avm_master is
    signal data             : std_logic_vector(63 downto 0);
    signal burstcount       : std_logic_vector(7 downto 0);
    signal read_burstcount  : std_logic_vector(7 downto 0);
-   signal wordcount        : integer;
+   signal wordcount        : integer range 0 to 255;
    signal new_address      : std_logic_vector(G_ADDRESS_SIZE-1 downto 0);
    signal new_data         : std_logic_vector(63 downto 0);
    signal new_burstcount   : std_logic_vector(7 downto 0);
@@ -65,7 +69,7 @@ begin
    new_data       <= (data(62 downto 0) & "0") xor x"000000000000001b" when data(63) = '1' else
                      (data(62 downto 0) & "0");
    new_address    <= avm_address_o when unsigned(avm_burstcount_o) > 1 else
-                     std_logic_vector(to_unsigned(to_integer(unsigned(avm_address_o)) + wordcount, G_ADDRESS_SIZE));
+                     std_logic_vector(unsigned(avm_address_o) + wordcount);
    new_burstcount <= std_logic_vector(unsigned(avm_burstcount_o) - 1) when unsigned(avm_burstcount_o) > 1 else
                      burstcount;
 
