@@ -104,7 +104,7 @@ begin
                   avm_burstcount_o <= write_burstcount_i;
                   burstcount       <= write_burstcount_i;
                   read_burstcount  <= read_burstcount_i;
-                  wordcount        <= to_integer(unsigned(write_burstcount_i))*G_DATA_SIZE/16;
+                  wordcount        <= to_integer(unsigned(write_burstcount_i));
                   state            <= WRITING_ST;
                end if;
 
@@ -125,7 +125,7 @@ begin
                      avm_read_o    <= '1';
                      avm_burstcount_o <= read_burstcount;
                      burstcount       <= read_burstcount;
-                     wordcount        <= to_integer(unsigned(read_burstcount))*G_DATA_SIZE/16;
+                     wordcount        <= to_integer(unsigned(read_burstcount));
                      address_o     <= (others => '0');
                      data_read_o   <= (others => '0');
                      data_exp_o    <= (others => '0');

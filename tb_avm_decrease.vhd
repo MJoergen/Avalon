@@ -9,7 +9,8 @@ architecture simulation of tb_avm_decrease is
 
    constant C_SLAVE_DATA_SIZE     : integer := 32;
    constant C_MASTER_DATA_SIZE    : integer := 16;
-   constant C_ADDRESS_SIZE        : integer := 5;
+   constant C_SLAVE_ADDRESS_SIZE  : integer := 5;
+   constant C_MASTER_ADDRESS_SIZE : integer := 6;
 
    signal clk                     : std_logic;
    signal rst                     : std_logic;
@@ -24,7 +25,7 @@ architecture simulation of tb_avm_decrease is
 
    signal sp_avm_write            : std_logic;
    signal sp_avm_read             : std_logic;
-   signal sp_avm_address          : std_logic_vector(C_ADDRESS_SIZE-1 downto 0);
+   signal sp_avm_address          : std_logic_vector(C_SLAVE_ADDRESS_SIZE-1 downto 0);
    signal sp_avm_writedata        : std_logic_vector(C_SLAVE_DATA_SIZE-1 downto 0);
    signal sp_avm_byteenable       : std_logic_vector(C_SLAVE_DATA_SIZE/8-1 downto 0);
    signal sp_avm_burstcount       : std_logic_vector(7 downto 0);
@@ -34,7 +35,7 @@ architecture simulation of tb_avm_decrease is
 
    signal s_avm_write             : std_logic;
    signal s_avm_read              : std_logic;
-   signal s_avm_address           : std_logic_vector(C_ADDRESS_SIZE-1 downto 0);
+   signal s_avm_address           : std_logic_vector(C_SLAVE_ADDRESS_SIZE-1 downto 0);
    signal s_avm_writedata         : std_logic_vector(C_SLAVE_DATA_SIZE-1 downto 0);
    signal s_avm_byteenable        : std_logic_vector(C_SLAVE_DATA_SIZE/8-1 downto 0);
    signal s_avm_burstcount        : std_logic_vector(7 downto 0);
@@ -44,7 +45,7 @@ architecture simulation of tb_avm_decrease is
 
    signal m_avm_write             : std_logic;
    signal m_avm_read              : std_logic;
-   signal m_avm_address           : std_logic_vector(C_ADDRESS_SIZE-1 downto 0);
+   signal m_avm_address           : std_logic_vector(C_MASTER_ADDRESS_SIZE-1 downto 0);
    signal m_avm_writedata         : std_logic_vector(C_MASTER_DATA_SIZE-1 downto 0);
    signal m_avm_byteenable        : std_logic_vector(C_MASTER_DATA_SIZE/8-1 downto 0);
    signal m_avm_burstcount        : std_logic_vector(7 downto 0);
@@ -54,7 +55,7 @@ architecture simulation of tb_avm_decrease is
 
    signal mp_avm_write            : std_logic;
    signal mp_avm_read             : std_logic;
-   signal mp_avm_address          : std_logic_vector(C_ADDRESS_SIZE-1 downto 0);
+   signal mp_avm_address          : std_logic_vector(C_MASTER_ADDRESS_SIZE-1 downto 0);
    signal mp_avm_writedata        : std_logic_vector(C_MASTER_DATA_SIZE-1 downto 0);
    signal mp_avm_byteenable       : std_logic_vector(C_MASTER_DATA_SIZE/8-1 downto 0);
    signal mp_avm_burstcount       : std_logic_vector(7 downto 0);
@@ -136,7 +137,7 @@ begin
 
    i_avm_master : entity work.avm_master
       generic map (
-         G_ADDRESS_SIZE => C_ADDRESS_SIZE,
+         G_ADDRESS_SIZE => C_SLAVE_ADDRESS_SIZE,
          G_DATA_SIZE    => C_SLAVE_DATA_SIZE
       )
       port map (
@@ -165,7 +166,7 @@ begin
    i_avm_pause_master : entity work.avm_pause
       generic map (
          G_PAUSE        => 3,
-         G_ADDRESS_SIZE => C_ADDRESS_SIZE,
+         G_ADDRESS_SIZE => C_SLAVE_ADDRESS_SIZE,
          G_DATA_SIZE    => C_SLAVE_DATA_SIZE
       )
       port map (
@@ -198,9 +199,10 @@ begin
 
    i_avm_decrease : entity work.avm_decrease
       generic map (
-         G_ADDRESS_SIZE     => C_ADDRESS_SIZE,
-         G_SLAVE_DATA_SIZE  => C_SLAVE_DATA_SIZE,
-         G_MASTER_DATA_SIZE => C_MASTER_DATA_SIZE
+         G_SLAVE_ADDRESS_SIZE  => C_SLAVE_ADDRESS_SIZE,
+         G_MASTER_ADDRESS_SIZE => C_MASTER_ADDRESS_SIZE,
+         G_SLAVE_DATA_SIZE     => C_SLAVE_DATA_SIZE,
+         G_MASTER_DATA_SIZE    => C_MASTER_DATA_SIZE
       )
       port map (
          clk_i                  => clk,
@@ -233,7 +235,7 @@ begin
    i_avm_pause_slave : entity work.avm_pause
       generic map (
          G_PAUSE        => 2,
-         G_ADDRESS_SIZE => C_ADDRESS_SIZE,
+         G_ADDRESS_SIZE => C_MASTER_ADDRESS_SIZE,
          G_DATA_SIZE    => C_MASTER_DATA_SIZE
       )
       port map (
@@ -266,7 +268,7 @@ begin
 
    i_avm_memory : entity work.avm_memory
       generic map (
-         G_ADDRESS_SIZE => C_ADDRESS_SIZE,
+         G_ADDRESS_SIZE => C_MASTER_ADDRESS_SIZE,
          G_DATA_SIZE    => C_MASTER_DATA_SIZE
       )
       port map (

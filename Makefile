@@ -14,7 +14,7 @@ SAVE = $(TB).gtkw
 sim: $(SRC)
 	ghdl -i --std=08 --work=work $(SRC)
 	ghdl -m --std=08 -fexplicit $(TB)
-	ghdl -r --std=08 $(TB) --assert-level=error --wave=$(WAVE) --stop-time=40us
+	ghdl -r --std=08 $(TB) --assert-level=error --wave=$(WAVE) --stop-time=50us
 
 show: $(WAVE)
 	gtkwave $(WAVE) $(SAVE)

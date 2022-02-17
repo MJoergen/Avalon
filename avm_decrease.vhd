@@ -6,9 +6,10 @@ use ieee.numeric_std.all;
 
 entity avm_decrease is
    generic (
-      G_ADDRESS_SIZE     : integer;
-      G_SLAVE_DATA_SIZE  : integer; -- Must be a multiple of G_MASTER_DATA_SIZE
-      G_MASTER_DATA_SIZE : integer
+      G_SLAVE_ADDRESS_SIZE  : integer;
+      G_MASTER_ADDRESS_SIZE : integer;
+      G_SLAVE_DATA_SIZE     : integer; -- Must be a multiple of G_MASTER_DATA_SIZE
+      G_MASTER_DATA_SIZE    : integer
    );
    port (
       clk_i                 : in  std_logic;
@@ -17,7 +18,7 @@ entity avm_decrease is
       -- Slave interface (input)
       s_avm_write_i         : in  std_logic;
       s_avm_read_i          : in  std_logic;
-      s_avm_address_i       : in  std_logic_vector(G_ADDRESS_SIZE-1 downto 0);
+      s_avm_address_i       : in  std_logic_vector(G_SLAVE_ADDRESS_SIZE-1 downto 0);
       s_avm_writedata_i     : in  std_logic_vector(G_SLAVE_DATA_SIZE-1 downto 0);
       s_avm_byteenable_i    : in  std_logic_vector(G_SLAVE_DATA_SIZE/8-1 downto 0);
       s_avm_burstcount_i    : in  std_logic_vector(7 downto 0);
@@ -28,7 +29,7 @@ entity avm_decrease is
       -- Master interface (output)
       m_avm_write_o         : out std_logic;
       m_avm_read_o          : out std_logic;
-      m_avm_address_o       : out std_logic_vector(G_ADDRESS_SIZE-1 downto 0);
+      m_avm_address_o       : out std_logic_vector(G_MASTER_ADDRESS_SIZE-1 downto 0);
       m_avm_writedata_o     : out std_logic_vector(G_MASTER_DATA_SIZE-1 downto 0);
       m_avm_byteenable_o    : out std_logic_vector(G_MASTER_DATA_SIZE/8-1 downto 0);
       m_avm_burstcount_o    : out std_logic_vector(7 downto 0);
@@ -46,7 +47,7 @@ architecture synthesis of avm_decrease is
 
    signal s_avm_write      : std_logic;
    signal s_avm_read       : std_logic;
-   signal s_avm_address    : std_logic_vector(G_ADDRESS_SIZE-1 downto 0);
+   signal s_avm_address    : std_logic_vector(G_SLAVE_ADDRESS_SIZE-1 downto 0);
    signal s_avm_writedata  : std_logic_vector(G_SLAVE_DATA_SIZE-1 downto 0);
    signal s_avm_byteenable : std_logic_vector(G_SLAVE_DATA_SIZE/8-1 downto 0);
    signal s_avm_burstcount : std_logic_vector(7 downto 0);
@@ -61,6 +62,7 @@ begin
 
    assert C_RATIO > 1;
    assert G_SLAVE_DATA_SIZE = C_RATIO * G_MASTER_DATA_SIZE;
+   assert C_RATIO = 2 ** (G_MASTER_ADDRESS_SIZE / G_SLAVE_ADDRESS_SIZE);
 
    p_fsm : process (clk_i)
    begin
@@ -126,7 +128,8 @@ begin
 
    m_avm_write_o       <= s_avm_write;
    m_avm_read_o        <= s_avm_read;
-   m_avm_address_o     <= s_avm_address;
+   m_avm_address_o(G_MASTER_ADDRESS_SIZE-1 downto G_MASTER_ADDRESS_SIZE-G_SLAVE_ADDRESS_SIZE) <= s_avm_address;
+   m_avm_address_o(G_MASTER_ADDRESS_SIZE-G_SLAVE_ADDRESS_SIZE-1 downto 0) <= (others => '0');
    m_avm_writedata_o   <= s_avm_writedata(G_MASTER_DATA_SIZE*s_write_pos + G_MASTER_DATA_SIZE-1 downto G_MASTER_DATA_SIZE*s_write_pos);
    m_avm_byteenable_o  <= s_avm_byteenable(G_MASTER_DATA_SIZE/8*s_write_pos + G_MASTER_DATA_SIZE/8-1 downto G_MASTER_DATA_SIZE/8*s_write_pos);
    m_avm_burstcount_o  <= s_avm_burstcount;
