@@ -45,7 +45,7 @@ begin
    mem_write_burstcount <= avm_burstcount_i when write_burstcount = X"00" else write_burstcount;
    mem_read_burstcount  <= avm_burstcount_i when read_burstcount = X"00" else read_burstcount;
 
-   avm_waitrequest_o <= '0';
+   avm_waitrequest_o <= '0' when unsigned(read_burstcount) = 0 else '1';
 
    p_mem : process (clk_i)
       variable mem : mem_t;
