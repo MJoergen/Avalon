@@ -27,8 +27,6 @@ architecture simulation of avm_memory is
    -- This defines a type containing an array of bytes
    type mem_t is array (0 to 2**G_ADDRESS_SIZE-1) of std_logic_vector(G_DATA_SIZE-1 downto 0);
 
-   signal mem : mem_t;
-
    signal write_burstcount     : std_logic_vector(7 downto 0);
    signal write_address        : std_logic_vector(G_ADDRESS_SIZE-1 downto 0);
 
@@ -50,6 +48,7 @@ begin
    avm_waitrequest_o <= '0';
 
    p_mem : process (clk_i)
+      variable mem : mem_t;
    begin
       if rising_edge(clk_i) then
          avm_readdatavalid_o <= '0';
@@ -62,7 +61,7 @@ begin
                    " with burstcount " & to_hstring(write_burstcount);
             for b in 0 to G_DATA_SIZE/8-1 loop
                if avm_byteenable_i(b) = '1' then
-                  mem(to_integer(unsigned(mem_write_address)))(8*b+7 downto 8*b) <= avm_writedata_i(8*b+7 downto 8*b);
+                  mem(to_integer(unsigned(mem_write_address)))(8*b+7 downto 8*b) := avm_writedata_i(8*b+7 downto 8*b);
                end if;
             end loop;
          end if;
