@@ -55,13 +55,13 @@ architecture synthesis of avm_decrease is
    type t_state is (IDLE_ST, WRITING_ST);
    signal state : t_state := IDLE_ST;
 
-   signal s_write_pos : integer range 0 to C_RATIO-1;
-   signal s_read_pos  : integer range 0 to C_RATIO-1;
+   signal s_write_pos : integer range 0 to C_RATIO-1 := 0;
+   signal s_read_pos  : integer range 0 to C_RATIO-1 := 0;
 
 begin
 
-   assert C_RATIO > 1;
-   assert G_SLAVE_DATA_SIZE = C_RATIO * G_MASTER_DATA_SIZE;
+   assert C_RATIO > 1 severity failure;
+   assert G_SLAVE_DATA_SIZE = C_RATIO * G_MASTER_DATA_SIZE severity failure;
    assert G_SLAVE_DATA_SIZE * (2**G_SLAVE_ADDRESS_SIZE) = G_MASTER_DATA_SIZE * (2**G_MASTER_ADDRESS_SIZE) severity failure;
 
    p_fsm : process (clk_i)
@@ -118,8 +118,6 @@ begin
          if rst_i = '1' then
             s_avm_write <= '0';
             s_avm_read  <= '0';
-            s_write_pos <= 0;
-            s_read_pos  <= 0;
             state       <= IDLE_ST;
          end if;
 
