@@ -52,7 +52,7 @@ architecture synthesis of avm_decrease is
    signal s_avm_byteenable : std_logic_vector(G_SLAVE_DATA_SIZE/8-1 downto 0);
    signal s_avm_burstcount : std_logic_vector(7 downto 0);
 
-   type t_state is (IDLE_ST, WRITING_ST);
+   type t_state is (IDLE_ST, WRITING_ST, READING_ST);
    signal state : t_state := IDLE_ST;
 
    signal s_write_pos : integer range 0 to C_RATIO-1 := 0;
@@ -94,10 +94,13 @@ begin
                   s_avm_writedata  <= s_avm_writedata_i;
                   s_avm_byteenable <= s_avm_byteenable_i;
                   s_avm_burstcount <= std_logic_vector(to_unsigned(C_RATIO * to_integer(unsigned(s_avm_burstcount_i)), 8));
-                  s_write_pos      <= 0;
-                  s_read_pos       <= 0;
                   if s_avm_write_i = '1' then
+                     s_write_pos   <= 0;
                      state         <= WRITING_ST;
+                  elsif s_read_pos /= 0 or m_avm_readdatavalid_i = '1' then
+                     state         <= READING_ST;
+                  else
+                     s_read_pos    <= 0;
                   end if;
                end if;
 
@@ -111,6 +114,11 @@ begin
                   if s_write_pos+2 = C_RATIO then
                      state <= IDLE_ST;
                   end if;
+               end if;
+
+            when READING_ST =>
+               if s_read_pos = 0 then
+                  state <= IDLE_ST;
                end if;
 
          end case;
