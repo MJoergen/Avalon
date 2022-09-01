@@ -140,8 +140,10 @@ begin
       end if;
    end process p_grant;
 
-   m_avm_write_o      <= s0_avm_write_i      when last_grant = '0' else s1_avm_write_i;
-   m_avm_read_o       <= s0_avm_read_i       when last_grant = '0' else s1_avm_read_i;
+   m_avm_write_o      <= s0_avm_write_i and s0_active_grant when last_grant = '0' else
+                         s1_avm_write_i and s1_active_grant;
+   m_avm_read_o       <= s0_avm_read_i and s0_active_grant  when last_grant = '0' else
+                         s1_avm_read_i and s1_active_grant;
    m_avm_address_o    <= s0_avm_address_i    when last_grant = '0' else s1_avm_address_i;
    m_avm_writedata_o  <= s0_avm_writedata_i  when last_grant = '0' else s1_avm_writedata_i;
    m_avm_byteenable_o <= s0_avm_byteenable_i when last_grant = '0' else s1_avm_byteenable_i;
