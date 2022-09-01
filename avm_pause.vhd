@@ -48,7 +48,7 @@ begin
    p_cnt : process (clk_i)
    begin
       if rising_edge(clk_i) then
-         if m_avm_waitrequest_i = '0' then
+         if m_avm_waitrequest_i = '0' and G_PAUSE > 0 then
             cnt <= (cnt + 1) mod G_PAUSE;
          end if;
 

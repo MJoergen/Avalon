@@ -104,11 +104,11 @@ begin
             when "00" =>
                if s0_active_req = '1' and last_grant = '1' then
                   s0_active_grant <= '1';
-                  last_grant <= '1';
+                  last_grant <= '0';
                end if;
                if s1_active_req = '1' and last_grant = '0' then
                   s1_active_grant <= '1';
-                  last_grant <= '0';
+                  last_grant <= '1';
                end if;
 
             when "01" =>
