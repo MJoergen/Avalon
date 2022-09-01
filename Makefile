@@ -1,3 +1,5 @@
+SRC += avm_master_general.vhd
+SRC += avm_arbit.vhd
 SRC += avm_decrease.vhd
 SRC += avm_master.vhd
 SRC += avm_memory.vhd
@@ -9,6 +11,7 @@ SRC += avalon_axi.vhd
 TB = tb_burst_ctrl
 TB = tb_avm_decrease
 TB = tb_avalon_axi
+TB = tb_avm_arbit
 
 SRC += $(TB).vhd
 WAVE = $(TB).ghw

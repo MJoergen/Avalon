@@ -58,7 +58,7 @@ begin
       end if;
    end process p_cnt;
 
-   allow <= '1' when cnt /= 0 else '0';
+   allow <= '1' when cnt /= 0 or G_PAUSE = 0 else '0';
 
    m_avm_write_o         <= s_avm_write_i and allow;
    m_avm_read_o          <= s_avm_read_i and allow;
