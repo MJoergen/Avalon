@@ -12,10 +12,9 @@ architecture simulation of tb_avm_arbit is
 
    signal clk                     : std_logic;
    signal rst                     : std_logic;
-   signal tb_start                : std_logic;
-   signal tb_wait                 : std_logic;
    signal stop_test               : std_logic := '0';
 
+   signal m0_avm_start            : std_logic;
    signal m0_avm_wait             : std_logic;
    signal m0_avm_write            : std_logic;
    signal m0_avm_read             : std_logic;
@@ -27,6 +26,7 @@ architecture simulation of tb_avm_arbit is
    signal m0_avm_readdatavalid    : std_logic;
    signal m0_avm_waitrequest      : std_logic;
 
+   signal m1_avm_start            : std_logic;
    signal m1_avm_wait             : std_logic;
    signal m1_avm_write            : std_logic;
    signal m1_avm_read             : std_logic;
@@ -40,7 +40,7 @@ architecture simulation of tb_avm_arbit is
 
    signal s_avm_write             : std_logic;
    signal s_avm_read              : std_logic;
-   signal s_avm_address           : std_logic_vector(C_ADDRESS_SIZE-1 downto 0);
+   signal s_avm_address           : std_logic_vector(C_ADDRESS_SIZE downto 0);
    signal s_avm_writedata         : std_logic_vector(C_DATA_SIZE-1 downto 0);
    signal s_avm_byteenable        : std_logic_vector(C_DATA_SIZE/8-1 downto 0);
    signal s_avm_burstcount        : std_logic_vector(7 downto 0);
@@ -76,27 +76,45 @@ begin
       wait;
    end process p_rst;
 
-
-   p_tb_start : process
+   p_m0_avm_start : process
    begin
-      tb_start <= '0';
+      m0_avm_start <= '0';
       wait until rst = '0';
       wait until clk = '1';
-      tb_start <= '1';
+      m0_avm_start <= '1';
       wait until clk = '1';
-      tb_start <= '0';
+      m0_avm_start <= '0';
       wait;
-   end process p_tb_start;
+   end process p_m0_avm_start;
+
+   p_m1_avm_start : process
+   begin
+      m1_avm_start <= '0';
+      wait until rst = '0';
+      wait until clk = '1';
+      wait until clk = '1';
+      wait until clk = '1';
+      wait until clk = '1';
+      wait until clk = '1';
+      wait until clk = '1';
+      wait until clk = '1';
+      wait until clk = '1';
+      wait until clk = '1';
+      wait until clk = '1';
+      m1_avm_start <= '1';
+      wait until clk = '1';
+      m1_avm_start <= '0';
+      wait;
+   end process p_m1_avm_start;
 
    p_stop_test : process
    begin
-      wait until tb_start = '1';
+      wait until m0_avm_start = '1' and m1_avm_start = '1';
       wait until m0_avm_wait = '0' and m1_avm_wait = '0';
       wait until clk = '1';
       stop_test <= '1';
       wait;
    end process p_stop_test;
-
 
 
    ---------------------------------------------------------
@@ -111,7 +129,7 @@ begin
       port map (
          clk_i                 => clk,
          rst_i                 => rst,
-         start_i               => tb_start,
+         start_i               => m0_avm_start,
          wait_o                => m0_avm_wait,
          m_avm_write_o         => m0_avm_write,
          m_avm_read_o          => m0_avm_read,
@@ -137,7 +155,7 @@ begin
       port map (
          clk_i                 => clk,
          rst_i                 => rst,
-         start_i               => tb_start,
+         start_i               => m1_avm_start,
          wait_o                => m1_avm_wait,
          m_avm_write_o         => m1_avm_write,
          m_avm_read_o          => m1_avm_read,
@@ -157,38 +175,38 @@ begin
 
    i_avm_arbit : entity work.avm_arbit
       generic map (
-         G_ADDRESS_SIZE => C_ADDRESS_SIZE,
+         G_ADDRESS_SIZE => C_ADDRESS_SIZE + 1,
          G_DATA_SIZE    => C_DATA_SIZE
       )
       port map (
          clk_i                  => clk,
          rst_i                  => rst,
-         s0_avm_write_i         => m0_avm_write         ,
-         s0_avm_read_i          => m0_avm_read          ,
-         s0_avm_address_i       => m0_avm_address       ,
-         s0_avm_writedata_i     => m0_avm_writedata     ,
-         s0_avm_byteenable_i    => m0_avm_byteenable    ,
-         s0_avm_burstcount_i    => m0_avm_burstcount    ,
-         s0_avm_readdata_o      => m0_avm_readdata      ,
-         s0_avm_readdatavalid_o => m0_avm_readdatavalid ,
-         s0_avm_waitrequest_o   => m0_avm_waitrequest   ,
-         s1_avm_write_i         => m1_avm_write         ,
-         s1_avm_read_i          => m1_avm_read          ,
-         s1_avm_address_i       => m1_avm_address       ,
-         s1_avm_writedata_i     => m1_avm_writedata     ,
-         s1_avm_byteenable_i    => m1_avm_byteenable    ,
-         s1_avm_burstcount_i    => m1_avm_burstcount    ,
-         s1_avm_readdata_o      => m1_avm_readdata      ,
-         s1_avm_readdatavalid_o => m1_avm_readdatavalid ,
-         s1_avm_waitrequest_o   => m1_avm_waitrequest   ,
-         m_avm_write_o          => s_avm_write          ,
-         m_avm_read_o           => s_avm_read           ,
-         m_avm_address_o        => s_avm_address        ,
-         m_avm_writedata_o      => s_avm_writedata      ,
-         m_avm_byteenable_o     => s_avm_byteenable     ,
-         m_avm_burstcount_o     => s_avm_burstcount     ,
-         m_avm_readdata_i       => s_avm_readdata       ,
-         m_avm_readdatavalid_i  => s_avm_readdatavalid  ,
+         s0_avm_write_i         => m0_avm_write,
+         s0_avm_read_i          => m0_avm_read,
+         s0_avm_address_i       => "0" & m0_avm_address,
+         s0_avm_writedata_i     => m0_avm_writedata,
+         s0_avm_byteenable_i    => m0_avm_byteenable,
+         s0_avm_burstcount_i    => m0_avm_burstcount,
+         s0_avm_readdata_o      => m0_avm_readdata,
+         s0_avm_readdatavalid_o => m0_avm_readdatavalid,
+         s0_avm_waitrequest_o   => m0_avm_waitrequest,
+         s1_avm_write_i         => m1_avm_write,
+         s1_avm_read_i          => m1_avm_read,
+         s1_avm_address_i       => "1" & m1_avm_address,
+         s1_avm_writedata_i     => m1_avm_writedata,
+         s1_avm_byteenable_i    => m1_avm_byteenable,
+         s1_avm_burstcount_i    => m1_avm_burstcount,
+         s1_avm_readdata_o      => m1_avm_readdata,
+         s1_avm_readdatavalid_o => m1_avm_readdatavalid,
+         s1_avm_waitrequest_o   => m1_avm_waitrequest,
+         m_avm_write_o          => s_avm_write,
+         m_avm_read_o           => s_avm_read,
+         m_avm_address_o        => s_avm_address,
+         m_avm_writedata_o      => s_avm_writedata,
+         m_avm_byteenable_o     => s_avm_byteenable,
+         m_avm_burstcount_o     => s_avm_burstcount,
+         m_avm_readdata_i       => s_avm_readdata,
+         m_avm_readdatavalid_i  => s_avm_readdatavalid,
          m_avm_waitrequest_i    => s_avm_waitrequest
       ); -- i_avm_arbit
 
@@ -199,7 +217,7 @@ begin
 
    i_avm_memory : entity work.avm_memory
       generic map (
-         G_ADDRESS_SIZE => C_ADDRESS_SIZE,
+         G_ADDRESS_SIZE => C_ADDRESS_SIZE + 1,
          G_DATA_SIZE    => C_DATA_SIZE
       )
       port map (

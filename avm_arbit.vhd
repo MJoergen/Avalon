@@ -102,11 +102,11 @@ begin
       if rising_edge(clk_i) then
          case active_grants is
             when "00" =>
-               if s0_active_req = '1' and last_grant = '1' then
+               if s0_active_req = '1' and (last_grant = '1' or s1_active_req = '0') then
                   s0_active_grant <= '1';
                   last_grant <= '0';
                end if;
-               if s1_active_req = '1' and last_grant = '0' then
+               if s1_active_req = '1' and (last_grant = '0' or s0_active_req = '0') then
                   s1_active_grant <= '1';
                   last_grant <= '1';
                end if;
@@ -118,6 +118,7 @@ begin
                         s1_active_grant <= '0';
                   end if;
                end if;
+
             when "10" =>
                if burstcount = X"01" then
                   if (s0_avm_write_i and not s0_avm_waitrequest_o) or
