@@ -75,10 +75,10 @@ begin
       if rising_edge(clk_i) then
          if burstcount = X"00" then
             if s0_avm_write_i and not s0_avm_waitrequest_o then
-               burstcount <= s0_avm_burstcount_i;
+               burstcount <= s0_avm_burstcount_i - 1;
             end if;
             if s1_avm_write_i and not s1_avm_waitrequest_o then
-               burstcount <= s1_avm_burstcount_i;
+               burstcount <= s1_avm_burstcount_i - 1;
             end if;
          else
             if (s0_avm_write_i and not s0_avm_waitrequest_o) or
@@ -95,11 +95,24 @@ begin
       end if;
    end process p_burstcount;
 
-   active_grants <= s0_active_grant & s1_active_grant;
+   active_grants <= s1_active_grant & s0_active_grant;
 
    p_grant : process (clk_i)
    begin
       if rising_edge(clk_i) then
+
+         -- Last clock cycle in a burst transfer
+         if burstcount = X"01" then
+            if (s1_avm_write_i and not s1_avm_waitrequest_o) or
+               s1_avm_readdatavalid_o then
+                  s1_active_grant <= '0';
+            end if;
+            if (s0_avm_write_i and not s0_avm_waitrequest_o) or
+               s0_avm_readdatavalid_o then
+                  s0_active_grant <= '0';
+            end if;
+         end if;
+
          case active_grants is
             when "00" =>
                if s0_active_req = '1' and (last_grant = '1' or s1_active_req = '0') then
@@ -112,18 +125,26 @@ begin
                end if;
 
             when "01" =>
-               if burstcount = X"01" then
-                  if (s1_avm_write_i and not s1_avm_waitrequest_o) or
-                     s1_avm_readdatavalid_o then
-                        s1_active_grant <= '0';
+               if burstcount = X"00" then
+                  if s0_active_req = '1' and (last_grant = '1' or s1_active_req = '0') then
+                     s0_active_grant <= '1';
+                     last_grant <= '0';
+                  elsif s1_active_req = '1' and (last_grant = '0' or s0_active_req = '0') then
+                     s1_active_grant <= '1';
+                     s0_active_grant <= '0';
+                     last_grant <= '1';
                   end if;
                end if;
 
             when "10" =>
-               if burstcount = X"01" then
-                  if (s0_avm_write_i and not s0_avm_waitrequest_o) or
-                     s0_avm_readdatavalid_o then
-                        s0_active_grant <= '0';
+               if burstcount = X"00" then
+                  if s1_active_req = '1' and (last_grant = '0' or s0_active_req = '0') then
+                     s1_active_grant <= '1';
+                     last_grant <= '1';
+                  elsif s0_active_req = '1' and (last_grant = '1' or s1_active_req = '0') then
+                     s0_active_grant <= '1';
+                     s1_active_grant <= '0';
+                     last_grant <= '0';
                   end if;
                end if;
 
