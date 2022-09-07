@@ -9,6 +9,8 @@ architecture simulation of tb_avm_arbit is
 
    constant C_DATA_SIZE           : integer := 16;
    constant C_ADDRESS_SIZE        : integer := 4;
+   constant C_M0_START            : integer := 10;
+   constant C_M1_START            : integer := 1000;
 
    signal clk                     : std_logic;
    signal rst                     : std_logic;
@@ -80,7 +82,9 @@ begin
    begin
       m0_avm_start <= '0';
       wait until rst = '0';
-      wait until clk = '1';
+      for i in 0 to C_M0_START loop
+         wait until clk = '1';
+      end loop;
       m0_avm_start <= '1';
       wait until clk = '1';
       m0_avm_start <= '0';
@@ -91,16 +95,9 @@ begin
    begin
       m1_avm_start <= '0';
       wait until rst = '0';
-      wait until clk = '1';
-      wait until clk = '1';
-      wait until clk = '1';
-      wait until clk = '1';
-      wait until clk = '1';
-      wait until clk = '1';
-      wait until clk = '1';
-      wait until clk = '1';
-      wait until clk = '1';
-      wait until clk = '1';
+      for i in 0 to C_M1_START loop
+         wait until clk = '1';
+      end loop;
       m1_avm_start <= '1';
       wait until clk = '1';
       m1_avm_start <= '0';
