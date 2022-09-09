@@ -64,8 +64,10 @@ architecture synthesis of avm_arbit is
 
 begin
 
-   s0_avm_waitrequest_o <= not s0_active_grant;
-   s1_avm_waitrequest_o <= not s1_active_grant;
+   assert not (s0_active_grant and s1_active_grant);
+
+   s0_avm_waitrequest_o <= m_avm_waitrequest_i or not s0_active_grant;
+   s1_avm_waitrequest_o <= m_avm_waitrequest_i or not s1_active_grant;
 
    s0_active_req <= s0_avm_write_i or s0_avm_read_i;
    s1_active_req <= s1_avm_write_i or s1_avm_read_i;
@@ -74,10 +76,10 @@ begin
    begin
       if rising_edge(clk_i) then
          if burstcount = X"00" then
-            if s0_avm_write_i and not s0_avm_waitrequest_o then
+            if s0_active_req and not s0_avm_waitrequest_o then
                burstcount <= s0_avm_burstcount_i - 1;
             end if;
-            if s1_avm_write_i and not s1_avm_waitrequest_o then
+            if s1_active_req and not s1_avm_waitrequest_o then
                burstcount <= s1_avm_burstcount_i - 1;
             end if;
          else
@@ -102,7 +104,7 @@ begin
       if rising_edge(clk_i) then
 
          -- Last clock cycle in a burst transfer
-         if burstcount = X"01" then
+         if burstcount = X"00" then
             if (s1_avm_write_i and not s1_avm_waitrequest_o) or
                s1_avm_readdatavalid_o then
                   s1_active_grant <= '0';
