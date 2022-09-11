@@ -12,6 +12,7 @@ use ieee.numeric_std.all;
 
 entity avm_master is
    generic (
+      G_DATA_INIT    : std_logic_vector(63 downto 0);
       G_ADDRESS_SIZE : integer; -- Number of bits
       G_DATA_SIZE    : integer  -- Number of bits
    );
@@ -41,8 +42,6 @@ entity avm_master is
 end entity avm_master;
 
 architecture synthesis of avm_master is
-
-   constant C_DATA_INIT    : std_logic_vector(63 downto 0) := X"CAFEBABEDEADBEEF";
 
    signal data_init        : std_logic_vector(63 downto 0);
 
@@ -122,12 +121,12 @@ begin
             when INIT_ST =>
                if start_i = '1' then
                   wait_o           <= '1';
-                  wr_data          <= C_DATA_INIT xor (
+                  wr_data          <= G_DATA_INIT xor (
                                       write_burstcount_i & read_burstcount_i &
                                       write_burstcount_i & read_burstcount_i &
                                       write_burstcount_i & read_burstcount_i &
                                       write_burstcount_i & read_burstcount_i);
-                  data_init        <= C_DATA_INIT xor (
+                  data_init        <= G_DATA_INIT xor (
                                       write_burstcount_i & read_burstcount_i &
                                       write_burstcount_i & read_burstcount_i &
                                       write_burstcount_i & read_burstcount_i &

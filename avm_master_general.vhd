@@ -4,6 +4,7 @@ use ieee.numeric_std.all;
 
 entity avm_master_general is
    generic (
+      G_DATA_INIT    : std_logic_vector(63 downto 0) := X"CAFEBABEDEADBEEF";
       G_ADDRESS_SIZE : integer; -- Number of bits
       G_DATA_SIZE    : integer  -- Number of bits
    );
@@ -65,6 +66,7 @@ begin
 
    i_avm_master : entity work.avm_master
       generic map (
+         G_DATA_INIT    => G_DATA_INIT,
          G_ADDRESS_SIZE => G_ADDRESS_SIZE,
          G_DATA_SIZE    => G_DATA_SIZE
       )

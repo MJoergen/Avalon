@@ -120,6 +120,7 @@ begin
 
    i_avm_master_general0 : entity work.avm_master_general
       generic map (
+         G_DATA_INIT    => X"CAFEBABEDEADBEEF",
          G_ADDRESS_SIZE => C_ADDRESS_SIZE,
          G_DATA_SIZE    => C_DATA_SIZE
       )
@@ -146,6 +147,7 @@ begin
 
    i_avm_master_general1 : entity work.avm_master_general
       generic map (
+         G_DATA_INIT    => X"BABEDEADBEEFCAFE",
          G_ADDRESS_SIZE => C_ADDRESS_SIZE,
          G_DATA_SIZE    => C_DATA_SIZE
       )
