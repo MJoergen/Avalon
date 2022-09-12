@@ -9,13 +9,14 @@ architecture simulation of tb_avm_arbit is
 
    constant C_DATA_SIZE           : integer := 16;
    constant C_ADDRESS_SIZE        : integer := 4;
-   constant C_M0_START            : integer := 10;
+   constant C_M0_START            : integer := 11;
    constant C_M1_START            : integer := 10;
 
    signal clk                     : std_logic;
    signal rst                     : std_logic;
    signal stop_test               : std_logic := '0';
 
+   signal m0_avm_has_started      : std_logic := '0';
    signal m0_avm_start            : std_logic;
    signal m0_avm_wait             : std_logic;
    signal m0_avm_write            : std_logic;
@@ -28,6 +29,7 @@ architecture simulation of tb_avm_arbit is
    signal m0_avm_readdatavalid    : std_logic;
    signal m0_avm_waitrequest      : std_logic;
 
+   signal m1_avm_has_started      : std_logic := '0';
    signal m1_avm_start            : std_logic;
    signal m1_avm_wait             : std_logic;
    signal m1_avm_write            : std_logic;
@@ -104,9 +106,21 @@ begin
       wait;
    end process p_m1_avm_start;
 
+   p_has_started : process (clk)
+   begin
+      if rising_edge(clk) then
+         if m0_avm_start = '1' then
+            m0_avm_has_started <= '1';
+         end if;
+         if m1_avm_start = '1' then
+            m1_avm_has_started <= '1';
+         end if;
+      end if;
+   end process p_has_started;
+
    p_stop_test : process
    begin
-      wait until m0_avm_start = '1' and m1_avm_start = '1';
+      wait until m0_avm_has_started = '1' and m1_avm_has_started = '1';
       wait until m0_avm_wait = '0' and m1_avm_wait = '0';
       wait until clk = '1';
       stop_test <= '1';
