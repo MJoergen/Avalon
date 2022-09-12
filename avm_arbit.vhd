@@ -58,6 +58,9 @@ architecture synthesis of avm_arbit is
    signal s1_active_grant : std_logic := '0';
    signal active_grants   : std_logic_vector(1 downto 0);
 
+   signal s0_last : std_logic;
+   signal s1_last : std_logic;
+
    signal last_grant : std_logic := '0';
 
    signal burstcount : std_logic_vector(7 downto 0);
@@ -71,6 +74,28 @@ begin
 
    s0_active_req <= s0_avm_write_i or s0_avm_read_i;
    s1_active_req <= s1_avm_write_i or s1_avm_read_i;
+
+   p_last : process (all)
+   begin
+      s0_last <= '0';
+      s1_last <= '0';
+
+      if burstcount = X"00" and s0_active_grant = '1' then
+         if not s0_active_req then
+            s0_last <= '1';
+         elsif s0_avm_write_i = '1' and s0_avm_burstcount_i <= X"01" then
+            s0_last <= '1';
+         end if;
+      end if;
+
+      if burstcount = X"00" and s1_active_grant = '1' then
+         if not s1_active_req then
+            s1_last <= '1';
+         elsif s1_avm_write_i = '1' and s1_avm_burstcount_i <= X"01" then
+            s1_last <= '1';
+         end if;
+      end if;
+   end process p_last;
 
    p_burstcount : process (clk_i)
    begin
@@ -104,15 +129,11 @@ begin
       if rising_edge(clk_i) then
 
          -- Last clock cycle in a burst transfer
-         if burstcount = X"00" then
-            if (s1_avm_write_i and not s1_avm_waitrequest_o) or
-               s1_avm_readdatavalid_o then
-                  s1_active_grant <= '0';
-            end if;
-            if (s0_avm_write_i and not s0_avm_waitrequest_o) or
-               s0_avm_readdatavalid_o then
-                  s0_active_grant <= '0';
-            end if;
+         if s0_last = '1' then
+            s0_active_grant <= '0';
+         end if;
+         if s1_last = '1' then
+            s1_active_grant <= '0';
          end if;
 
          case active_grants is
@@ -127,11 +148,11 @@ begin
                end if;
 
             when "01" =>
-               if burstcount = X"00" then
-                  if s0_active_req = '1' and (last_grant = '1' or s1_active_req = '0') then
+               if s0_last = '1' then
+                  if s0_active_req = '1' and not (last_grant = '0' and s1_active_req = '1') then
                      s0_active_grant <= '1';
                      last_grant <= '0';
-                  elsif s1_active_req = '1' and (last_grant = '0' or s0_active_req = '0') then
+                  elsif s1_active_req = '1' and not (last_grant = '1' and s0_active_req = '1') then
                      s1_active_grant <= '1';
                      s0_active_grant <= '0';
                      last_grant <= '1';
@@ -139,11 +160,11 @@ begin
                end if;
 
             when "10" =>
-               if burstcount = X"00" then
-                  if s1_active_req = '1' and (last_grant = '0' or s0_active_req = '0') then
+               if s1_last = '1' then
+                  if s1_active_req = '1' and not (last_grant = '1' and s0_active_req = '1') then
                      s1_active_grant <= '1';
                      last_grant <= '1';
-                  elsif s0_active_req = '1' and (last_grant = '1' or s1_active_req = '0') then
+                  elsif s0_active_req = '1' and not (last_grant = '0' and s1_active_req = '1') then
                      s0_active_grant <= '1';
                      s1_active_grant <= '0';
                      last_grant <= '0';
@@ -158,7 +179,7 @@ begin
          if rst_i = '1' then
             s0_active_grant <= '0';
             s1_active_grant <= '0';
-            last_grant      <= '0';
+            last_grant      <= '1';
          end if;
       end if;
    end process p_grant;

@@ -10,7 +10,7 @@ architecture simulation of tb_avm_arbit is
    constant C_DATA_SIZE           : integer := 16;
    constant C_ADDRESS_SIZE        : integer := 4;
    constant C_M0_START            : integer := 10;
-   constant C_M1_START            : integer := 1000;
+   constant C_M1_START            : integer := 10;
 
    signal clk                     : std_logic;
    signal rst                     : std_logic;
