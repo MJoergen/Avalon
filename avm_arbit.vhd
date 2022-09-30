@@ -81,7 +81,9 @@ begin
       s1_last <= '0';
 
       if burstcount = X"00" and s0_active_grant = '1' then
-         if not s0_active_req then
+         if m_avm_waitrequest_i = '1' then
+            s0_last <= '1';
+         elsif not s0_active_req then
             s0_last <= '1';
          elsif s0_avm_write_i = '1' and s0_avm_burstcount_i <= X"01" then
             s0_last <= '1';
@@ -89,7 +91,9 @@ begin
       end if;
 
       if burstcount = X"00" and s1_active_grant = '1' then
-         if not s1_active_req then
+         if m_avm_waitrequest_i = '1' then
+            s1_last <= '1';
+         elsif not s1_active_req then
             s1_last <= '1';
          elsif s1_avm_write_i = '1' and s1_avm_burstcount_i <= X"01" then
             s1_last <= '1';
