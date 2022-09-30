@@ -95,7 +95,8 @@ begin
 
    i_avm_pause_master : entity work.avm_pause
       generic map (
-         G_PAUSE        => 0,
+         G_REQ_PAUSE    => 0,
+         G_RESP_PAUSE   => 100,
          G_ADDRESS_SIZE => G_ADDRESS_SIZE,
          G_DATA_SIZE    => G_DATA_SIZE
       )

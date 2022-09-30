@@ -10,7 +10,8 @@ use ieee.numeric_std.all;
 
 entity avm_pause is
    generic (
-      G_PAUSE        : integer;
+      G_REQ_PAUSE    : integer;
+      G_RESP_PAUSE   : integer;
       G_ADDRESS_SIZE : integer; -- Number of bits
       G_DATA_SIZE    : integer  -- Number of bits
    );
@@ -40,16 +41,23 @@ end entity avm_pause;
 
 architecture synthesis of avm_pause is
 
-   signal cnt : integer range 0 to G_PAUSE;
+   signal cnt : integer range 0 to G_REQ_PAUSE;
    signal allow : std_logic;
 
+   type read_resp_t is array (0 to G_RESP_PAUSE) of std_logic_vector(G_DATA_SIZE downto 0);
+   signal read_resp : read_resp_t;
+
 begin
+
+   ------------------
+   -- Handle request
+   ------------------
 
    p_cnt : process (clk_i)
    begin
       if rising_edge(clk_i) then
-         if m_avm_waitrequest_i = '0' and G_PAUSE > 0 then
-            cnt <= (cnt + 1) mod G_PAUSE;
+         if m_avm_waitrequest_i = '0' and G_REQ_PAUSE > 0 then
+            cnt <= (cnt + 1) mod G_REQ_PAUSE;
          end if;
 
          if rst_i = '1' then
@@ -58,7 +66,7 @@ begin
       end if;
    end process p_cnt;
 
-   allow <= '1' when cnt /= 0 or G_PAUSE = 0 else '0';
+   allow <= '1' when cnt /= 0 or G_REQ_PAUSE = 0 else '0';
 
    m_avm_write_o         <= s_avm_write_i and allow;
    m_avm_read_o          <= s_avm_read_i and allow;
@@ -66,9 +74,31 @@ begin
    m_avm_writedata_o     <= s_avm_writedata_i;
    m_avm_byteenable_o    <= s_avm_byteenable_i;
    m_avm_burstcount_o    <= s_avm_burstcount_i;
-   s_avm_readdata_o      <= m_avm_readdata_i;
-   s_avm_readdatavalid_o <= m_avm_readdatavalid_i;
    s_avm_waitrequest_o   <= m_avm_waitrequest_i or not allow;
+
+
+   -------------------
+   -- Handle response
+   -------------------
+
+   read_resp(0)(G_DATA_SIZE-1 downto 0) <= m_avm_readdata_i;
+   read_resp(0)(G_DATA_SIZE)            <= m_avm_readdatavalid_i;
+
+   p_resp : process (clk_i)
+   begin
+      if rising_edge(clk_i) then
+         for i in 1 to G_RESP_PAUSE loop
+            read_resp(i) <= read_resp(i-1);
+
+            if rst_i = '1' then
+               read_resp(i)(G_DATA_SIZE) <= '0';
+            end if;
+         end loop;
+      end if;
+   end process p_resp;
+
+   s_avm_readdata_o      <= read_resp(G_RESP_PAUSE)(G_DATA_SIZE-1 downto 0);
+   s_avm_readdatavalid_o <= read_resp(G_RESP_PAUSE)(G_DATA_SIZE);
 
 end architecture synthesis;
 
