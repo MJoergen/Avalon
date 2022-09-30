@@ -1,0 +1,18 @@
+[tasks]
+bmc
+
+[options]
+bmc: mode bmc
+bmc: depth 6
+
+[engines]
+smtbmc
+
+[script]
+ghdl --std=08 -gG_ADDRESS_SIZE=4 -gG_DATA_SIZE=8  avm_arbit.vhd avm_arbit.psl -e avm_arbit
+prep -top avm_arbit
+
+[files]
+avm_arbit.psl
+avm_arbit.vhd
+

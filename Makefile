@@ -30,6 +30,12 @@ questa: $(SRC)
 show: $(WAVE)
 	gtkwave $(WAVE) $(SAVE)
 
+formal: avm_arbit_bmc/PASS
+avm_arbit_bmc/PASS: avm_arbit.sby avm_arbit.psl avm_arbit.vhd
+	sby --yosys "yosys -m ghdl" -f avm_arbit.sby
+
+show_bmc:
+	gtkwave avm_arbit_bmc/engine_0/trace.vcd avm_arbit.gtkw
 
 clean:
 	rm -rf *.o

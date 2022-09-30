@@ -115,11 +115,11 @@ begin
    begin
       if rising_edge(clk_i) then
          if s0_avm_write_i and not s0_avm_waitrequest_o then
-            burstcount <= s0_avm_burstcount_i - 1;
+            burstcount <= std_logic_vector(unsigned(s0_avm_burstcount_i) - 1);
          elsif s0_avm_read_i and not s0_avm_waitrequest_o then
             burstcount <= s0_avm_burstcount_i;
          elsif s1_avm_write_i and not s1_avm_waitrequest_o then
-            burstcount <= s1_avm_burstcount_i - 1;
+            burstcount <= std_logic_vector(unsigned(s1_avm_burstcount_i) - 1);
          elsif s1_avm_read_i and not s1_avm_waitrequest_o then
             burstcount <= s1_avm_burstcount_i;
          else
@@ -127,7 +127,7 @@ begin
                s0_avm_readdatavalid_o or
                (s1_avm_write_i and not s1_avm_waitrequest_o) or
                s1_avm_readdatavalid_o then
-               burstcount <= burstcount - 1;
+               burstcount <= std_logic_vector(unsigned(burstcount) - 1);
             end if;
          end if;
 
