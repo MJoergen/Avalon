@@ -84,18 +84,21 @@ begin
    read_resp(0)(G_DATA_SIZE-1 downto 0) <= m_avm_readdata_i;
    read_resp(0)(G_DATA_SIZE)            <= m_avm_readdatavalid_i;
 
-   p_resp : process (clk_i)
-   begin
-      if rising_edge(clk_i) then
-         for i in 1 to G_RESP_PAUSE loop
+   gen: for i in 1 to G_RESP_PAUSE generate
+      p_resp : process (clk_i)
+      begin
+         if rising_edge(clk_i) then
             read_resp(i) <= read_resp(i-1);
+            if read_resp(i-1)(G_DATA_SIZE) = '0' then
+               read_resp(i) <= (others => '0');
+            end if;
 
             if rst_i = '1' then
-               read_resp(i)(G_DATA_SIZE) <= '0';
+               read_resp(i) <= (others => '0');
             end if;
-         end loop;
-      end if;
-   end process p_resp;
+         end if;
+      end process p_resp;
+   end generate gen;
 
    s_avm_readdata_o      <= read_resp(G_RESP_PAUSE)(G_DATA_SIZE-1 downto 0);
    s_avm_readdatavalid_o <= read_resp(G_RESP_PAUSE)(G_DATA_SIZE);

@@ -56,7 +56,8 @@ architecture synthesis of avm_master is
    type state_t is (
       INIT_ST,
       WRITING_ST,
-      READING_ST
+      READING_ST,
+      WAITING_ST
    );
 
    signal state  : state_t := INIT_ST;
@@ -169,6 +170,12 @@ begin
 
             when READING_ST =>
                if avm_waitrequest_i = '0' then
+                  avm_read_o <= '0';
+                  state      <= WAITING_ST;
+               end if;
+
+            when WAITING_ST =>
+               if avm_readdatavalid_i = '1' then
 
                   if signed(avm_address_o) = -wordcount then
                      wait_o <= '0';
@@ -176,6 +183,7 @@ begin
                   else
                      avm_address_o <= std_logic_vector(unsigned(avm_address_o) + wordcount);
                      avm_read_o    <= '1';
+                     state         <= READING_ST;
                   end if;
                end if;
 

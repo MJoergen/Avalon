@@ -11,6 +11,8 @@ architecture simulation of tb_avm_arbit is
    constant C_ADDRESS_SIZE        : integer := 4;
    constant C_M0_START            : integer := 11;
    constant C_M1_START            : integer := 10;
+   constant C_REQ_PAUSE           : integer := 0;
+   constant C_RESP_PAUSE          : integer := 0;
 
    signal clk                     : std_logic;
    signal rst                     : std_logic;
@@ -228,8 +230,10 @@ begin
    -- Instantiate Slave
    ---------------------------------------------------------
 
-   i_avm_memory : entity work.avm_memory
+   i_avm_memory_pause : entity work.avm_memory_pause
       generic map (
+         G_REQ_PAUSE    => C_REQ_PAUSE,
+         G_RESP_PAUSE   => C_RESP_PAUSE,
          G_ADDRESS_SIZE => C_ADDRESS_SIZE + 1,
          G_DATA_SIZE    => C_DATA_SIZE
       )
@@ -245,7 +249,7 @@ begin
          avm_readdata_o      => s_avm_readdata,
          avm_readdatavalid_o => s_avm_readdatavalid,
          avm_waitrequest_o   => s_avm_waitrequest
-      ); -- i_avm_memory
+      ); -- i_avm_memory_pause
 
 end architecture simulation;
 
