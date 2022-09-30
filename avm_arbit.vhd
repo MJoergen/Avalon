@@ -92,23 +92,21 @@ begin
       s0_last <= '0';
       s1_last <= '0';
 
-      if burstcount = X"00" and s0_active_grant = '1' then
-         if m_avm_waitrequest_i = '1' then
-            s0_last <= '1';
-         elsif not s0_active_req then
-            s0_last <= '1';
-         elsif s0_avm_write_i = '1' and s0_avm_burstcount_i <= X"01" then
-            s0_last <= '1';
+      if s0_active_grant = '1' then
+         if burstcount = X"00" or (burstcount = X"01" and s0_avm_readdatavalid_o = '1') then
+            if s0_active_req = '0' or
+               (s0_avm_write_i = '1' and s0_avm_burstcount_i = X"01") then
+               s0_last <= '1';
+            end if;
          end if;
       end if;
 
-      if burstcount = X"00" and s1_active_grant = '1' then
-         if m_avm_waitrequest_i = '1' then
-            s1_last <= '1';
-         elsif not s1_active_req then
-            s1_last <= '1';
-         elsif s1_avm_write_i = '1' and s1_avm_burstcount_i <= X"01" then
-            s1_last <= '1';
+      if s1_active_grant = '1' then
+         if burstcount = X"00" or (burstcount = X"01" and s1_avm_readdatavalid_o = '1') then
+            if s1_active_req = '0' or
+               (s1_avm_write_i = '1' and s1_avm_burstcount_i = X"01") then
+               s1_last <= '1';
+            end if;
          end if;
       end if;
    end process p_last;
@@ -116,13 +114,14 @@ begin
    p_burstcount : process (clk_i)
    begin
       if rising_edge(clk_i) then
-         if burstcount = X"00" then
-            if s0_active_req and not s0_avm_waitrequest_o then
-               burstcount <= s0_avm_burstcount_i - 1;
-            end if;
-            if s1_active_req and not s1_avm_waitrequest_o then
-               burstcount <= s1_avm_burstcount_i - 1;
-            end if;
+         if s0_avm_write_i and not s0_avm_waitrequest_o then
+            burstcount <= s0_avm_burstcount_i - 1;
+         elsif s0_avm_read_i and not s0_avm_waitrequest_o then
+            burstcount <= s0_avm_burstcount_i;
+         elsif s1_avm_write_i and not s1_avm_waitrequest_o then
+            burstcount <= s1_avm_burstcount_i - 1;
+         elsif s1_avm_read_i and not s1_avm_waitrequest_o then
+            burstcount <= s1_avm_burstcount_i;
          else
             if (s0_avm_write_i and not s0_avm_waitrequest_o) or
                s0_avm_readdatavalid_o or

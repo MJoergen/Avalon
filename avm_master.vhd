@@ -74,12 +74,22 @@ architecture synthesis of avm_master is
       end if;
    end function lfsr;
 
+   signal error_d : std_logic;
+
 begin
 
    new_address    <= avm_address_o when unsigned(avm_burstcount_o) > 1 else
                      std_logic_vector(unsigned(avm_address_o) + wordcount);
    new_burstcount <= std_logic_vector(unsigned(avm_burstcount_o) - 1) when unsigned(avm_burstcount_o) > 1 else
                      burstcount;
+
+   p_error : process (clk_i)
+   begin
+      if rising_edge(clk_i) then
+         error_d <= error_o;
+         assert error_d /= '1' severity failure;
+      end if;
+   end process p_error;
 
    p_verifier : process (clk_i)
    begin
@@ -90,7 +100,7 @@ begin
 
             if avm_readdata_i /= rd_data(G_DATA_SIZE-1 downto 0) then
                report "ERROR: Expected " & to_hstring(rd_data(G_DATA_SIZE-1 downto 0)) & ", read " & to_hstring(avm_readdata_i)
-                  severity failure;
+                  severity warning;
                error_o <= '1';
             else
                rd_data <= lfsr(rd_data);
