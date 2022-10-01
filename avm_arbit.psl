@@ -23,10 +23,6 @@ vunit i_avm_arbit(avm_arbit(synthesis))
       {stable(m_avm_write_o) and stable(m_avm_read_o) and stable(m_avm_address_o) and stable(m_avm_writedata_o) and
        stable(m_avm_byteenable_o) and stable(m_avm_burstcount_o)};
 
-   -- Slaves must be stable until new data
-   f_slave0_output_stable : assert always {not s0_avm_waitrequest_o and not (s0_avm_write_i or s0_avm_read_i) and not rst_i} |=> {stable(s0_avm_waitrequest_o)};
-   f_slave1_output_stable : assert always {not s1_avm_waitrequest_o and not (s1_avm_write_i or s1_avm_read_i) and not rst_i} |=> {stable(s1_avm_waitrequest_o)};
-
 
    -----------------------------
    -- ASSUMPTIONS ABOUT INPUTS
