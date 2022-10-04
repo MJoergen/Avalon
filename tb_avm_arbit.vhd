@@ -3,16 +3,18 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 entity tb_avm_arbit is
+   generic (
+      C_M0_START   : integer := 11;
+      C_M1_START   : integer := 10;
+      C_REQ_PAUSE  : integer := 0;
+      C_RESP_PAUSE : integer := 0
+   );
 end entity tb_avm_arbit;
 
 architecture simulation of tb_avm_arbit is
 
    constant C_DATA_SIZE           : integer := 16;
    constant C_ADDRESS_SIZE        : integer := 4;
-   constant C_M0_START            : integer := 11;
-   constant C_M1_START            : integer := 10;
-   constant C_REQ_PAUSE           : integer := 0;
-   constant C_RESP_PAUSE          : integer := 0;
 
    signal clk                     : std_logic;
    signal rst                     : std_logic;
