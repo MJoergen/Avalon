@@ -42,6 +42,7 @@ end entity avm_pause;
 
 architecture synthesis of avm_pause is
 
+   signal rd_burstcount : integer range 0 to 255;
    signal cnt : integer range 0 to G_REQ_PAUSE;
    signal allow : std_logic;
 
@@ -67,16 +68,36 @@ begin
       end if;
    end process p_cnt;
 
+   p_rd_burstcount : process (clk_i)
+   begin
+      if rising_edge(clk_i) then
+         if s_avm_readdatavalid_o then
+            assert rst_i = '1' or rd_burstcount /= 0
+               report "s_avm_readdatavalid_o asserted when rd_burstcount = 0";
+            rd_burstcount <= rd_burstcount - 1;
+         end if;
+
+         if s_avm_read_i and not s_avm_waitrequest_o then
+            rd_burstcount <= to_integer(s_avm_burstcount_i);
+         end if;
+
+         if rst_i = '1' then
+            rd_burstcount <= 0;
+         end if;
+      end if;
+   end process p_rd_burstcount;
+
+
    allow <= '1' when cnt /= 0 or G_REQ_PAUSE = 0 else '0';
 
-   m_avm_write_o         <= s_avm_write_i and allow;
-   m_avm_read_o          <= s_avm_read_i and allow;
+   m_avm_write_o         <= s_avm_write_i and allow when rd_burstcount = 0 else '0';
+   m_avm_read_o          <= s_avm_read_i and allow when rd_burstcount = 0 else '0';
    m_avm_address_o       <= s_avm_address_i;
    m_avm_writedata_o     <= s_avm_writedata_i;
    m_avm_byteenable_o    <= s_avm_byteenable_i;
    m_avm_burstcount_o    <= s_avm_burstcount_i;
-   s_avm_waitrequest_o   <= m_avm_waitrequest_i or not allow;
-
+   s_avm_waitrequest_o   <= '1' when rd_burstcount /= 0 else
+                             m_avm_waitrequest_i or not allow;
 
    -------------------
    -- Handle response

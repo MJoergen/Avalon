@@ -9,11 +9,11 @@ SRC += avm_memory_pause.vhd
 SRC += axi_avalon.vhd
 SRC += avalon_axi.vhd
 
-DUT = burst_ctrl
-DUT = avm_decrease
-DUT = avalon_axi
-DUT = avm_arbit
-DUT = avm_pause
+#DUT ?= burst_ctrl
+#DUT ?= avm_decrease
+#DUT ?= avalon_axi
+#DUT ?= avm_arbit
+#DUT ?= avm_pause
 
 
 TB = tb_$(DUT)
