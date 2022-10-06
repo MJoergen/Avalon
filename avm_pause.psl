@@ -22,11 +22,6 @@ vunit i_avm_pause(avm_pause(synthesis))
       end if;
    end process p_s_rd_burstcount;
 
-   f_slave_burst_reset : assert always rst_i |=> {f_s_rd_burstcount = 0};
-   f_slave_burst_range : assert always rst_i or f_s_rd_burstcount >= 0;
-   f_slave_burst_block : assert always rst_i or f_s_rd_burstcount = 0 or s_avm_waitrequest_o;
-
-
    p_m_rd_burstcount : process (clk_i)
    begin
       if rising_edge(clk_i) then
@@ -41,10 +36,6 @@ vunit i_avm_pause(avm_pause(synthesis))
          end if;
       end if;
    end process p_m_rd_burstcount;
-
-   f_master_burst_reset : assume always rst_i |=> {f_m_rd_burstcount = 0};
-   f_master_burst_range : assume always rst_i or {f_m_rd_burstcount >= 0};
-   f_master_burst_block : assume always rst_i or {f_m_rd_burstcount = 0} or m_avm_waitrequest_i;
 
 
    -----------------------------
@@ -61,6 +52,11 @@ vunit i_avm_pause(avm_pause(synthesis))
    f_master_stable : assert always {(m_avm_write_o or m_avm_read_o) and m_avm_waitrequest_i and not rst_i} |=>
       {stable(m_avm_write_o) and stable(m_avm_read_o) and stable(m_avm_address_o) and stable(m_avm_writedata_o) and
        stable(m_avm_byteenable_o) and stable(m_avm_burstcount_o)};
+
+   f_slave_burst_reset : assert always rst_i |=> {f_s_rd_burstcount = 0};
+   f_slave_burst_range : assert always rst_i or f_s_rd_burstcount >= 0;
+   f_slave_burst_block : assert always rst_i or f_s_rd_burstcount = 0 or s_avm_waitrequest_o;
+   f_master_burst_valid  : assert always rst_i or not (m_avm_read_o and not m_avm_waitrequest_i and nor(m_avm_burstcount_o));
 
 
    -----------------------------
@@ -80,6 +76,11 @@ vunit i_avm_pause(avm_pause(synthesis))
    f_slave_input_stable : assume always {(s_avm_write_i or s_avm_read_i) and s_avm_waitrequest_o and not rst_i} |=>
       {stable(s_avm_write_i) and stable(s_avm_read_i) and stable(s_avm_address_i) and stable(s_avm_writedata_i) and
        stable(s_avm_byteenable_i) and stable(s_avm_burstcount_i)};
+
+   f_slave_burst_valid  : assume always rst_i or not (s_avm_read_i and not s_avm_waitrequest_o and nor(s_avm_burstcount_i));
+   f_master_burst_reset : assume always rst_i |=> {f_m_rd_burstcount = 0};
+   f_master_burst_range : assume always rst_i or {f_m_rd_burstcount >= 0};
+   f_master_burst_block : assume always rst_i or {f_m_rd_burstcount = 0} or m_avm_waitrequest_i;
 
 
    --------------------------------------------
