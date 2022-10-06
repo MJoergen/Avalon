@@ -35,10 +35,10 @@ show: $(WAVE)
 
 formal: $(DUT)_bmc/PASS
 $(DUT)_bmc/PASS: $(DUT).sby $(DUT).psl $(DUT).vhd
-	sby --yosys "yosys -m ghdl" -f avm_arbit.sby
+	sby --yosys "yosys -m ghdl" -f $(DUT).sby
 
 show_bmc:
-	gtkwave avm_arbit_bmc/engine_0/trace.vcd avm_arbit.gtkw
+	gtkwave $(DUT)_bmc/engine_0/trace.vcd $(DUT).gtkw
 
 clean:
 	rm -rf *.o

@@ -9,7 +9,7 @@ bmc: depth 6
 smtbmc
 
 [script]
-ghdl --std=08 -gG_ADDRESS_SIZE=4 -gG_DATA_SIZE=8  avm_pause.vhd avm_pause.psl -e avm_pause
+ghdl --std=08 -gG_ADDRESS_SIZE=4 -gG_DATA_SIZE=8 -gG_REQ_PAUSE=0 -gG_RESP_PAUSE=0  avm_pause.vhd avm_pause.psl -e avm_pause
 prep -top avm_pause
 
 [files]
