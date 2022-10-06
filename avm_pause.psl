@@ -1,0 +1,47 @@
+vunit i_avm_pause(avm_pause(synthesis))
+{
+   -- Additional signals used during formal verification
+   signal f_count : integer range 0 to 3 := 0;
+
+
+   -- set all declarations to run on clk_i
+   default clock is rising_edge(clk_i);
+
+
+   -----------------------------
+   -- ASSERTIONS ABOUT OUTPUTS
+   -----------------------------
+
+   -- Master may not assert both write and read.
+   f_master_not_double: assert always rst_i or not (m_avm_write_o and m_avm_read_o);
+
+   -- Master must be empty after reset
+   f_master_after_reset_empty : assert always {rst_i} |=> not (m_avm_write_o or m_avm_read_o);
+
+   -- Master must be stable until accepted
+   f_master_stable : assert always {(m_avm_write_o or m_avm_read_o) and m_avm_waitrequest_i and not rst_i} |=>
+      {stable(m_avm_write_o) and stable(m_avm_read_o) and stable(m_avm_address_o) and stable(m_avm_writedata_o) and
+       stable(m_avm_byteenable_o) and stable(m_avm_burstcount_o)};
+
+
+   -----------------------------
+   -- ASSUMPTIONS ABOUT INPUTS
+   -----------------------------
+
+   -- Require reset at startup.
+   f_reset : assume {rst_i};
+
+   -- Slaves must be stable until accepted
+   f_slave_input_stable : assume always {(s_avm_write_i or s_avm_read_i) and s_avm_waitrequest_o and not rst_i} |=>
+      {stable(s_avm_write_i) and stable(s_avm_read_i) and stable(s_avm_address_i) and stable(s_avm_writedata_i) and
+       stable(s_avm_byteenable_i) and stable(s_avm_burstcount_i)};
+
+   f_slave_not_double: assume always not (s_avm_write_i and s_avm_read_i);
+
+
+   --------------------------------------------
+   -- COVER STATEMENTS TO VERIFY REACHABILITY
+   --------------------------------------------
+
+} -- vunit i_avm_pause(avm_pause(synthesis))
+

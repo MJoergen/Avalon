@@ -1,0 +1,18 @@
+[tasks]
+bmc
+
+[options]
+bmc: mode bmc
+bmc: depth 6
+
+[engines]
+smtbmc
+
+[script]
+ghdl --std=08 -gG_ADDRESS_SIZE=4 -gG_DATA_SIZE=8  avm_pause.vhd avm_pause.psl -e avm_pause
+prep -top avm_pause
+
+[files]
+avm_pause.psl
+avm_pause.vhd
+

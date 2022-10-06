@@ -9,11 +9,14 @@ SRC += avm_memory_pause.vhd
 SRC += axi_avalon.vhd
 SRC += avalon_axi.vhd
 
-TB = tb_burst_ctrl
-TB = tb_avm_decrease
-TB = tb_avalon_axi
-TB = tb_avm_arbit
+DUT = burst_ctrl
+DUT = avm_decrease
+DUT = avalon_axi
+DUT = avm_arbit
+DUT = avm_pause
 
+
+TB = tb_$(DUT)
 SRC += $(TB).vhd
 WAVE = $(TB).ghw
 SAVE = $(TB).gtkw
@@ -30,8 +33,8 @@ questa: $(SRC)
 show: $(WAVE)
 	gtkwave $(WAVE) $(SAVE)
 
-formal: avm_arbit_bmc/PASS
-avm_arbit_bmc/PASS: avm_arbit.sby avm_arbit.psl avm_arbit.vhd
+formal: $(DUT)_bmc/PASS
+$(DUT)_bmc/PASS: $(DUT).sby $(DUT).psl $(DUT).vhd
 	sby --yosys "yosys -m ghdl" -f avm_arbit.sby
 
 show_bmc:
