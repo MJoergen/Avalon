@@ -1,0 +1,18 @@
+[tasks]
+bmc
+
+[options]
+bmc: mode bmc
+bmc: depth 6
+
+[engines]
+smtbmc
+
+[script]
+ghdl --std=08 -gG_ADDRESS_SIZE=6 -gG_DATA_SIZE=8 avm_master2.vhd avm_master2.psl -e avm_master2
+prep -top avm_master2
+
+[files]
+avm_master2.psl
+avm_master2.vhd
+
