@@ -17,27 +17,27 @@ entity avm_master2 is
       G_DATA_SIZE    : integer  -- Number of bits
    );
    port (
-      clk_i               : in  std_logic;
-      rst_i               : in  std_logic;
-      start_i             : in  std_logic;
-      wait_o              : out std_logic;
-      write_burstcount_i  : in  std_logic_vector(7 downto 0);
-      read_burstcount_i   : in  std_logic_vector(7 downto 0);
+      clk_i                 : in  std_logic;
+      rst_i                 : in  std_logic;
+      start_i               : in  std_logic;
+      wait_o                : out std_logic;
+      write_burstcount_i    : in  std_logic_vector(7 downto 0);
+      read_burstcount_i     : in  std_logic_vector(7 downto 0);
 
-      avm_write_o         : out std_logic;
-      avm_read_o          : out std_logic;
-      avm_address_o       : out std_logic_vector(G_ADDRESS_SIZE-1 downto 0);
-      avm_writedata_o     : out std_logic_vector(G_DATA_SIZE-1 downto 0);
-      avm_byteenable_o    : out std_logic_vector(G_DATA_SIZE/8-1 downto 0);
-      avm_burstcount_o    : out std_logic_vector(7 downto 0);
-      avm_readdata_i      : in  std_logic_vector(G_DATA_SIZE-1 downto 0);
-      avm_readdatavalid_i : in  std_logic;
-      avm_waitrequest_i   : in  std_logic;
+      m_avm_write_o         : out std_logic;
+      m_avm_read_o          : out std_logic;
+      m_avm_address_o       : out std_logic_vector(G_ADDRESS_SIZE-1 downto 0);
+      m_avm_writedata_o     : out std_logic_vector(G_DATA_SIZE-1 downto 0);
+      m_avm_byteenable_o    : out std_logic_vector(G_DATA_SIZE/8-1 downto 0);
+      m_avm_burstcount_o    : out std_logic_vector(7 downto 0);
+      m_avm_readdata_i      : in  std_logic_vector(G_DATA_SIZE-1 downto 0);
+      m_avm_readdatavalid_i : in  std_logic;
+      m_avm_waitrequest_i   : in  std_logic;
       -- Debug output
-      address_o           : out std_logic_vector(G_ADDRESS_SIZE-1 downto 0);
-      data_exp_o          : out std_logic_vector(G_DATA_SIZE-1 downto 0);
-      data_read_o         : out std_logic_vector(G_DATA_SIZE-1 downto 0);
-      error_o             : out std_logic
+      address_o             : out std_logic_vector(G_ADDRESS_SIZE-1 downto 0);
+      data_exp_o            : out std_logic_vector(G_DATA_SIZE-1 downto 0);
+      data_read_o           : out std_logic_vector(G_DATA_SIZE-1 downto 0);
+      error_o               : out std_logic
    );
 end entity avm_master2;
 
@@ -62,7 +62,7 @@ architecture synthesis of avm_master2 is
 
 begin
 
-   lfsr_update_s <= (avm_write_o or avm_read_o) and not avm_waitrequest_i;
+   lfsr_update_s <= (m_avm_write_o or m_avm_read_o) and not m_avm_waitrequest_i;
 
    address_s <= lfsr_random(G_ADDRESS_SIZE-1 downto 0);
    data_s    <= lfsr_random(G_DATA_SIZE+G_ADDRESS_SIZE-1 downto G_ADDRESS_SIZE);
@@ -71,9 +71,9 @@ begin
    p_master : process (clk_i)
    begin
       if rising_edge(clk_i) then
-         if avm_waitrequest_i = '0' then
-            avm_write_o      <= '0';
-            avm_read_o       <= '0';
+         if m_avm_waitrequest_i = '0' then
+            m_avm_write_o      <= '0';
+            m_avm_read_o       <= '0';
          end if;
 
          case state is
@@ -85,36 +85,36 @@ begin
                end if;
 
             when WORKING_ST =>
-               if avm_waitrequest_i = '0' then
+               if m_avm_waitrequest_i = '0' then
                   if written(to_integer(address_s)) = '0' or write_s = '1' then
-                     avm_write_o      <= '1';
-                     avm_read_o       <= '0';
-                     avm_address_o    <= address_s;
-                     avm_writedata_o  <= data_s;
-                     avm_byteenable_o <= (others => '1');
-                     avm_burstcount_o <= write_burstcount_i;
+                     m_avm_write_o      <= '1';
+                     m_avm_read_o       <= '0';
+                     m_avm_address_o    <= address_s;
+                     m_avm_writedata_o  <= data_s;
+                     m_avm_byteenable_o <= (others => '1');
+                     m_avm_burstcount_o <= write_burstcount_i;
                      written(to_integer(address_s)) <= '1';
-                     num_written      <= num_written + 1;
+                     num_written        <= std_logic_vector(unsigned(num_written) + 1);
 
                      if and(num_written) = '1' then
                         state <= DONE_ST;
                         report "Done";
                      end if;
                   else
-                     avm_write_o      <= '0';
-                     avm_read_o       <= '1';
-                     avm_address_o    <= address_s;
-                     avm_burstcount_o <= read_burstcount_i;
-                     state            <= READING_ST;
+                     m_avm_write_o      <= '0';
+                     m_avm_read_o       <= '1';
+                     m_avm_address_o    <= address_s;
+                     m_avm_burstcount_o <= read_burstcount_i;
+                     state              <= READING_ST;
                   end if;
                end if;
 
             when READING_ST =>
-               if avm_readdatavalid_i = '1' then
-                  if data_exp_o /= avm_readdata_i then
+               if m_avm_readdatavalid_i = '1' then
+                  if data_exp_o /= m_avm_readdata_i then
                      error_o <= '1';
                   end if;
-                  data_read_o <= avm_readdata_i;
+                  data_read_o <= m_avm_readdata_i;
                   state       <= WORKING_ST;
                end if;
 
@@ -126,19 +126,19 @@ begin
          end case;
 
          if rst_i = '1' then
-            wait_o           <= '0';
-            avm_write_o      <= '0';
-            avm_read_o       <= '0';
-            avm_address_o    <= (others => '0');
-            avm_writedata_o  <= (others => '0');
-            avm_byteenable_o <= (others => '0');
-            avm_burstcount_o <= (others => '0');
-            address_o        <= (others => '0');
-            data_read_o      <= (others => '0');
-            error_o          <= '0';
-            written          <= (others => '0');
-            num_written      <= (others => '0');
-            state            <= IDLE_ST;
+            wait_o             <= '0';
+            m_avm_write_o      <= '0';
+            m_avm_read_o       <= '0';
+            m_avm_address_o    <= (others => '0');
+            m_avm_writedata_o  <= (others => '0');
+            m_avm_byteenable_o <= (others => '0');
+            m_avm_burstcount_o <= (others => '0');
+            address_o          <= (others => '0');
+            data_read_o        <= (others => '0');
+            error_o            <= '0';
+            written            <= (others => '0');
+            num_written        <= (others => '0');
+            state              <= IDLE_ST;
          end if;
 
       end if;
@@ -147,11 +147,11 @@ begin
    p_mem : process (clk_i)
    begin
       if rising_edge(clk_i) then
-         if avm_write_o = '1' then
-            mem(to_integer(avm_address_o)) <= avm_writedata_o;
+         if m_avm_write_o = '1' then
+            mem(to_integer(m_avm_address_o)) <= m_avm_writedata_o;
          end if;
-         if avm_read_o = '1' then
-            data_exp_o <= mem(to_integer(avm_address_o));
+         if m_avm_read_o = '1' then
+            data_exp_o <= mem(to_integer(m_avm_address_o));
          end if;
       end if;
    end process p_mem;
@@ -182,7 +182,7 @@ begin
       end loop;
    end process p_reverse;
 
-   lfsr_random <= lfsr_output + lfsr_reverse;
+   lfsr_random <= std_logic_vector(unsigned(lfsr_output) + unsigned(lfsr_reverse));
 
 end architecture synthesis;
 

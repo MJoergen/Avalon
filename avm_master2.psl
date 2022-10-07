@@ -25,6 +25,9 @@ vunit i_avm_master2(avm_master2(synthesis))
    -- ASSUMPTIONS ABOUT INPUTS
    -----------------------------
 
+   -- Require reset at startup.
+   f_reset : assume {rst_i};
+
 
    --------------------------------------------
    -- COVER STATEMENTS TO VERIFY REACHABILITY

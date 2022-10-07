@@ -1,0 +1,51 @@
+[*]
+[*] GTKWave Analyzer v3.3.103 (w)1999-2019 BSI
+[*] Fri Oct  7 12:11:45 2022
+[*]
+[dumpfile] "/home/mfj/git/PRIVATE/MJoergen/Avalon/avm_master2_bmc/engine_0/trace.vcd"
+[dumpfile_mtime] "Fri Oct  7 12:09:22 2022"
+[dumpfile_size] 2360
+[savefile] "/home/mfj/git/PRIVATE/MJoergen/Avalon/avm_master2.gtkw"
+[timestart] 0
+[size] 1853 1138
+[pos] -1892 -5
+*-1.855360 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] avm_master2.
+[sst_width] 360
+[signals_width] 260
+[sst_expanded] 1
+[sst_vpaned_height] 334
+@28
+avm_master2.rst_i
+avm_master2.clk_i
+avm_master2.start_i
+avm_master2.wait_o
+@22
+avm_master2.write_burstcount_i[7:0]
+avm_master2.read_burstcount_i[7:0]
+@28
+[color] 5
+avm_master2.m_avm_waitrequest_i
+[color] 2
+avm_master2.m_avm_write_o
+[color] 2
+avm_master2.m_avm_read_o
+@22
+avm_master2.m_avm_address_o[5:0]
+avm_master2.m_avm_writedata_o[7:0]
+@28
+avm_master2.m_avm_byteenable_o
+@22
+avm_master2.m_avm_burstcount_o[7:0]
+@28
+[color] 3
+avm_master2.m_avm_readdatavalid_i
+@22
+avm_master2.m_avm_readdata_i[7:0]
+avm_master2.address_o[5:0]
+avm_master2.data_exp_o[7:0]
+avm_master2.data_read_o[7:0]
+@28
+avm_master2.error_o
+[pattern_trace] 1
+[pattern_trace] 0
