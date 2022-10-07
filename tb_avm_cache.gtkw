@@ -1,0 +1,72 @@
+[*]
+[*] GTKWave Analyzer v3.3.86 (w)1999-2017 BSI
+[*] Fri Oct  7 07:06:41 2022
+[*]
+[dumpfile] "/home/mfj/git/PRIVATE/MJoergen/Avalon/tb_avm_cache.ghw"
+[dumpfile_mtime] "Fri Oct  7 07:05:29 2022"
+[dumpfile_size] 21766
+[savefile] "/home/mfj/git/PRIVATE/MJoergen/Avalon/tb_avm_cache.gtkw"
+[timestart] 0
+[size] 1853 1138
+[pos] -1854 33
+*-26.693213 280000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] top.
+[treeopen] top.tb_avm_cache.
+[treeopen] top.tb_avm_cache.i_avm_cache.
+[sst_width] 371
+[signals_width] 346
+[sst_expanded] 1
+[sst_vpaned_height] 322
+@28
+top.tb_avm_cache.clk
+top.tb_avm_cache.rst
+top.tb_avm_cache.stop_test
+top.tb_avm_cache.s_avm_has_started
+top.tb_avm_cache.s_avm_start
+top.tb_avm_cache.s_avm_wait
+[color] 6
+top.tb_avm_cache.s_avm_waitrequest
+[color] 2
+top.tb_avm_cache.s_avm_write
+[color] 2
+top.tb_avm_cache.s_avm_read
+@22
+#{top.tb_avm_cache.s_avm_address[3:0]} top.tb_avm_cache.s_avm_address[3] top.tb_avm_cache.s_avm_address[2] top.tb_avm_cache.s_avm_address[1] top.tb_avm_cache.s_avm_address[0]
+#{top.tb_avm_cache.s_avm_writedata[7:0]} top.tb_avm_cache.s_avm_writedata[7] top.tb_avm_cache.s_avm_writedata[6] top.tb_avm_cache.s_avm_writedata[5] top.tb_avm_cache.s_avm_writedata[4] top.tb_avm_cache.s_avm_writedata[3] top.tb_avm_cache.s_avm_writedata[2] top.tb_avm_cache.s_avm_writedata[1] top.tb_avm_cache.s_avm_writedata[0]
+@28
+top.tb_avm_cache.s_avm_byteenable[0]
+@22
+#{top.tb_avm_cache.s_avm_burstcount[7:0]} top.tb_avm_cache.s_avm_burstcount[7] top.tb_avm_cache.s_avm_burstcount[6] top.tb_avm_cache.s_avm_burstcount[5] top.tb_avm_cache.s_avm_burstcount[4] top.tb_avm_cache.s_avm_burstcount[3] top.tb_avm_cache.s_avm_burstcount[2] top.tb_avm_cache.s_avm_burstcount[1] top.tb_avm_cache.s_avm_burstcount[0]
+@28
+[color] 3
+top.tb_avm_cache.s_avm_readdatavalid
+@22
+#{top.tb_avm_cache.s_avm_readdata[7:0]} top.tb_avm_cache.s_avm_readdata[7] top.tb_avm_cache.s_avm_readdata[6] top.tb_avm_cache.s_avm_readdata[5] top.tb_avm_cache.s_avm_readdata[4] top.tb_avm_cache.s_avm_readdata[3] top.tb_avm_cache.s_avm_readdata[2] top.tb_avm_cache.s_avm_readdata[1] top.tb_avm_cache.s_avm_readdata[0]
+@28
+[color] 6
+top.tb_avm_cache.m_avm_waitrequest
+[color] 2
+top.tb_avm_cache.m_avm_write
+[color] 2
+top.tb_avm_cache.m_avm_read
+@22
+#{top.tb_avm_cache.m_avm_address[3:0]} top.tb_avm_cache.m_avm_address[3] top.tb_avm_cache.m_avm_address[2] top.tb_avm_cache.m_avm_address[1] top.tb_avm_cache.m_avm_address[0]
+#{top.tb_avm_cache.m_avm_writedata[7:0]} top.tb_avm_cache.m_avm_writedata[7] top.tb_avm_cache.m_avm_writedata[6] top.tb_avm_cache.m_avm_writedata[5] top.tb_avm_cache.m_avm_writedata[4] top.tb_avm_cache.m_avm_writedata[3] top.tb_avm_cache.m_avm_writedata[2] top.tb_avm_cache.m_avm_writedata[1] top.tb_avm_cache.m_avm_writedata[0]
+@28
+top.tb_avm_cache.m_avm_byteenable[0]
+@22
+#{top.tb_avm_cache.m_avm_burstcount[7:0]} top.tb_avm_cache.m_avm_burstcount[7] top.tb_avm_cache.m_avm_burstcount[6] top.tb_avm_cache.m_avm_burstcount[5] top.tb_avm_cache.m_avm_burstcount[4] top.tb_avm_cache.m_avm_burstcount[3] top.tb_avm_cache.m_avm_burstcount[2] top.tb_avm_cache.m_avm_burstcount[1] top.tb_avm_cache.m_avm_burstcount[0]
+@28
+[color] 3
+top.tb_avm_cache.m_avm_readdatavalid
+@22
+#{top.tb_avm_cache.m_avm_readdata[7:0]} top.tb_avm_cache.m_avm_readdata[7] top.tb_avm_cache.m_avm_readdata[6] top.tb_avm_cache.m_avm_readdata[5] top.tb_avm_cache.m_avm_readdata[4] top.tb_avm_cache.m_avm_readdata[3] top.tb_avm_cache.m_avm_readdata[2] top.tb_avm_cache.m_avm_readdata[1] top.tb_avm_cache.m_avm_readdata[0]
+@28
+top.tb_avm_cache.i_avm_cache.cache_valid
+@420
+top.tb_avm_cache.i_avm_cache.cache_count
+top.tb_avm_cache.i_avm_cache.state
+@23
+#{top.tb_avm_cache.i_avm_cache.cache_addr[3:0]} top.tb_avm_cache.i_avm_cache.cache_addr[3] top.tb_avm_cache.i_avm_cache.cache_addr[2] top.tb_avm_cache.i_avm_cache.cache_addr[1] top.tb_avm_cache.i_avm_cache.cache_addr[0]
+[pattern_trace] 1
+[pattern_trace] 0

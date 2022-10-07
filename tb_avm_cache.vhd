@@ -71,6 +71,15 @@ begin
       wait;
    end process p_rst;
 
+   p_s_avm_start : process
+   begin
+      s_avm_start <= '0';
+      wait until rst = '0';
+      s_avm_start <= '1';
+      wait until clk = '1';
+      s_avm_start <= '0';
+      wait;
+   end process p_s_avm_start;
 
    p_has_started : process (clk)
    begin
@@ -150,6 +159,16 @@ begin
          m_avm_waitrequest_i    => m_avm_waitrequest
       ); -- i_avm_cache
 
+--   s_avm_readdata       <= m_avm_readdata;
+--   s_avm_readdatavalid  <= m_avm_readdatavalid;
+--   s_avm_waitrequest    <= m_avm_waitrequest;
+--   m_avm_write          <= s_avm_write;
+--   m_avm_read           <= s_avm_read;
+--   m_avm_address        <= s_avm_address;
+--   m_avm_writedata      <= s_avm_writedata;
+--   m_avm_byteenable     <= s_avm_byteenable;
+--   m_avm_burstcount     <= s_avm_burstcount;
+
 
    ---------------------------------------------------------
    -- Instantiate Slave
@@ -157,8 +176,8 @@ begin
 
    i_avm_memory_pause : entity work.avm_memory_pause
       generic map (
-         G_REQ_PAUSE    => 0,
-         G_RESP_PAUSE   => 0,
+         G_REQ_PAUSE    => G_REQ_PAUSE,
+         G_RESP_PAUSE   => G_RESP_PAUSE,
          G_ADDRESS_SIZE => C_ADDRESS_SIZE,
          G_DATA_SIZE    => C_DATA_SIZE
       )
