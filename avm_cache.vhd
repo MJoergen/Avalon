@@ -58,7 +58,7 @@ begin
    s_avm_waitrequest_o <= m_avm_waitrequest_i when state = IDLE_ST else '1';
 
    -- Two's complement, i.e. wrap-around
-   cache_offset_s <= s_avm_address_i - cache_addr;
+   cache_offset_s <= std_logic_vector(unsigned(s_avm_address_i) - unsigned(cache_addr));
 
    p_fsm : process (clk_i)
    begin
@@ -79,7 +79,7 @@ begin
             when IDLE_ST =>
                assert not (s_avm_write_i = '1' and s_avm_read_i = '1');
 
-               if s_avm_write_i = '1' then
+               if s_avm_write_i = '1' and s_avm_waitrequest_o = '0' then
                   m_avm_write_o      <= s_avm_write_i;
                   m_avm_read_o       <= s_avm_read_i;
                   m_avm_address_o    <= s_avm_address_i;
@@ -91,7 +91,7 @@ begin
                   state              <= IDLE_ST;
                end if;
 
-               if s_avm_read_i = '1' then
+               if s_avm_read_i = '1' and s_avm_waitrequest_o = '0' then
                   if cache_valid = '1' and cache_offset_s < G_CACHE_SIZE and s_avm_burstcount_i = X"01" then
                      s_avm_readdata_o      <= cache_data(to_integer(cache_offset_s));
                      s_avm_readdatavalid_o <= '1';
@@ -115,7 +115,7 @@ begin
                   if rd_burstcount /= 0 then
                      s_avm_readdata_o        <= m_avm_readdata_i;
                      s_avm_readdatavalid_o   <= '1';
-                     rd_burstcount           <= rd_burstcount - 1;
+                     rd_burstcount           <= std_logic_vector(unsigned(rd_burstcount) - 1);
                   end if;
 
                   if cache_count = G_CACHE_SIZE-1 then
@@ -131,9 +131,12 @@ begin
          end case;
 
          if rst_i = '1' then
-            cache_valid <= '0';
-            cache_count <= 0;
-            state       <= IDLE_ST;
+            s_avm_readdatavalid_o <= '0';
+            m_avm_write_o         <= '0';
+            m_avm_read_o          <= '0';
+            cache_valid           <= '0';
+            cache_count           <= 0;
+            state                 <= IDLE_ST;
          end if;
       end if;
    end process p_fsm;
