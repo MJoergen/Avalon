@@ -104,7 +104,7 @@ begin
    -- Instantiate Master
    ---------------------------------------------------------
 
-   i_avm_master_general : entity work.avm_master_general
+   i_avm_master2 : entity work.avm_master2
       generic map (
          G_ADDRESS_SIZE => C_ADDRESS_SIZE,
          G_DATA_SIZE    => C_DATA_SIZE
@@ -114,6 +114,8 @@ begin
          rst_i                 => rst,
          start_i               => s_avm_start,
          wait_o                => s_avm_wait,
+         write_burstcount_i    => X"01",
+         read_burstcount_i     => X"01",
          m_avm_write_o         => s_avm_write,
          m_avm_read_o          => s_avm_read,
          m_avm_address_o       => s_avm_address,

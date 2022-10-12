@@ -119,7 +119,8 @@ begin
                   end if;
 
                   if cache_count = G_CACHE_SIZE-1 then
-                     state <= IDLE_ST;
+                     cache_valid <= '1';
+                     state       <= IDLE_ST;
                   else
                      cache_count <= cache_count + 1;
                   end if;

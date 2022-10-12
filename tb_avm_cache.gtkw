@@ -1,22 +1,22 @@
 [*]
 [*] GTKWave Analyzer v3.3.103 (w)1999-2019 BSI
-[*] Wed Oct 12 07:15:08 2022
+[*] Wed Oct 12 07:18:24 2022
 [*]
 [dumpfile] "/home/mfj/git/PRIVATE/MJoergen/Avalon/tb_avm_cache.ghw"
-[dumpfile_mtime] "Wed Oct 12 07:14:36 2022"
-[dumpfile_size] 159131
+[dumpfile_mtime] "Wed Oct 12 07:18:11 2022"
+[dumpfile_size] 12863
 [savefile] "/home/mfj/git/PRIVATE/MJoergen/Avalon/tb_avm_cache.gtkw"
 [timestart] 0
 [size] 1853 1138
 [pos] 0 33
-*-31.337435 280000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-27.368462 280000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] top.
 [treeopen] top.tb_avm_cache.
 [treeopen] top.tb_avm_cache.i_avm_cache.
 [sst_width] 371
 [signals_width] 346
 [sst_expanded] 1
-[sst_vpaned_height] 311
+[sst_vpaned_height] 300
 @28
 top.tb_avm_cache.clk
 top.tb_avm_cache.rst
