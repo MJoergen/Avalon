@@ -45,6 +45,9 @@ $(DUT)_bmc/PASS: $(DUT).sby $(DUT).psl $(DUT).vhd
 show_bmc:
 	gtkwave $(DUT)_bmc/engine_0/trace.vcd $(DUT).gtkw
 
+show_cover:
+	gtkwave $(DUT)_cover/engine_0/trace.vcd $(DUT).gtkw
+
 clean:
 	rm -rf *.o
 	rm -rf work-obj08.cf

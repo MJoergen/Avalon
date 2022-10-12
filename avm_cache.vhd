@@ -89,7 +89,7 @@ begin
                   m_avm_writedata_o  <= s_avm_writedata_i;
                   m_avm_byteenable_o <= s_avm_byteenable_i;
                   m_avm_burstcount_o <= s_avm_burstcount_i;
-                  if cache_offset_s < G_CACHE_SIZE then
+                  if (cache_valid = '1' or cache_offset_s < cache_count) and cache_offset_s < G_CACHE_SIZE and s_avm_burstcount_i = X"01" then
                      cache_valid <= '0';
                      cache_count <= to_integer(cache_offset_s);
                      cache_data(to_integer(cache_offset_s)) <= s_avm_writedata_i;
@@ -149,6 +149,7 @@ begin
             m_avm_read_o          <= '0';
             cache_valid           <= '0';
             cache_count           <= 0;
+            cache_addr            <= (others => '0');
             state                 <= IDLE_ST;
          end if;
       end if;

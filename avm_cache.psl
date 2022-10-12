@@ -7,6 +7,21 @@ vunit i_avm_cache(avm_cache(synthesis))
    signal f_s_rd_burstcount : integer;
    signal f_m_rd_burstcount : integer;
 
+   signal f_s_written : std_logic := '0';
+   signal f_s_data    : std_logic_vector(G_DATA_SIZE-1 downto 0);
+   signal f_s_read    : std_logic := '0';
+   signal f_addr      : std_logic_vector(G_ADDRESS_SIZE-1 downto 0);
+   attribute anyconst : boolean;
+   attribute anyconst of f_addr : signal is true;
+
+   type f_mem_t is array (0 to 2**G_ADDRESS_SIZE-1) of std_logic_vector(G_DATA_SIZE-1 downto 0);
+   signal f_mem                : f_mem_t;
+   signal f_m_write_burstcount : std_logic_vector(7 downto 0);
+   signal f_m_write_address    : std_logic_vector(G_ADDRESS_SIZE-1 downto 0);
+   signal f_m_read_burstcount  : std_logic_vector(7 downto 0);
+   signal f_m_read_address     : std_logic_vector(G_ADDRESS_SIZE-1 downto 0);
+
+
    p_s_rd_burstcount : process (clk_i)
    begin
       if rising_edge(clk_i) then
@@ -37,6 +52,35 @@ vunit i_avm_cache(avm_cache(synthesis))
       end if;
    end process p_m_rd_burstcount;
 
+   p_s_write : process (clk_i)
+   begin
+      if rising_edge(clk_i) then
+         if s_avm_write_i and not s_avm_waitrequest_o and not rst_i then
+            if s_avm_address_i = f_addr then
+               f_s_data    <= s_avm_writedata_i;
+               f_s_written <= '1';
+            end if;
+         end if;
+      end if;
+   end process p_s_write;
+
+   p_s_read : process (clk_i)
+   begin
+      if rising_edge(clk_i) then
+         if s_avm_read_i and not s_avm_waitrequest_o and not rst_i then
+            if s_avm_address_i = f_addr then
+               f_s_read <= '1';
+            end if;
+         end if;
+
+         if f_s_read = '1' and s_avm_readdatavalid_o = '1' then
+             f_s_read <= '0';
+         end if;
+      end if;
+   end process p_s_read;
+
+   f_slave : assert always f_s_written and f_s_read and s_avm_readdatavalid_o |-> s_avm_readdata_o = f_s_data;
+
 
    -----------------------------
    -- ASSERTIONS ABOUT OUTPUTS
@@ -66,6 +110,7 @@ vunit i_avm_cache(avm_cache(synthesis))
 
    -- Require reset at startup.
    f_reset : assume {rst_i};
+   f_reset_once : assume always not rst_i |=> not rst_i;
 
    -- Slave must be empty after reset
    f_slave_after_reset_empty : assume always {rst_i} |=> not (s_avm_write_i or s_avm_read_i);
@@ -84,10 +129,70 @@ vunit i_avm_cache(avm_cache(synthesis))
    f_master_burst_block : assume always rst_i or f_m_rd_burstcount = 0 or m_avm_waitrequest_i or (f_m_rd_burstcount = 1 and m_avm_readdatavalid_i = '1');
    f_master_no_data     : assume always rst_i or not (f_m_rd_burstcount = 0 and m_avm_readdatavalid_i = '1');
 
+   f_slave_no_burst       : assume always s_avm_burstcount_i = X"01";
+   f_slave_all_byteenable : assume always s_avm_byteenable_i = X"01";
+
+
+   ---------------------
+   -- Simulate a memory
+   ---------------------
+
+   f_m_wait : assume always f_m_read_burstcount /= 0 |-> m_avm_waitrequest_i = '1';
+   f_m_read : assume always m_avm_readdatavalid_i |-> m_avm_readdata_i = f_mem(to_integer(unsigned(f_m_read_address)));
+
+   p_master : process (clk_i)
+   begin
+      if rising_edge(clk_i) then
+         if m_avm_write_o = '1' and m_avm_waitrequest_i = '0' then
+            if f_m_write_burstcount = X"00" then
+               f_m_write_address    <= std_logic_vector(unsigned(m_avm_address_o) + 1);
+               f_m_write_burstcount <= std_logic_vector(unsigned(m_avm_burstcount_o) - 1);
+               f_mem(to_integer(unsigned(m_avm_address_o))) <= m_avm_writedata_o;
+            else
+               f_m_write_address    <= std_logic_vector(unsigned(f_m_write_address) + 1);
+               f_m_write_burstcount <= std_logic_vector(unsigned(f_m_write_burstcount) - 1);
+               f_mem(to_integer(unsigned(f_m_write_address))) <= m_avm_writedata_o;
+            end if;
+         end if;
+
+         if m_avm_readdatavalid_i = '1' then
+            f_m_read_address    <= std_logic_vector(unsigned(f_m_read_address) + 1);
+            f_m_read_burstcount <= std_logic_vector(unsigned(f_m_read_burstcount) - 1);
+         end if;
+
+         if m_avm_read_o = '1' and m_avm_waitrequest_i = '0' then
+            f_m_read_address    <= std_logic_vector(unsigned(m_avm_address_o));
+            f_m_read_burstcount <= std_logic_vector(unsigned(m_avm_burstcount_o));
+         end if;
+
+         if rst_i = '1' then
+            f_m_write_burstcount <= (others => '0');
+            f_m_read_burstcount  <= (others => '0');
+         end if;
+      end if;
+   end process p_master;
+
 
    --------------------------------------------
    -- COVER STATEMENTS TO VERIFY REACHABILITY
    --------------------------------------------
+
+   f_full : cover {s_avm_write_i = '1' and
+                   s_avm_waitrequest_o = '0' and
+                   cache_offset_s >= cache_count and
+                   cache_offset_s < G_CACHE_SIZE and
+                   rst_i = '0';
+
+                   [*];
+
+                   s_avm_read_i = '1' and
+                   s_avm_waitrequest_o = '0' and
+                   cache_offset_s < cache_count;
+
+                   [*];
+                   s_avm_readdatavalid_o = '1'
+
+                   };
 
 } -- vunit i_avm_cache(avm_cache(synthesis))
 

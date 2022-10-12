@@ -1,20 +1,20 @@
 [*]
 [*] GTKWave Analyzer v3.3.103 (w)1999-2019 BSI
-[*] Wed Oct 12 07:24:35 2022
+[*] Wed Oct 12 13:13:37 2022
 [*]
 [dumpfile] "/home/mfj/git/PRIVATE/MJoergen/Avalon/avm_cache_bmc/engine_0/trace.vcd"
-[dumpfile_mtime] "Wed Oct 12 07:22:51 2022"
-[dumpfile_size] 3981
+[dumpfile_mtime] "Wed Oct 12 13:13:26 2022"
+[dumpfile_size] 9041
 [savefile] "/home/mfj/git/PRIVATE/MJoergen/Avalon/avm_cache.gtkw"
 [timestart] 0
-[size] 1853 1138
-[pos] -1854 33
-*-3.753481 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[size] 1920 1172
+[pos] 1853 0
+*-4.090955 45 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] avm_cache.
-[sst_width] 263
-[signals_width] 303
+[sst_width] 352
+[signals_width] 449
 [sst_expanded] 1
-[sst_vpaned_height] 334
+[sst_vpaned_height] 311
 @28
 avm_cache.clk_i
 avm_cache.rst_i
@@ -64,5 +64,15 @@ avm_cache.cache_addr[3:0]
 avm_cache.i_avm_cache.f_s_rd_burstcount[31:0]
 avm_cache.i_avm_cache.f_m_rd_burstcount[31:0]
 avm_cache.rd_burstcount[7:0]
+@28
+avm_cache.i_avm_cache.f_s_written
+avm_cache.i_avm_cache.f_s_read
+@22
+avm_cache.i_avm_cache.f_s_data[7:0]
+avm_cache.i_avm_cache.f_m_write_address[3:0]
+avm_cache.i_avm_cache.f_m_write_burstcount[7:0]
+avm_cache.i_avm_cache.f_m_read_address[3:0]
+@23
+avm_cache.i_avm_cache.f_m_read_burstcount[7:0]
 [pattern_trace] 1
 [pattern_trace] 0
