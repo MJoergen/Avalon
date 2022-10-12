@@ -1,5 +1,7 @@
 SRC += burst_ctrl.vhd
+SRC += lfsr.vhd
 SRC += avm_master.vhd
+SRC += avm_master2.vhd
 SRC += avm_pause.vhd
 SRC += avm_master_general.vhd
 SRC += avm_arbit.vhd
@@ -9,6 +11,7 @@ SRC += avm_memory_pause.vhd
 SRC += avm_cache.vhd
 SRC += axi_avalon.vhd
 SRC += avalon_axi.vhd
+
 
 #DUT ?= burst_ctrl
 #DUT ?= avm_decrease

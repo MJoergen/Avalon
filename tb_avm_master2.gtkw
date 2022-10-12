@@ -1,0 +1,49 @@
+[*]
+[*] GTKWave Analyzer v3.3.86 (w)1999-2017 BSI
+[*] Wed Oct 12 07:03:48 2022
+[*]
+[dumpfile] "/home/mfj/git/PRIVATE/MJoergen/Avalon/tb_avm_master2.ghw"
+[dumpfile_mtime] "Wed Oct 12 07:02:01 2022"
+[dumpfile_size] 173568
+[savefile] "/home/mfj/git/PRIVATE/MJoergen/Avalon/tb_avm_master2.gtkw"
+[timestart] 0
+[size] 1853 1138
+[pos] 0 135
+*-28.580704 700000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] top.
+[treeopen] top.tb_avm_master2.
+[sst_width] 331
+[signals_width] 380
+[sst_expanded] 1
+[sst_vpaned_height] 270
+@800200
+-tb
+@28
+top.tb_avm_master2.clk
+top.tb_avm_master2.rst
+top.tb_avm_master2.stop_test
+top.tb_avm_master2.avm_has_started
+top.tb_avm_master2.avm_start
+top.tb_avm_master2.avm_wait
+[color] 5
+top.tb_avm_master2.avm_waitrequest
+[color] 2
+top.tb_avm_master2.avm_write
+[color] 2
+top.tb_avm_master2.avm_read
+@22
+#{top.tb_avm_master2.avm_address[5:0]} top.tb_avm_master2.avm_address[5] top.tb_avm_master2.avm_address[4] top.tb_avm_master2.avm_address[3] top.tb_avm_master2.avm_address[2] top.tb_avm_master2.avm_address[1] top.tb_avm_master2.avm_address[0]
+#{top.tb_avm_master2.avm_writedata[7:0]} top.tb_avm_master2.avm_writedata[7] top.tb_avm_master2.avm_writedata[6] top.tb_avm_master2.avm_writedata[5] top.tb_avm_master2.avm_writedata[4] top.tb_avm_master2.avm_writedata[3] top.tb_avm_master2.avm_writedata[2] top.tb_avm_master2.avm_writedata[1] top.tb_avm_master2.avm_writedata[0]
+@28
+top.tb_avm_master2.avm_byteenable[0]
+@22
+#{top.tb_avm_master2.avm_burstcount[7:0]} top.tb_avm_master2.avm_burstcount[7] top.tb_avm_master2.avm_burstcount[6] top.tb_avm_master2.avm_burstcount[5] top.tb_avm_master2.avm_burstcount[4] top.tb_avm_master2.avm_burstcount[3] top.tb_avm_master2.avm_burstcount[2] top.tb_avm_master2.avm_burstcount[1] top.tb_avm_master2.avm_burstcount[0]
+@28
+[color] 3
+top.tb_avm_master2.avm_readdatavalid
+@22
+#{top.tb_avm_master2.avm_readdata[7:0]} top.tb_avm_master2.avm_readdata[7] top.tb_avm_master2.avm_readdata[6] top.tb_avm_master2.avm_readdata[5] top.tb_avm_master2.avm_readdata[4] top.tb_avm_master2.avm_readdata[3] top.tb_avm_master2.avm_readdata[2] top.tb_avm_master2.avm_readdata[1] top.tb_avm_master2.avm_readdata[0]
+@1000200
+-tb
+[pattern_trace] 1
+[pattern_trace] 0
