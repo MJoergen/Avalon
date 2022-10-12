@@ -124,7 +124,8 @@ begin
                      rd_burstcount           <= std_logic_vector(unsigned(rd_burstcount) - 1);
                   end if;
 
-                  if cache_count = G_CACHE_SIZE-1 then
+                  if cache_count >= G_CACHE_SIZE-1 then
+                     cache_count <= G_CACHE_SIZE;
                      cache_valid <= '1';
                      state       <= IDLE_ST;
                   else
