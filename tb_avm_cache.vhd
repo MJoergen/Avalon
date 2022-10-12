@@ -13,7 +13,7 @@ end entity tb_avm_cache;
 architecture simulation of tb_avm_cache is
 
    constant C_DATA_SIZE       : integer := 8;
-   constant C_ADDRESS_SIZE    : integer := 4;
+   constant C_ADDRESS_SIZE    : integer := 6;
 
    signal clk                 : std_logic;
    signal rst                 : std_logic;

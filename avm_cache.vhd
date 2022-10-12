@@ -55,7 +55,10 @@ architecture synthesis of avm_cache is
 
 begin
 
-   s_avm_waitrequest_o <= m_avm_waitrequest_i when state = IDLE_ST else '1';
+   s_avm_waitrequest_o <= m_avm_waitrequest_i when state = IDLE_ST else
+                          '1' when rd_burstcount /= X"00" else
+                          '0' when (cache_valid = '1' or cache_offset_s < cache_count) and s_avm_read_i = '1' and s_avm_burstcount_i = X"01" else
+                          '1';
 
    -- Two's complement, i.e. wrap-around
    cache_offset_s <= std_logic_vector(unsigned(s_avm_address_i) - unsigned(cache_addr));
@@ -86,13 +89,16 @@ begin
                   m_avm_writedata_o  <= s_avm_writedata_i;
                   m_avm_byteenable_o <= s_avm_byteenable_i;
                   m_avm_burstcount_o <= s_avm_burstcount_i;
-                  cache_valid        <= '0';
-                  cache_count        <= 0;
+                  if cache_offset_s < G_CACHE_SIZE then
+                     cache_valid <= '0';
+                     cache_count <= to_integer(cache_offset_s);
+                     cache_data(to_integer(cache_offset_s)) <= s_avm_writedata_i;
+                  end if;
                   state              <= IDLE_ST;
                end if;
 
                if s_avm_read_i = '1' and s_avm_waitrequest_o = '0' then
-                  if cache_valid = '1' and cache_offset_s < G_CACHE_SIZE and s_avm_burstcount_i = X"01" then
+                  if (cache_valid = '1' or cache_offset_s < cache_count) and cache_offset_s < G_CACHE_SIZE and s_avm_burstcount_i = X"01" then
                      s_avm_readdata_o      <= cache_data(to_integer(cache_offset_s));
                      s_avm_readdatavalid_o <= '1';
                   else
@@ -124,6 +130,11 @@ begin
                   else
                      cache_count <= cache_count + 1;
                   end if;
+               end if;
+
+               if s_avm_waitrequest_o = '0' and s_avm_read_i = '1' and s_avm_burstcount_i = X"01" then
+                  s_avm_readdata_o      <= cache_data(to_integer(cache_offset_s));
+                  s_avm_readdatavalid_o <= '1';
                end if;
 
             when others =>
