@@ -66,7 +66,7 @@ begin
 
    address_s <= lfsr_random(G_ADDRESS_SIZE-1 downto 0);
    data_s    <= lfsr_random(G_DATA_SIZE+G_ADDRESS_SIZE-1 downto G_ADDRESS_SIZE);
-   write_s   <= and(lfsr_random(G_DATA_SIZE+G_ADDRESS_SIZE+1 downto G_DATA_SIZE+G_ADDRESS_SIZE));
+   write_s   <= and(lfsr_random(G_DATA_SIZE+G_ADDRESS_SIZE+2 downto G_DATA_SIZE+G_ADDRESS_SIZE));
 
    p_master : process (clk_i)
    begin
@@ -85,7 +85,7 @@ begin
                end if;
 
             when WORKING_ST =>
-               if m_avm_waitrequest_i = '0' then
+               if m_avm_waitrequest_i = '0' or (m_avm_write_o = '0' and m_avm_read_o = '0') then
                   if written(to_integer(address_s)) = '0' or write_s = '1' then
                      m_avm_write_o      <= '1';
                      m_avm_read_o       <= '0';

@@ -3,6 +3,10 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 entity tb_avm_master2 is
+   generic (
+      G_REQ_PAUSE    : integer;
+      G_RESP_PAUSE   : integer
+   );
 end entity tb_avm_master2;
 
 architecture simulation of tb_avm_master2 is
@@ -95,21 +99,21 @@ begin
          G_DATA_SIZE    => C_DATA_SIZE
       )
       port map (
-         clk_i               => clk,
-         rst_i               => rst,
-         start_i             => avm_start,
-         wait_o              => avm_wait,
-         write_burstcount_i  => X"01",
-         read_burstcount_i   => X"01",
-         avm_write_o         => avm_write,
-         avm_read_o          => avm_read,
-         avm_address_o       => avm_address,
-         avm_writedata_o     => avm_writedata,
-         avm_byteenable_o    => avm_byteenable,
-         avm_burstcount_o    => avm_burstcount,
-         avm_readdata_i      => avm_readdata,
-         avm_readdatavalid_i => avm_readdatavalid,
-         avm_waitrequest_i   => avm_waitrequest
+         clk_i                 => clk,
+         rst_i                 => rst,
+         start_i               => avm_start,
+         wait_o                => avm_wait,
+         write_burstcount_i    => X"01",
+         read_burstcount_i     => X"01",
+         m_avm_write_o         => avm_write,
+         m_avm_read_o          => avm_read,
+         m_avm_address_o       => avm_address,
+         m_avm_writedata_o     => avm_writedata,
+         m_avm_byteenable_o    => avm_byteenable,
+         m_avm_burstcount_o    => avm_burstcount,
+         m_avm_readdata_i      => avm_readdata,
+         m_avm_readdatavalid_i => avm_readdatavalid,
+         m_avm_waitrequest_i   => avm_waitrequest
       ); -- i_avm_master
 
 
@@ -119,8 +123,8 @@ begin
 
    i_avm_memory_pause : entity work.avm_memory_pause
       generic map (
-         G_REQ_PAUSE    => 0,
-         G_RESP_PAUSE   => 0,
+         G_REQ_PAUSE    => G_REQ_PAUSE,
+         G_RESP_PAUSE   => G_RESP_PAUSE,
          G_ADDRESS_SIZE => C_ADDRESS_SIZE,
          G_DATA_SIZE    => C_DATA_SIZE
       )
