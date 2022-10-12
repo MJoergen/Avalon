@@ -43,7 +43,7 @@ end entity avm_pause;
 architecture synthesis of avm_pause is
 
    signal rd_burstcount : integer range 0 to 255;
-   signal cnt : integer range 0 to G_REQ_PAUSE;
+   signal cnt : integer range 0 to G_REQ_PAUSE := 0;
    signal allow : std_logic;
 
    type read_resp_t is array (0 to G_RESP_PAUSE) of std_logic_vector(G_DATA_SIZE downto 0);
@@ -58,12 +58,18 @@ begin
    p_cnt : process (clk_i)
    begin
       if rising_edge(clk_i) then
-         if m_avm_waitrequest_i = '0' and G_REQ_PAUSE > 0 then
-            cnt <= (cnt + 1) mod G_REQ_PAUSE;
-         end if;
+         if G_REQ_PAUSE > 0 then
+            if m_avm_waitrequest_i = '0' then
+               cnt <= (cnt + 1) mod G_REQ_PAUSE;
 
-         if rst_i = '1' then
-            cnt <= 0;
+               if s_avm_write_i = '0' and s_avm_read_i = '0' then
+                  cnt <= 1;
+               end if;
+            end if;
+
+            if rst_i = '1' then
+               cnt <= 1;
+            end if;
          end if;
       end if;
    end process p_cnt;
