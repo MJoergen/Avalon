@@ -109,10 +109,15 @@ begin
                   if cache_rd_hit_s = '1' then
                      s_avm_readdata_o      <= cache_data(to_integer(cache_offset_s));
                      s_avm_readdatavalid_o <= '1';
-                  else
+                  end if;
+
+                  if cache_rd_hit_s = '0' or cache_offset_s = G_CACHE_SIZE-1 then
                      m_avm_write_o      <= '0';
                      m_avm_read_o       <= '1';
                      m_avm_address_o    <= s_avm_address_i;
+                     if cache_rd_hit_s = '1' and cache_offset_s = G_CACHE_SIZE-1 then
+                        m_avm_address_o <= std_logic_vector(unsigned(cache_addr) + G_CACHE_SIZE);
+                     end if;
                      m_avm_burstcount_o <= to_stdlogicvector(G_CACHE_SIZE, 8);
                      rd_burstcount      <= s_avm_burstcount_i;
                      cache_count        <= 0;

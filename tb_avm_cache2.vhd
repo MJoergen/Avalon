@@ -118,16 +118,18 @@ begin
       write(X"5", X"66");
       write(X"6", X"77");
       write(X"7", X"88");
+      write(X"8", X"99");
 
       verify(X"0", X"11");
-      write(X"5", X"99");
+      write(X"5", X"AA");
       verify(X"1", X"22");
       verify(X"2", X"33");
       verify(X"3", X"44");
       verify(X"4", X"55");
-      verify(X"5", X"99");
+      verify(X"5", X"AA");
       verify(X"6", X"77");
       verify(X"7", X"88");
+      verify(X"8", X"99");
 
       wait for 100 ns;
       wait until clk = '1';
