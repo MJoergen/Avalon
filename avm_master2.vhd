@@ -52,7 +52,7 @@ architecture synthesis of avm_master2 is
    signal lfsr_reverse  : std_logic_vector(21 downto 0);
    signal lfsr_random   : std_logic_vector(21 downto 0);
    signal state         : t_state := IDLE_ST;
-   signal num_written   : std_logic_vector(G_ADDRESS_SIZE-1 downto 0);
+   signal num_read      : natural;
 
    -- Combinatorial signals
    signal address_s     : std_logic_vector(G_ADDRESS_SIZE-1 downto 0);
@@ -66,7 +66,7 @@ begin
 
    address_s <= lfsr_random(G_ADDRESS_SIZE-1 downto 0);
    data_s    <= lfsr_random(G_DATA_SIZE+G_ADDRESS_SIZE-1 downto G_ADDRESS_SIZE);
-   write_s   <= and(lfsr_random(G_DATA_SIZE+G_ADDRESS_SIZE+2 downto G_DATA_SIZE+G_ADDRESS_SIZE));
+   write_s   <= and(lfsr_random(G_DATA_SIZE+G_ADDRESS_SIZE+3 downto G_DATA_SIZE+G_ADDRESS_SIZE));
 
    p_master : process (clk_i)
    begin
@@ -84,8 +84,18 @@ begin
                   report "Starting";
                end if;
 
-            when WORKING_ST =>
-               if m_avm_waitrequest_i = '0' or (m_avm_write_o = '0' and m_avm_read_o = '0') then
+            when WORKING_ST | READING_ST =>
+               if m_avm_readdatavalid_i = '1' then
+                  if data_exp_o /= m_avm_readdata_i then
+                     error_o <= '1';
+                  end if;
+                  data_read_o <= m_avm_readdata_i;
+                  state       <= WORKING_ST;
+                  num_read    <= num_read + 1;
+               end if;
+
+               if (m_avm_waitrequest_i = '0' or (m_avm_write_o = '0' and m_avm_read_o = '0')) and
+                  (state = WORKING_ST or m_avm_readdatavalid_i = '1') then
                   if written(to_integer(address_s)) = '0' or write_s = '1' then
                      m_avm_write_o      <= '1';
                      m_avm_read_o       <= '0';
@@ -94,12 +104,6 @@ begin
                      m_avm_byteenable_o <= (others => '1');
                      m_avm_burstcount_o <= write_burstcount_i;
                      written(to_integer(address_s)) <= '1';
-                     num_written        <= std_logic_vector(unsigned(num_written) + 1);
-
-                     if and(num_written) = '1' then
-                        state <= DONE_ST;
-                        report "Done";
-                     end if;
                   else
                      m_avm_write_o      <= '0';
                      m_avm_read_o       <= '1';
@@ -109,13 +113,11 @@ begin
                   end if;
                end if;
 
-            when READING_ST =>
-               if m_avm_readdatavalid_i = '1' then
-                  if data_exp_o /= m_avm_readdata_i then
-                     error_o <= '1';
-                  end if;
-                  data_read_o <= m_avm_readdata_i;
-                  state       <= WORKING_ST;
+               if num_read = 2**(G_ADDRESS_SIZE + 4) then
+                  m_avm_write_o <= '0';
+                  m_avm_read_o  <= '0';
+                  state <= DONE_ST;
+                  report "Done";
                end if;
 
             when DONE_ST =>
@@ -137,7 +139,7 @@ begin
             data_read_o        <= (others => '0');
             error_o            <= '0';
             written            <= (others => '0');
-            num_written        <= (others => '0');
+            num_read           <= 0;
             state              <= IDLE_ST;
          end if;
 

@@ -1,15 +1,15 @@
 [*]
-[*] GTKWave Analyzer v3.3.86 (w)1999-2017 BSI
-[*] Wed Oct 12 07:03:48 2022
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Thu Oct 13 05:08:48 2022
 [*]
-[dumpfile] "/home/mfj/git/PRIVATE/MJoergen/Avalon/tb_avm_master2.ghw"
-[dumpfile_mtime] "Wed Oct 12 07:02:01 2022"
-[dumpfile_size] 173568
-[savefile] "/home/mfj/git/PRIVATE/MJoergen/Avalon/tb_avm_master2.gtkw"
+[dumpfile] "/home/mike/git/MJoergen/Avalon/tb_avm_master2.ghw"
+[dumpfile_mtime] "Thu Oct 13 05:08:43 2022"
+[dumpfile_size] 528098
+[savefile] "/home/mike/git/MJoergen/Avalon/tb_avm_master2.gtkw"
 [timestart] 0
-[size] 1853 1138
+[size] 1920 1012
 [pos] 0 135
-*-28.580704 700000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-31.921972 700000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] top.
 [treeopen] top.tb_avm_master2.
 [sst_width] 331
@@ -32,7 +32,7 @@ top.tb_avm_master2.avm_write
 [color] 2
 top.tb_avm_master2.avm_read
 @22
-#{top.tb_avm_master2.avm_address[5:0]} top.tb_avm_master2.avm_address[5] top.tb_avm_master2.avm_address[4] top.tb_avm_master2.avm_address[3] top.tb_avm_master2.avm_address[2] top.tb_avm_master2.avm_address[1] top.tb_avm_master2.avm_address[0]
+#{top.tb_avm_master2.avm_address[5:0]} top.tb_avm_master2.avm_address[4] top.tb_avm_master2.avm_address[3] top.tb_avm_master2.avm_address[2] top.tb_avm_master2.avm_address[1] top.tb_avm_master2.avm_address[0]
 #{top.tb_avm_master2.avm_writedata[7:0]} top.tb_avm_master2.avm_writedata[7] top.tb_avm_master2.avm_writedata[6] top.tb_avm_master2.avm_writedata[5] top.tb_avm_master2.avm_writedata[4] top.tb_avm_master2.avm_writedata[3] top.tb_avm_master2.avm_writedata[2] top.tb_avm_master2.avm_writedata[1] top.tb_avm_master2.avm_writedata[0]
 @28
 top.tb_avm_master2.avm_byteenable[0]
