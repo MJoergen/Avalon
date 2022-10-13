@@ -1,22 +1,22 @@
 [*]
-[*] GTKWave Analyzer v3.3.103 (w)1999-2019 BSI
-[*] Wed Oct 12 07:54:50 2022
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Thu Oct 13 05:28:11 2022
 [*]
-[dumpfile] "/home/mfj/git/PRIVATE/MJoergen/Avalon/tb_avm_cache.ghw"
-[dumpfile_mtime] "Wed Oct 12 07:53:55 2022"
-[dumpfile_size] 64764
-[savefile] "/home/mfj/git/PRIVATE/MJoergen/Avalon/tb_avm_cache.gtkw"
-[timestart] 834100000
-[size] 1853 1138
+[dumpfile] "/home/mike/git/MJoergen/Avalon/tb_avm_cache.ghw"
+[dumpfile_mtime] "Thu Oct 13 05:28:05 2022"
+[dumpfile_size] 1191136
+[savefile] "/home/mike/git/MJoergen/Avalon/tb_avm_cache.gtkw"
+[timestart] 0
+[size] 1920 1012
 [pos] 0 33
-*-24.976265 905800000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-32.988029 13753800000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] top.
 [treeopen] top.tb_avm_cache.
 [treeopen] top.tb_avm_cache.i_avm_cache.
 [sst_width] 371
-[signals_width] 346
+[signals_width] 288
 [sst_expanded] 1
-[sst_vpaned_height] 270
+[sst_vpaned_height] 257
 @28
 top.tb_avm_cache.clk
 top.tb_avm_cache.rst
@@ -31,7 +31,7 @@ top.tb_avm_cache.s_avm_write
 [color] 2
 top.tb_avm_cache.s_avm_read
 @22
-#{top.tb_avm_cache.s_avm_address[5:0]} top.tb_avm_cache.s_avm_address[5] top.tb_avm_cache.s_avm_address[4] top.tb_avm_cache.s_avm_address[3] top.tb_avm_cache.s_avm_address[2] top.tb_avm_cache.s_avm_address[1] top.tb_avm_cache.s_avm_address[0]
+#{top.tb_avm_cache.s_avm_address[5:0]} top.tb_avm_cache.s_avm_address[4] top.tb_avm_cache.s_avm_address[3] top.tb_avm_cache.s_avm_address[2] top.tb_avm_cache.s_avm_address[1] top.tb_avm_cache.s_avm_address[0]
 #{top.tb_avm_cache.s_avm_writedata[7:0]} top.tb_avm_cache.s_avm_writedata[7] top.tb_avm_cache.s_avm_writedata[6] top.tb_avm_cache.s_avm_writedata[5] top.tb_avm_cache.s_avm_writedata[4] top.tb_avm_cache.s_avm_writedata[3] top.tb_avm_cache.s_avm_writedata[2] top.tb_avm_cache.s_avm_writedata[1] top.tb_avm_cache.s_avm_writedata[0]
 @28
 top.tb_avm_cache.s_avm_byteenable[0]
@@ -50,7 +50,7 @@ top.tb_avm_cache.m_avm_write
 [color] 2
 top.tb_avm_cache.m_avm_read
 @22
-#{top.tb_avm_cache.m_avm_address[5:0]} top.tb_avm_cache.m_avm_address[5] top.tb_avm_cache.m_avm_address[4] top.tb_avm_cache.m_avm_address[3] top.tb_avm_cache.m_avm_address[2] top.tb_avm_cache.m_avm_address[1] top.tb_avm_cache.m_avm_address[0]
+#{top.tb_avm_cache.m_avm_address[5:0]} top.tb_avm_cache.m_avm_address[4] top.tb_avm_cache.m_avm_address[3] top.tb_avm_cache.m_avm_address[2] top.tb_avm_cache.m_avm_address[1] top.tb_avm_cache.m_avm_address[0]
 #{top.tb_avm_cache.m_avm_writedata[7:0]} top.tb_avm_cache.m_avm_writedata[7] top.tb_avm_cache.m_avm_writedata[6] top.tb_avm_cache.m_avm_writedata[5] top.tb_avm_cache.m_avm_writedata[4] top.tb_avm_cache.m_avm_writedata[3] top.tb_avm_cache.m_avm_writedata[2] top.tb_avm_cache.m_avm_writedata[1] top.tb_avm_cache.m_avm_writedata[0]
 @28
 top.tb_avm_cache.m_avm_byteenable[0]
@@ -61,15 +61,9 @@ top.tb_avm_cache.m_avm_byteenable[0]
 top.tb_avm_cache.m_avm_readdatavalid
 @22
 #{top.tb_avm_cache.m_avm_readdata[7:0]} top.tb_avm_cache.m_avm_readdata[7] top.tb_avm_cache.m_avm_readdata[6] top.tb_avm_cache.m_avm_readdata[5] top.tb_avm_cache.m_avm_readdata[4] top.tb_avm_cache.m_avm_readdata[3] top.tb_avm_cache.m_avm_readdata[2] top.tb_avm_cache.m_avm_readdata[1] top.tb_avm_cache.m_avm_readdata[0]
-@28
-top.tb_avm_cache.i_avm_cache.cache_valid
 @420
 top.tb_avm_cache.i_avm_cache.cache_count
-@23
-#{top.tb_avm_cache.i_avm_cache.cache_offset_s[5:0]} top.tb_avm_cache.i_avm_cache.cache_offset_s[5] top.tb_avm_cache.i_avm_cache.cache_offset_s[4] top.tb_avm_cache.i_avm_cache.cache_offset_s[3] top.tb_avm_cache.i_avm_cache.cache_offset_s[2] top.tb_avm_cache.i_avm_cache.cache_offset_s[1] top.tb_avm_cache.i_avm_cache.cache_offset_s[0]
-@420
-top.tb_avm_cache.i_avm_cache.state
 @22
-#{top.tb_avm_cache.i_avm_cache.cache_addr[3:0]} top.tb_avm_cache.i_avm_cache.cache_addr[3] top.tb_avm_cache.i_avm_cache.cache_addr[2] top.tb_avm_cache.i_avm_cache.cache_addr[1] top.tb_avm_cache.i_avm_cache.cache_addr[0]
+#{top.tb_avm_cache.i_avm_cache.cache_offset_s[4:0]} top.tb_avm_cache.i_avm_cache.cache_offset_s[4] top.tb_avm_cache.i_avm_cache.cache_offset_s[3] top.tb_avm_cache.i_avm_cache.cache_offset_s[2] top.tb_avm_cache.i_avm_cache.cache_offset_s[1] top.tb_avm_cache.i_avm_cache.cache_offset_s[0]
 [pattern_trace] 1
 [pattern_trace] 0

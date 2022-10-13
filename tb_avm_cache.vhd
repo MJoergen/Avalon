@@ -13,7 +13,7 @@ end entity tb_avm_cache;
 architecture simulation of tb_avm_cache is
 
    constant C_DATA_SIZE       : integer := 8;
-   constant C_ADDRESS_SIZE    : integer := 6;
+   constant C_ADDRESS_SIZE    : integer := 5;
 
    signal clk                 : std_logic;
    signal rst                 : std_logic;
@@ -161,6 +161,7 @@ begin
          m_avm_waitrequest_i    => m_avm_waitrequest
       ); -- i_avm_cache
 
+-- Skip the cache:
 --   s_avm_readdata       <= m_avm_readdata;
 --   s_avm_readdatavalid  <= m_avm_readdatavalid;
 --   s_avm_waitrequest    <= m_avm_waitrequest;

@@ -19,6 +19,7 @@ SRC += avalon_axi.vhd
 #DUT ?= avm_arbit
 #DUT ?= avm_pause
 DUT ?= avm_cache
+#DUT ?= avm_master2
 
 
 TB = tb_$(DUT)
@@ -29,7 +30,7 @@ SAVE = $(TB).gtkw
 sim: $(SRC)
 	ghdl -i --std=08 --work=work $(SRC)
 	ghdl -m --std=08 -fexplicit $(TB)
-	ghdl -r --std=08 $(TB) -gG_CACHE_SIZE=8 -gG_REQ_PAUSE=0 -gG_RESP_PAUSE=0 --assert-level=error --wave=$(WAVE) --stop-time=20us
+	ghdl -r --std=08 $(TB) -gG_CACHE_SIZE=8 -gG_REQ_PAUSE=2 -gG_RESP_PAUSE=2 --assert-level=error --wave=$(WAVE) --stop-time=60us
 
 questa: $(SRC)
 	vcom -2008 $(SRC)

@@ -45,19 +45,21 @@ architecture synthesis of avm_cache is
    -- Registers
    signal cache_data    : mem_t;
    signal cache_addr    : std_logic_vector(G_ADDRESS_SIZE-1 downto 0);
-   signal cache_valid   : std_logic;
    signal cache_count   : natural range 0 to G_CACHE_SIZE;
    signal rd_burstcount : std_logic_vector(7 downto 0);
    signal state         : t_state := IDLE_ST;
 
    -- Combinatorial
    signal cache_offset_s : std_logic_vector(G_ADDRESS_SIZE-1 downto 0);
+   signal cache_rd_hit_s : std_logic;
 
 begin
 
+   cache_rd_hit_s <= '1' when cache_offset_s < cache_count and s_avm_read_i = '1' and s_avm_burstcount_i = X"01" else '0';
+
    s_avm_waitrequest_o <= m_avm_waitrequest_i when state = IDLE_ST else
                           '1' when rd_burstcount /= X"00" else
-                          '0' when (cache_valid = '1' or cache_offset_s < cache_count) and s_avm_read_i = '1' and s_avm_burstcount_i = X"01" else
+                          '0' when cache_rd_hit_s = '1' else
                           '1';
 
    -- Two's complement, i.e. wrap-around
@@ -89,8 +91,7 @@ begin
                   m_avm_writedata_o  <= s_avm_writedata_i;
                   m_avm_byteenable_o <= s_avm_byteenable_i;
                   m_avm_burstcount_o <= s_avm_burstcount_i;
-                  if (cache_valid = '1' or cache_offset_s < cache_count) and cache_offset_s < G_CACHE_SIZE and s_avm_burstcount_i = X"01" then
-                     cache_valid <= '0';
+                  if cache_rd_hit_s = '1' then
                      cache_count <= to_integer(cache_offset_s);
                      cache_data(to_integer(cache_offset_s)) <= s_avm_writedata_i;
                   end if;
@@ -98,7 +99,7 @@ begin
                end if;
 
                if s_avm_read_i = '1' and s_avm_waitrequest_o = '0' then
-                  if (cache_valid = '1' or cache_offset_s < cache_count) and cache_offset_s < G_CACHE_SIZE and s_avm_burstcount_i = X"01" then
+                  if cache_rd_hit_s = '1' then
                      s_avm_readdata_o      <= cache_data(to_integer(cache_offset_s));
                      s_avm_readdatavalid_o <= '1';
                   else
@@ -107,7 +108,6 @@ begin
                      m_avm_address_o    <= s_avm_address_i;
                      m_avm_burstcount_o <= to_stdlogicvector(G_CACHE_SIZE, 8);
                      rd_burstcount      <= s_avm_burstcount_i;
-                     cache_valid        <= '0';
                      cache_count        <= 0;
                      cache_addr         <= s_avm_address_i;
                      state              <= READING_ST;
@@ -126,7 +126,6 @@ begin
 
                   if cache_count >= G_CACHE_SIZE-1 then
                      cache_count <= G_CACHE_SIZE;
-                     cache_valid <= '1';
                      state       <= IDLE_ST;
                   else
                      cache_count <= cache_count + 1;
@@ -147,7 +146,6 @@ begin
             s_avm_readdatavalid_o <= '0';
             m_avm_write_o         <= '0';
             m_avm_read_o          <= '0';
-            cache_valid           <= '0';
             cache_count           <= 0;
             cache_addr            <= (others => '0');
             state                 <= IDLE_ST;
