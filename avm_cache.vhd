@@ -52,12 +52,20 @@ architecture synthesis of avm_cache is
    -- Combinatorial
    signal cache_offset_s : std_logic_vector(G_ADDRESS_SIZE-1 downto 0);
    signal cache_rd_hit_s : std_logic;
+   signal cache_wr_hit_s : std_logic;
+   signal cache_filled_s : std_logic;
 
 begin
 
-   cache_rd_hit_s <= '1' when cache_offset_s < cache_count and s_avm_read_i = '1' and s_avm_burstcount_i = X"01" else '0';
+   cache_filled_s <= '1' when state = READING_ST and m_avm_readdatavalid_i = '1' and cache_count = G_CACHE_SIZE-1 else '0';
+   cache_rd_hit_s <= '1' when s_avm_read_i = '1' and s_avm_burstcount_i = X"01" and cache_offset_s < cache_count else
+                     '1' when s_avm_read_i = '1' and s_avm_burstcount_i = X"01" and cache_offset_s = cache_count and cache_count < G_CACHE_SIZE and m_avm_readdatavalid_i = '1' else
+                     '0';
+   cache_wr_hit_s <= '1' when s_avm_write_i = '1' and s_avm_burstcount_i = X"01" and cache_offset_s < cache_count else
+                     '0';
 
-   s_avm_waitrequest_o <= m_avm_waitrequest_i when state = IDLE_ST else
+   s_avm_waitrequest_o <= '0' when cache_filled_s = '1' and s_avm_write_i = '0' else
+                           m_avm_waitrequest_i and (m_avm_write_o or m_avm_read_o) when state = IDLE_ST else
                           '1' when rd_burstcount /= X"00" else
                           '0' when cache_rd_hit_s = '1' else
                           '1';
@@ -91,7 +99,7 @@ begin
                   m_avm_writedata_o  <= s_avm_writedata_i;
                   m_avm_byteenable_o <= s_avm_byteenable_i;
                   m_avm_burstcount_o <= s_avm_burstcount_i;
-                  if cache_rd_hit_s = '1' then
+                  if cache_wr_hit_s = '1' then
                      cache_count <= to_integer(cache_offset_s);
                      cache_data(to_integer(cache_offset_s)) <= s_avm_writedata_i;
                   end if;
@@ -127,14 +135,48 @@ begin
                   if cache_count >= G_CACHE_SIZE-1 then
                      cache_count <= G_CACHE_SIZE;
                      state       <= IDLE_ST;
+
+                     if s_avm_write_i = '1' and s_avm_waitrequest_o = '0' then
+                        m_avm_write_o      <= s_avm_write_i;
+                        m_avm_read_o       <= s_avm_read_i;
+                        m_avm_address_o    <= s_avm_address_i;
+                        m_avm_writedata_o  <= s_avm_writedata_i;
+                        m_avm_byteenable_o <= s_avm_byteenable_i;
+                        m_avm_burstcount_o <= s_avm_burstcount_i;
+                        if cache_wr_hit_s = '1' then
+                           cache_count <= to_integer(cache_offset_s);
+                           cache_data(to_integer(cache_offset_s)) <= s_avm_writedata_i;
+                        end if;
+                        state              <= IDLE_ST;
+                     end if;
+
+                     if s_avm_read_i = '1' and s_avm_waitrequest_o = '0' then
+                        if cache_rd_hit_s = '1' then
+                           s_avm_readdata_o      <= cache_data(to_integer(cache_offset_s));
+                           s_avm_readdatavalid_o <= '1';
+                        else
+                           m_avm_write_o      <= '0';
+                           m_avm_read_o       <= '1';
+                           m_avm_address_o    <= s_avm_address_i;
+                           m_avm_burstcount_o <= to_stdlogicvector(G_CACHE_SIZE, 8);
+                           rd_burstcount      <= s_avm_burstcount_i;
+                           cache_count        <= 0;
+                           cache_addr         <= s_avm_address_i;
+                           state              <= READING_ST;
+                        end if;
+                     end if;
                   else
                      cache_count <= cache_count + 1;
                   end if;
                end if;
 
-               if s_avm_waitrequest_o = '0' and s_avm_read_i = '1' and s_avm_burstcount_i = X"01" then
+               if cache_rd_hit_s = '1' then
                   s_avm_readdata_o      <= cache_data(to_integer(cache_offset_s));
                   s_avm_readdatavalid_o <= '1';
+
+                  if cache_offset_s = cache_count then
+                     s_avm_readdata_o <= m_avm_readdata_i;
+                  end if;
                end if;
 
             when others =>

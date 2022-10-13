@@ -45,6 +45,11 @@ architecture simulation of tb_avm_cache is
 
    constant C_CLK_PERIOD : time := 10 ns;
 
+   signal m_address           : std_logic_vector(C_ADDRESS_SIZE-1 downto 0);
+   signal m_data_exp          : std_logic_vector(C_DATA_SIZE-1 downto 0);
+   signal m_data_read         : std_logic_vector(C_DATA_SIZE-1 downto 0);
+   signal m_error             : std_logic;
+
 begin
 
    ---------------------------------------------------------
@@ -90,13 +95,15 @@ begin
       end if;
    end process p_has_started;
 
-   p_stop_test : process
+   p_stop_test : process (clk)
    begin
-      wait until s_avm_has_started = '1';
-      wait until s_avm_wait = '0';
-      wait until clk = '1';
-      stop_test <= '1';
-      wait;
+      if rising_edge(clk) then
+         if s_avm_has_started then
+            if s_avm_wait = '0' or m_error = '1' then
+               stop_test <= '1';
+            end if;
+         end if;
+      end if;
    end process p_stop_test;
 
 
@@ -124,7 +131,11 @@ begin
          m_avm_burstcount_o    => s_avm_burstcount,
          m_avm_readdata_i      => s_avm_readdata,
          m_avm_readdatavalid_i => s_avm_readdatavalid,
-         m_avm_waitrequest_i   => s_avm_waitrequest
+         m_avm_waitrequest_i   => s_avm_waitrequest,
+         address_o             => m_address,
+         data_exp_o            => m_data_exp,
+         data_read_o           => m_data_read,
+         error_o               => m_error
       ); -- i_avm_master
 
 
