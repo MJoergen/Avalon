@@ -18,7 +18,8 @@ SRC += avalon_axi.vhd
 #DUT ?= avalon_axi
 #DUT ?= avm_arbit
 #DUT ?= avm_pause
-DUT ?= avm_cache
+#DUT ?= avm_cache
+DUT ?= avm_cache2
 #DUT ?= avm_master2
 
 
