@@ -12,7 +12,7 @@ end entity tb_avm_cache2;
 
 architecture simulation of tb_avm_cache2 is
 
-   constant C_DATA_SIZE     : integer := 8;
+   constant C_DATA_SIZE     : integer := 16;
    constant C_ADDRESS_SIZE  : integer := 4;
 
    signal clk               : std_logic;
@@ -48,13 +48,15 @@ begin
    ---------------------------------------------------------
 
    p_test : process is
-      procedure write(addr : std_logic_vector(C_ADDRESS_SIZE-1 downto 0); data : std_logic_vector(C_DATA_SIZE-1 downto 0)) is
+      procedure write(addr : std_logic_vector(C_ADDRESS_SIZE-1 downto 0);
+                      data : std_logic_vector(C_DATA_SIZE-1 downto 0);
+                      byteenable : std_logic_vector(C_DATA_SIZE/8-1 downto 0) := (others => '1')) is
       begin
          avm_write      <= '1';
          avm_read       <= '0';
          avm_address    <= addr;
          avm_writedata  <= data;
-         avm_byteenable <= (others => '1');
+         avm_byteenable <= byteenable;
          avm_burstcount <= X"01";
          wait until clk = '1';
 
@@ -110,26 +112,26 @@ begin
       avm_read  <= '0';
       wait for 200 ns;
       wait until clk = '1';
-      write(X"0", X"11");
-      write(X"1", X"22");
-      write(X"2", X"33");
-      write(X"3", X"44");
-      write(X"4", X"55");
-      write(X"5", X"66");
-      write(X"6", X"77");
-      write(X"7", X"88");
-      write(X"8", X"99");
+      write(X"0", X"1111");
+      write(X"1", X"2222");
+      write(X"2", X"3333");
+      write(X"3", X"4444");
+      write(X"4", X"5555");
+      write(X"5", X"6666");
+      write(X"6", X"7777");
+      write(X"7", X"8888");
+      write(X"8", X"9999");
 
-      verify(X"0", X"11");
-      write(X"5", X"AA");
-      verify(X"1", X"22");
-      verify(X"2", X"33");
-      verify(X"3", X"44");
-      verify(X"4", X"55");
-      verify(X"5", X"AA");
-      verify(X"6", X"77");
-      verify(X"7", X"88");
-      verify(X"8", X"99");
+      verify(X"0", X"1111");
+      write(X"5", X"AAUU", "10");
+      verify(X"1", X"2222");
+      verify(X"2", X"3333");
+      verify(X"3", X"4444");
+      verify(X"4", X"5555");
+      verify(X"5", X"AA66");
+      verify(X"6", X"7777");
+      verify(X"7", X"8888");
+      verify(X"8", X"9999");
 
       wait for 100 ns;
       wait until clk = '1';

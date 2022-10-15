@@ -96,7 +96,11 @@ begin
                   m_avm_byteenable_o <= s_avm_byteenable_i;
                   m_avm_burstcount_o <= s_avm_burstcount_i;
                   if cache_wr_hit_s = '1' then
-                     cache_data(to_integer(cache_offset_s)) <= s_avm_writedata_i;
+                     for i in 0 to G_DATA_SIZE/8-1 loop
+                        if s_avm_byteenable_i(i) = '1' then
+                           cache_data(to_integer(cache_offset_s))(8*i+7 downto 8*i) <= s_avm_writedata_i(8*i+7 downto 8*i);
+                        end if;
+                     end loop;
                   end if;
                   state              <= IDLE_ST;
                end if;
@@ -146,7 +150,11 @@ begin
                         m_avm_byteenable_o <= s_avm_byteenable_i;
                         m_avm_burstcount_o <= s_avm_burstcount_i;
                         if cache_wr_hit_s = '1' then
-                           cache_data(to_integer(cache_offset_s)) <= s_avm_writedata_i;
+                           for i in 0 to G_DATA_SIZE/8-1 loop
+                              if s_avm_byteenable_i(i) = '1' then
+                                 cache_data(to_integer(cache_offset_s))(8*i+7 downto 8*i) <= s_avm_writedata_i(8*i+7 downto 8*i);
+                              end if;
+                           end loop;
                         end if;
                         state              <= IDLE_ST;
                      end if;
