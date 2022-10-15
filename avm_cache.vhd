@@ -64,10 +64,10 @@ begin
    cache_wr_hit_s <= '1' when s_avm_write_i = '1' and s_avm_burstcount_i = X"01" and cache_offset_s < cache_count else
                      '0';
 
-   s_avm_waitrequest_o <= '0' when cache_filled_s = '1' and s_avm_write_i = '0' else
+   s_avm_waitrequest_o <= '0' when cache_filled_s = '1' and s_avm_write_i = '0' and rd_burstcount = X"00" else
                            m_avm_waitrequest_i and (m_avm_write_o or m_avm_read_o) when state = IDLE_ST else
                           '1' when rd_burstcount /= X"00" else
-                          '0' when cache_rd_hit_s = '1' else
+                          '0' when cache_count = G_CACHE_SIZE else
                           '1';
 
    -- Two's complement, i.e. wrap-around
@@ -174,12 +174,22 @@ begin
                            state              <= READING_ST;
                         end if;
                      end if;
+
+                     if rd_burstcount > 0 then
+                        m_avm_write_o      <= '0';
+                        m_avm_read_o       <= '1';
+                        m_avm_address_o    <= std_logic_vector(unsigned(cache_addr) + G_CACHE_SIZE);
+                        m_avm_burstcount_o <= to_stdlogicvector(G_CACHE_SIZE, 8);
+                        cache_count        <= 0;
+                        cache_addr         <= std_logic_vector(unsigned(cache_addr) + G_CACHE_SIZE);
+                        state              <= READING_ST;
+                     end if;
                   else
                      cache_count <= cache_count + 1;
                   end if;
                end if;
 
-               if cache_rd_hit_s = '1' then
+               if cache_rd_hit_s = '1' and s_avm_waitrequest_o = '0' then
                   s_avm_readdata_o      <= cache_data(to_integer(cache_offset_s));
                   s_avm_readdatavalid_o <= '1';
 

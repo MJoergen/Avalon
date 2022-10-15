@@ -12,7 +12,7 @@ cover: depth 8
 smtbmc
 
 [script]
-ghdl --std=08 -gG_CACHE_SIZE=8 -gG_ADDRESS_SIZE=4 -gG_DATA_SIZE=16 avm_cache.vhd avm_cache.psl -e avm_cache
+ghdl --std=08 -gG_CACHE_SIZE=3 -gG_ADDRESS_SIZE=4 -gG_DATA_SIZE=16 avm_cache.vhd avm_cache.psl -e avm_cache
 prep -top avm_cache
 
 [files]

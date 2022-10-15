@@ -215,7 +215,8 @@ vunit i_avm_cache(avm_cache(synthesis))
    f_master_burst_valid : assert always rst_i or not ((m_avm_write_o or m_avm_read_o) and nor(m_avm_burstcount_o));
 
    -- Slave must block requests during a read burst
-   f_slave_wait : assert always f_s_rd_burstcount /= 0 and rst_i = '0' |-> s_avm_waitrequest_o = '1';
+   f_slave_wait : assert always (f_s_rd_burstcount > 1 or (f_s_rd_burstcount = 1 and s_avm_readdatavalid_o = '0')) and rst_i = '0'
+                             |-> s_avm_waitrequest_o = '1';
 
    -- Slave must only respond with data to an ongoing request
    f_slave_read_data : assert always s_avm_readdatavalid_o and not rst_i |-> f_s_rd_burstcount > 0;
