@@ -1,15 +1,15 @@
 [*]
-[*] GTKWave Analyzer v3.3.86 (w)1999-2017 BSI
-[*] Fri Sep 30 15:05:30 2022
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Sun Oct 16 03:07:33 2022
 [*]
-[dumpfile] "/home/mfj/git/PRIVATE/MJoergen/Avalon/tb_avm_arbit.ghw"
-[dumpfile_mtime] "Fri Sep 30 15:01:05 2022"
-[dumpfile_size] 529941
-[savefile] "/home/mfj/git/PRIVATE/MJoergen/Avalon/tb_avm_arbit.gtkw"
-[timestart] 160600000
-[size] 1920 1172
-[pos] 3772 -34
-*-25.364620 244400000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[dumpfile] "/home/mike/git/MJoergen/Avalon/tb_avm_arbit.ghw"
+[dumpfile_mtime] "Sun Oct 16 03:06:02 2022"
+[dumpfile_size] 4614014
+[savefile] "/home/mike/git/MJoergen/Avalon/tb_avm_arbit.gtkw"
+[timestart] 69079000000
+[size] 1920 1052
+[pos] 3772 0
+*-30.756020 70270000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] top.
 [treeopen] top.tb_avm_arbit.
 [treeopen] top.tb_avm_arbit.i_avm_master_general0.i_avm_master.
@@ -63,7 +63,7 @@ top.tb_avm_arbit.m0_avm_write
 top.tb_avm_arbit.m0_avm_read
 top.tb_avm_arbit.m0_avm_readdatavalid
 @22
-#{top.tb_avm_arbit.m0_avm_address[3:0]} top.tb_avm_arbit.m0_avm_address[3] top.tb_avm_arbit.m0_avm_address[2] top.tb_avm_arbit.m0_avm_address[1] top.tb_avm_arbit.m0_avm_address[0]
+#{top.tb_avm_arbit.m0_avm_address[5:0]} top.tb_avm_arbit.m0_avm_address[5] top.tb_avm_arbit.m0_avm_address[4] top.tb_avm_arbit.m0_avm_address[3] top.tb_avm_arbit.m0_avm_address[2] top.tb_avm_arbit.m0_avm_address[1] top.tb_avm_arbit.m0_avm_address[0]
 #{top.tb_avm_arbit.m0_avm_writedata[15:0]} top.tb_avm_arbit.m0_avm_writedata[15] top.tb_avm_arbit.m0_avm_writedata[14] top.tb_avm_arbit.m0_avm_writedata[13] top.tb_avm_arbit.m0_avm_writedata[12] top.tb_avm_arbit.m0_avm_writedata[11] top.tb_avm_arbit.m0_avm_writedata[10] top.tb_avm_arbit.m0_avm_writedata[9] top.tb_avm_arbit.m0_avm_writedata[8] top.tb_avm_arbit.m0_avm_writedata[7] top.tb_avm_arbit.m0_avm_writedata[6] top.tb_avm_arbit.m0_avm_writedata[5] top.tb_avm_arbit.m0_avm_writedata[4] top.tb_avm_arbit.m0_avm_writedata[3] top.tb_avm_arbit.m0_avm_writedata[2] top.tb_avm_arbit.m0_avm_writedata[1] top.tb_avm_arbit.m0_avm_writedata[0]
 #{top.tb_avm_arbit.m0_avm_burstcount[7:0]} top.tb_avm_arbit.m0_avm_burstcount[7] top.tb_avm_arbit.m0_avm_burstcount[6] top.tb_avm_arbit.m0_avm_burstcount[5] top.tb_avm_arbit.m0_avm_burstcount[4] top.tb_avm_arbit.m0_avm_burstcount[3] top.tb_avm_arbit.m0_avm_burstcount[2] top.tb_avm_arbit.m0_avm_burstcount[1] top.tb_avm_arbit.m0_avm_burstcount[0]
 @28
@@ -85,7 +85,7 @@ top.tb_avm_arbit.m1_avm_write
 top.tb_avm_arbit.m1_avm_read
 top.tb_avm_arbit.m1_avm_readdatavalid
 @22
-#{top.tb_avm_arbit.m1_avm_address[3:0]} top.tb_avm_arbit.m1_avm_address[3] top.tb_avm_arbit.m1_avm_address[2] top.tb_avm_arbit.m1_avm_address[1] top.tb_avm_arbit.m1_avm_address[0]
+#{top.tb_avm_arbit.m1_avm_address[5:0]} top.tb_avm_arbit.m1_avm_address[5] top.tb_avm_arbit.m1_avm_address[4] top.tb_avm_arbit.m1_avm_address[3] top.tb_avm_arbit.m1_avm_address[2] top.tb_avm_arbit.m1_avm_address[1] top.tb_avm_arbit.m1_avm_address[0]
 #{top.tb_avm_arbit.m1_avm_writedata[15:0]} top.tb_avm_arbit.m1_avm_writedata[15] top.tb_avm_arbit.m1_avm_writedata[14] top.tb_avm_arbit.m1_avm_writedata[13] top.tb_avm_arbit.m1_avm_writedata[12] top.tb_avm_arbit.m1_avm_writedata[11] top.tb_avm_arbit.m1_avm_writedata[10] top.tb_avm_arbit.m1_avm_writedata[9] top.tb_avm_arbit.m1_avm_writedata[8] top.tb_avm_arbit.m1_avm_writedata[7] top.tb_avm_arbit.m1_avm_writedata[6] top.tb_avm_arbit.m1_avm_writedata[5] top.tb_avm_arbit.m1_avm_writedata[4] top.tb_avm_arbit.m1_avm_writedata[3] top.tb_avm_arbit.m1_avm_writedata[2] top.tb_avm_arbit.m1_avm_writedata[1] top.tb_avm_arbit.m1_avm_writedata[0]
 @28
 #{top.tb_avm_arbit.m1_avm_byteenable[1:0]} top.tb_avm_arbit.m1_avm_byteenable[1] top.tb_avm_arbit.m1_avm_byteenable[0]
@@ -94,7 +94,7 @@ top.tb_avm_arbit.m1_avm_readdatavalid
 #{top.tb_avm_arbit.m1_avm_readdata[15:0]} top.tb_avm_arbit.m1_avm_readdata[15] top.tb_avm_arbit.m1_avm_readdata[14] top.tb_avm_arbit.m1_avm_readdata[13] top.tb_avm_arbit.m1_avm_readdata[12] top.tb_avm_arbit.m1_avm_readdata[11] top.tb_avm_arbit.m1_avm_readdata[10] top.tb_avm_arbit.m1_avm_readdata[9] top.tb_avm_arbit.m1_avm_readdata[8] top.tb_avm_arbit.m1_avm_readdata[7] top.tb_avm_arbit.m1_avm_readdata[6] top.tb_avm_arbit.m1_avm_readdata[5] top.tb_avm_arbit.m1_avm_readdata[4] top.tb_avm_arbit.m1_avm_readdata[3] top.tb_avm_arbit.m1_avm_readdata[2] top.tb_avm_arbit.m1_avm_readdata[1] top.tb_avm_arbit.m1_avm_readdata[0]
 @1000200
 -m1
-@c00200
+@c00201
 -s
 @28
 [color] 5
@@ -104,24 +104,15 @@ top.tb_avm_arbit.s_avm_write
 [color] 3
 top.tb_avm_arbit.s_avm_read
 top.tb_avm_arbit.s_avm_readdatavalid
-@c00022
-#{top.tb_avm_arbit.s_avm_address[4:0]} top.tb_avm_arbit.s_avm_address[4] top.tb_avm_arbit.s_avm_address[3] top.tb_avm_arbit.s_avm_address[2] top.tb_avm_arbit.s_avm_address[1] top.tb_avm_arbit.s_avm_address[0]
-@28
-top.tb_avm_arbit.s_avm_address[4]
-top.tb_avm_arbit.s_avm_address[3]
-top.tb_avm_arbit.s_avm_address[2]
-top.tb_avm_arbit.s_avm_address[1]
-top.tb_avm_arbit.s_avm_address[0]
-@1401200
--group_end
 @22
+#{top.tb_avm_arbit.s_avm_address[6:0]} top.tb_avm_arbit.s_avm_address[6] top.tb_avm_arbit.s_avm_address[5] top.tb_avm_arbit.s_avm_address[4] top.tb_avm_arbit.s_avm_address[3] top.tb_avm_arbit.s_avm_address[2] top.tb_avm_arbit.s_avm_address[1] top.tb_avm_arbit.s_avm_address[0]
 #{top.tb_avm_arbit.s_avm_writedata[15:0]} top.tb_avm_arbit.s_avm_writedata[15] top.tb_avm_arbit.s_avm_writedata[14] top.tb_avm_arbit.s_avm_writedata[13] top.tb_avm_arbit.s_avm_writedata[12] top.tb_avm_arbit.s_avm_writedata[11] top.tb_avm_arbit.s_avm_writedata[10] top.tb_avm_arbit.s_avm_writedata[9] top.tb_avm_arbit.s_avm_writedata[8] top.tb_avm_arbit.s_avm_writedata[7] top.tb_avm_arbit.s_avm_writedata[6] top.tb_avm_arbit.s_avm_writedata[5] top.tb_avm_arbit.s_avm_writedata[4] top.tb_avm_arbit.s_avm_writedata[3] top.tb_avm_arbit.s_avm_writedata[2] top.tb_avm_arbit.s_avm_writedata[1] top.tb_avm_arbit.s_avm_writedata[0]
 @28
 #{top.tb_avm_arbit.s_avm_byteenable[1:0]} top.tb_avm_arbit.s_avm_byteenable[1] top.tb_avm_arbit.s_avm_byteenable[0]
 @22
 #{top.tb_avm_arbit.s_avm_burstcount[7:0]} top.tb_avm_arbit.s_avm_burstcount[7] top.tb_avm_arbit.s_avm_burstcount[6] top.tb_avm_arbit.s_avm_burstcount[5] top.tb_avm_arbit.s_avm_burstcount[4] top.tb_avm_arbit.s_avm_burstcount[3] top.tb_avm_arbit.s_avm_burstcount[2] top.tb_avm_arbit.s_avm_burstcount[1] top.tb_avm_arbit.s_avm_burstcount[0]
 #{top.tb_avm_arbit.s_avm_readdata[15:0]} top.tb_avm_arbit.s_avm_readdata[15] top.tb_avm_arbit.s_avm_readdata[14] top.tb_avm_arbit.s_avm_readdata[13] top.tb_avm_arbit.s_avm_readdata[12] top.tb_avm_arbit.s_avm_readdata[11] top.tb_avm_arbit.s_avm_readdata[10] top.tb_avm_arbit.s_avm_readdata[9] top.tb_avm_arbit.s_avm_readdata[8] top.tb_avm_arbit.s_avm_readdata[7] top.tb_avm_arbit.s_avm_readdata[6] top.tb_avm_arbit.s_avm_readdata[5] top.tb_avm_arbit.s_avm_readdata[4] top.tb_avm_arbit.s_avm_readdata[3] top.tb_avm_arbit.s_avm_readdata[2] top.tb_avm_arbit.s_avm_readdata[1] top.tb_avm_arbit.s_avm_readdata[0]
-@1401200
+@1401201
 -s
 @800200
 -avm_arbit
@@ -129,9 +120,7 @@ top.tb_avm_arbit.s_avm_address[0]
 top.tb_avm_arbit.i_avm_arbit.s0_active_req
 top.tb_avm_arbit.i_avm_arbit.s1_active_req
 top.tb_avm_arbit.i_avm_arbit.s0_active_grant
-@29
 top.tb_avm_arbit.i_avm_arbit.s1_active_grant
-@28
 top.tb_avm_arbit.i_avm_arbit.last_grant
 top.tb_avm_arbit.i_avm_arbit.s0_last
 top.tb_avm_arbit.i_avm_arbit.s1_last

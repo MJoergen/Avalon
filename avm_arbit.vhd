@@ -66,7 +66,6 @@ architecture synthesis of avm_arbit is
 
    signal burstcount : std_logic_vector(7 downto 0);
 
-   -- Statistics
    signal cnt                 : integer range 0 to G_FREQ_HZ-1;
    signal cnt_s0_active_grant : integer range 0 to G_FREQ_HZ-1;
    signal cnt_s1_active_grant : integer range 0 to G_FREQ_HZ-1;
@@ -78,6 +77,49 @@ architecture synthesis of avm_arbit is
    signal cnt_s1_waiting_max  : integer range 0 to G_FREQ_HZ-1;
 
 begin
+
+   p_cnt : process (clk_i)
+   begin
+      if rising_edge(clk_i) then
+         if s0_active_req = '1' and s0_active_grant = '0' then
+            cnt_s0_waiting     <= cnt_s0_waiting + 1;
+            cnt_s0_waiting_tot <= cnt_s0_waiting_tot + 1;
+         end if;
+         if s1_active_req = '1' and s1_active_grant = '0' then
+            cnt_s1_waiting     <= cnt_s1_waiting + 1;
+            cnt_s1_waiting_tot <= cnt_s1_waiting_tot + 1;
+         end if;
+
+         if s0_active_grant = '1' then
+            if cnt_s0_waiting > cnt_s0_waiting_max then
+               cnt_s0_waiting_max <= cnt_s0_waiting;
+            end if;
+            cnt_s0_waiting      <= 0;
+            cnt_s0_active_grant <= cnt_s0_active_grant + 1;
+         end if;
+         if s1_active_grant = '1' then
+            if cnt_s1_waiting > cnt_s1_waiting_max then
+               cnt_s1_waiting_max <= cnt_s1_waiting;
+            end if;
+            cnt_s1_waiting      <= 0;
+            cnt_s1_active_grant <= cnt_s1_active_grant + 1;
+         end if;
+
+         if rst_i = '1' or cnt = G_FREQ_HZ-1 then
+            cnt_s0_waiting      <= 0;
+            cnt_s1_waiting      <= 0;
+            cnt_s0_waiting_tot  <= 0;
+            cnt_s1_waiting_tot  <= 0;
+            cnt_s0_waiting_max  <= 0;
+            cnt_s1_waiting_max  <= 0;
+            cnt_s0_active_grant <= 0;
+            cnt_s1_active_grant <= 0;
+            cnt                 <= 0;
+         else
+            cnt <= cnt + 1;
+         end if;
+      end if;
+   end process p_cnt;
 
    assert not (s0_active_grant and s1_active_grant);
 
@@ -213,51 +255,6 @@ begin
 
    s1_avm_readdata_o      <= m_avm_readdata_i;
    s1_avm_readdatavalid_o <= m_avm_readdatavalid_i when last_grant = '1' else '0';
-
-
-   -- Statistics
-   p_cnt : process (clk_i)
-   begin
-      if rising_edge(clk_i) then
-         if s0_active_req = '1' and s0_active_grant = '0' then
-            cnt_s0_waiting     <= cnt_s0_waiting + 1;
-            cnt_s0_waiting_tot <= cnt_s0_waiting_tot + 1;
-         end if;
-         if s1_active_req = '1' and s1_active_grant = '0' then
-            cnt_s1_waiting     <= cnt_s1_waiting + 1;
-            cnt_s1_waiting_tot <= cnt_s1_waiting_tot + 1;
-         end if;
-
-         if s0_active_grant = '1' then
-            if cnt_s0_waiting > cnt_s0_waiting_max then
-               cnt_s0_waiting_max <= cnt_s0_waiting;
-            end if;
-            cnt_s0_waiting      <= 0;
-            cnt_s0_active_grant <= cnt_s0_active_grant + 1;
-         end if;
-         if s1_active_grant = '1' then
-            if cnt_s1_waiting > cnt_s1_waiting_max then
-               cnt_s1_waiting_max <= cnt_s1_waiting;
-            end if;
-            cnt_s1_waiting      <= 0;
-            cnt_s1_active_grant <= cnt_s1_active_grant + 1;
-         end if;
-
-         if rst_i = '1' or cnt = G_FREQ_HZ-1 then
-            cnt_s0_waiting      <= 0;
-            cnt_s1_waiting      <= 0;
-            cnt_s0_waiting_tot  <= 0;
-            cnt_s1_waiting_tot  <= 0;
-            cnt_s0_waiting_max  <= 0;
-            cnt_s1_waiting_max  <= 0;
-            cnt_s0_active_grant <= 0;
-            cnt_s1_active_grant <= 0;
-            cnt                 <= 0;
-         else
-            cnt <= cnt + 1;
-         end if;
-      end if;
-   end process p_cnt;
 
 end architecture synthesis;
 

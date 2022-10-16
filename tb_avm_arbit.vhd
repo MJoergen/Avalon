@@ -4,17 +4,17 @@ use ieee.numeric_std.all;
 
 entity tb_avm_arbit is
    generic (
-      C_M0_START   : integer := 11;
-      C_M1_START   : integer := 10;
-      C_REQ_PAUSE  : integer := 0;
-      C_RESP_PAUSE : integer := 0
+      G_M0_START   : integer := 11;
+      G_M1_START   : integer := 10;
+      G_REQ_PAUSE  : integer := 0;
+      G_RESP_PAUSE : integer := 0
    );
 end entity tb_avm_arbit;
 
 architecture simulation of tb_avm_arbit is
 
    constant C_DATA_SIZE           : integer := 16;
-   constant C_ADDRESS_SIZE        : integer := 4;
+   constant C_ADDRESS_SIZE        : integer := 6;
 
    signal clk                     : std_logic;
    signal rst                     : std_logic;
@@ -88,7 +88,7 @@ begin
    begin
       m0_avm_start <= '0';
       wait until rst = '0';
-      for i in 0 to C_M0_START loop
+      for i in 0 to G_M0_START loop
          wait until clk = '1';
       end loop;
       m0_avm_start <= '1';
@@ -101,7 +101,7 @@ begin
    begin
       m1_avm_start <= '0';
       wait until rst = '0';
-      for i in 0 to C_M1_START loop
+      for i in 0 to G_M1_START loop
          wait until clk = '1';
       end loop;
       m1_avm_start <= '1';
@@ -234,8 +234,8 @@ begin
 
    i_avm_memory_pause : entity work.avm_memory_pause
       generic map (
-         G_REQ_PAUSE    => C_REQ_PAUSE,
-         G_RESP_PAUSE   => C_RESP_PAUSE,
+         G_REQ_PAUSE    => G_REQ_PAUSE,
+         G_RESP_PAUSE   => G_RESP_PAUSE,
          G_ADDRESS_SIZE => C_ADDRESS_SIZE + 1,
          G_DATA_SIZE    => C_DATA_SIZE
       )
