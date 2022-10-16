@@ -156,11 +156,11 @@ begin
    p_burstcount : process (clk_i)
    begin
       if rising_edge(clk_i) then
-         if s0_avm_write_i and not s0_avm_waitrequest_o then
+         if s0_avm_write_i = '1' and s0_avm_waitrequest_o = '0' and burstcount = 0 then
             burstcount <= std_logic_vector(unsigned(s0_avm_burstcount_i) - 1);
          elsif s0_avm_read_i and not s0_avm_waitrequest_o then
             burstcount <= s0_avm_burstcount_i;
-         elsif s1_avm_write_i and not s1_avm_waitrequest_o then
+         elsif s1_avm_write_i = '1' and s1_avm_waitrequest_o = '0' and burstcount = 0 then
             burstcount <= std_logic_vector(unsigned(s1_avm_burstcount_i) - 1);
          elsif s1_avm_read_i and not s1_avm_waitrequest_o then
             burstcount <= s1_avm_burstcount_i;

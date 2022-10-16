@@ -1,20 +1,20 @@
 [*]
 [*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
-[*] Sat Oct  1 05:40:00 2022
+[*] Sun Oct 16 06:21:42 2022
 [*]
 [dumpfile] "/home/mike/git/MJoergen/Avalon/avm_arbit_bmc/engine_0/trace.vcd"
-[dumpfile_mtime] "Sat Oct  1 05:39:49 2022"
-[dumpfile_size] 5246
+[dumpfile_mtime] "Sun Oct 16 06:19:27 2022"
+[dumpfile_size] 5400
 [savefile] "/home/mike/git/MJoergen/Avalon/avm_arbit.gtkw"
 [timestart] 0
-[size] 1920 1052
-[pos] 1919 0
-*-3.372302 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[size] 1920 1012
+[pos] 0 0
+*-3.372302 25 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] avm_arbit.
 [sst_width] 560
-[signals_width] 328
+[signals_width] 408
 [sst_expanded] 1
-[sst_vpaned_height] 314
+[sst_vpaned_height] 300
 @28
 avm_arbit.clk_i
 avm_arbit.rst_i
@@ -66,18 +66,39 @@ avm_arbit.m_avm_writedata_o[7:0]
 avm_arbit.m_avm_readdata_i[7:0]
 @28
 avm_arbit.m_avm_readdatavalid_i
+@c00200
+-Internal
+@28
 avm_arbit.s0_active_grant
 avm_arbit.s0_active_req
 avm_arbit.s1_active_grant
 avm_arbit.s1_active_req
 avm_arbit.s0_last
-@29
 avm_arbit.s1_last
-@28
 avm_arbit.last_grant
 @22
 avm_arbit.burstcount[7:0]
 @28
 avm_arbit.active_grants[1:0]
+@1401200
+-Internal
+@800200
+-Formal
+@23
+avm_arbit.i_avm_arbit.f_s0_wr_burstcount[31:0]
+@22
+avm_arbit.i_avm_arbit.f_s0_rd_burstcount[31:0]
+avm_arbit.i_avm_arbit.f_s0_avm_burstcount[7:0]
+avm_arbit.i_avm_arbit.f_s0_avm_address[3:0]
+avm_arbit.i_avm_arbit.f_s1_wr_burstcount[31:0]
+avm_arbit.i_avm_arbit.f_s1_rd_burstcount[31:0]
+avm_arbit.i_avm_arbit.f_s1_avm_burstcount[7:0]
+avm_arbit.i_avm_arbit.f_s1_avm_address[3:0]
+avm_arbit.i_avm_arbit.f_m_wr_burstcount[31:0]
+avm_arbit.i_avm_arbit.f_m_rd_burstcount[31:0]
+avm_arbit.i_avm_arbit.f_m_avm_burstcount[7:0]
+avm_arbit.i_avm_arbit.f_m_avm_address[3:0]
+@1000200
+-Formal
 [pattern_trace] 1
 [pattern_trace] 0
