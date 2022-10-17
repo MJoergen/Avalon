@@ -1,15 +1,15 @@
 [*]
-[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
-[*] Sun Oct 16 03:07:33 2022
+[*] GTKWave Analyzer v3.3.103 (w)1999-2019 BSI
+[*] Mon Oct 17 07:00:51 2022
 [*]
-[dumpfile] "/home/mike/git/MJoergen/Avalon/tb_avm_arbit.ghw"
-[dumpfile_mtime] "Sun Oct 16 03:06:02 2022"
-[dumpfile_size] 4614014
-[savefile] "/home/mike/git/MJoergen/Avalon/tb_avm_arbit.gtkw"
-[timestart] 69079000000
-[size] 1920 1052
+[dumpfile] "/home/mfj/git/PRIVATE/MJoergen/Avalon/tb_avm_arbit.ghw"
+[dumpfile_mtime] "Mon Oct 17 07:00:26 2022"
+[dumpfile_size] 4643534
+[savefile] "/home/mfj/git/PRIVATE/MJoergen/Avalon/tb_avm_arbit.gtkw"
+[timestart] 0
+[size] 1920 1172
 [pos] 3772 0
-*-30.756020 70270000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-33.766068 70270000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] top.
 [treeopen] top.tb_avm_arbit.
 [treeopen] top.tb_avm_arbit.i_avm_master_general0.i_avm_master.
