@@ -87,6 +87,7 @@ begin
             when WORKING_ST | READING_ST =>
                if m_avm_readdatavalid_i = '1' then
                   if data_exp_o /= m_avm_readdata_i then
+                     report "Read 0x" & to_hstring(m_avm_readdata_i) & ", but expected 0x" & to_hstring(data_exp_o);
                      error_o <= '1';
                   end if;
                   data_read_o <= m_avm_readdata_i;
