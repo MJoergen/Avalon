@@ -115,6 +115,7 @@ begin
 
    i_avm_master : entity work.avm_master
       generic map (
+         G_DATA_INIT    => X"BABEB00BDEAFCAFE",
          G_ADDRESS_SIZE => C_ADDRESS_SIZE,
          G_DATA_SIZE    => C_DATA_SIZE
       )
@@ -143,7 +144,8 @@ begin
 
    i_avm_pause_master : entity work.avm_pause
       generic map (
-         G_PAUSE        => 3,
+         G_REQ_PAUSE    => 3,
+         G_RESP_PAUSE   => 3,
          G_ADDRESS_SIZE => C_ADDRESS_SIZE,
          G_DATA_SIZE    => C_DATA_SIZE
       )
