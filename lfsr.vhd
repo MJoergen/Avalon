@@ -41,6 +41,13 @@ begin
 
          if rst_i = '1' then
             lfsr <= (others => '1');
+            for i in 0 to (G_WIDTH-1)/3 loop
+               if i/2 = (i+1)/2 then
+                  lfsr(3*i) <= '0';
+               else
+                  lfsr(2*i+1) <= '0';
+               end if;
+            end loop;
          end if;
       end if;
    end process p_lfsr;
