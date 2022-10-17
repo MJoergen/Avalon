@@ -1,15 +1,15 @@
 [*]
-[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
-[*] Thu Oct 13 05:08:48 2022
+[*] GTKWave Analyzer v3.3.103 (w)1999-2019 BSI
+[*] Mon Oct 17 13:12:45 2022
 [*]
-[dumpfile] "/home/mike/git/MJoergen/Avalon/tb_avm_master2.ghw"
-[dumpfile_mtime] "Thu Oct 13 05:08:43 2022"
-[dumpfile_size] 528098
-[savefile] "/home/mike/git/MJoergen/Avalon/tb_avm_master2.gtkw"
+[dumpfile] "/home/mfj/git/PRIVATE/MJoergen/Avalon/tb_avm_master2.ghw"
+[dumpfile_mtime] "Mon Oct 17 13:12:36 2022"
+[dumpfile_size] 729988
+[savefile] "/home/mfj/git/PRIVATE/MJoergen/Avalon/tb_avm_master2.gtkw"
 [timestart] 0
-[size] 1920 1012
+[size] 1853 1138
 [pos] 0 135
-*-31.921972 700000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-32.229034 700000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] top.
 [treeopen] top.tb_avm_master2.
 [sst_width] 331
@@ -33,16 +33,16 @@ top.tb_avm_master2.avm_write
 top.tb_avm_master2.avm_read
 @22
 #{top.tb_avm_master2.avm_address[5:0]} top.tb_avm_master2.avm_address[4] top.tb_avm_master2.avm_address[3] top.tb_avm_master2.avm_address[2] top.tb_avm_master2.avm_address[1] top.tb_avm_master2.avm_address[0]
-#{top.tb_avm_master2.avm_writedata[7:0]} top.tb_avm_master2.avm_writedata[7] top.tb_avm_master2.avm_writedata[6] top.tb_avm_master2.avm_writedata[5] top.tb_avm_master2.avm_writedata[4] top.tb_avm_master2.avm_writedata[3] top.tb_avm_master2.avm_writedata[2] top.tb_avm_master2.avm_writedata[1] top.tb_avm_master2.avm_writedata[0]
+#{top.tb_avm_master2.avm_writedata[15:0]} top.tb_avm_master2.avm_writedata[15] top.tb_avm_master2.avm_writedata[14] top.tb_avm_master2.avm_writedata[13] top.tb_avm_master2.avm_writedata[12] top.tb_avm_master2.avm_writedata[11] top.tb_avm_master2.avm_writedata[10] top.tb_avm_master2.avm_writedata[9] top.tb_avm_master2.avm_writedata[8] top.tb_avm_master2.avm_writedata[7] top.tb_avm_master2.avm_writedata[6] top.tb_avm_master2.avm_writedata[5] top.tb_avm_master2.avm_writedata[4] top.tb_avm_master2.avm_writedata[3] top.tb_avm_master2.avm_writedata[2] top.tb_avm_master2.avm_writedata[1] top.tb_avm_master2.avm_writedata[0]
 @28
-top.tb_avm_master2.avm_byteenable[0]
+#{top.tb_avm_master2.avm_byteenable[1:0]} top.tb_avm_master2.avm_byteenable[1] top.tb_avm_master2.avm_byteenable[0]
 @22
 #{top.tb_avm_master2.avm_burstcount[7:0]} top.tb_avm_master2.avm_burstcount[7] top.tb_avm_master2.avm_burstcount[6] top.tb_avm_master2.avm_burstcount[5] top.tb_avm_master2.avm_burstcount[4] top.tb_avm_master2.avm_burstcount[3] top.tb_avm_master2.avm_burstcount[2] top.tb_avm_master2.avm_burstcount[1] top.tb_avm_master2.avm_burstcount[0]
 @28
 [color] 3
 top.tb_avm_master2.avm_readdatavalid
 @22
-#{top.tb_avm_master2.avm_readdata[7:0]} top.tb_avm_master2.avm_readdata[7] top.tb_avm_master2.avm_readdata[6] top.tb_avm_master2.avm_readdata[5] top.tb_avm_master2.avm_readdata[4] top.tb_avm_master2.avm_readdata[3] top.tb_avm_master2.avm_readdata[2] top.tb_avm_master2.avm_readdata[1] top.tb_avm_master2.avm_readdata[0]
+#{top.tb_avm_master2.avm_readdata[15:0]} top.tb_avm_master2.avm_readdata[15] top.tb_avm_master2.avm_readdata[14] top.tb_avm_master2.avm_readdata[13] top.tb_avm_master2.avm_readdata[12] top.tb_avm_master2.avm_readdata[11] top.tb_avm_master2.avm_readdata[10] top.tb_avm_master2.avm_readdata[9] top.tb_avm_master2.avm_readdata[8] top.tb_avm_master2.avm_readdata[7] top.tb_avm_master2.avm_readdata[6] top.tb_avm_master2.avm_readdata[5] top.tb_avm_master2.avm_readdata[4] top.tb_avm_master2.avm_readdata[3] top.tb_avm_master2.avm_readdata[2] top.tb_avm_master2.avm_readdata[1] top.tb_avm_master2.avm_readdata[0]
 @1000200
 -tb
 [pattern_trace] 1

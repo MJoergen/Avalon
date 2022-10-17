@@ -11,7 +11,7 @@ end entity tb_avm_master2;
 
 architecture simulation of tb_avm_master2 is
 
-   constant C_DATA_SIZE     : integer := 8;
+   constant C_DATA_SIZE     : integer := 16;
    constant C_ADDRESS_SIZE  : integer := 5;
 
    signal clk               : std_logic;

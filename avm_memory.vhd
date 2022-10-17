@@ -58,7 +58,7 @@ begin
             write_burstcount <= std_logic_vector(unsigned(mem_write_burstcount) - 1);
 
             report "Writing 0x" & to_hstring(avm_writedata_i) & " to 0x" & to_hstring(mem_write_address) &
-                   " with burstcount " & to_hstring(write_burstcount);
+                   " with burstcount " & to_hstring(write_burstcount) & " and byteenable 0x" & to_hstring(avm_byteenable_i);
             for b in 0 to G_DATA_SIZE/8-1 loop
                if avm_byteenable_i(b) = '1' then
                   mem(to_integer(unsigned(mem_write_address)))(8*b+7 downto 8*b) := avm_writedata_i(8*b+7 downto 8*b);
