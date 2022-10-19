@@ -65,7 +65,7 @@ begin
                      '0';
 
    s_avm_waitrequest_o <= '0' when cache_filled_s = '1' and s_avm_write_i = '0' and rd_burstcount = X"00" else
-                          '0' when cache_rd_hit_s = '1' and s_avM_write_i = '0' and state = READING_ST else
+                          '0' when cache_rd_hit_s = '1' and s_avm_write_i = '0' and state = READING_ST else
                            m_avm_waitrequest_i and (m_avm_write_o or m_avm_read_o) when state = IDLE_ST else
                           '1' when rd_burstcount /= X"00" else
                           '0' when cache_count = G_CACHE_SIZE else
