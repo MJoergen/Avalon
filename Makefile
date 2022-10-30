@@ -12,6 +12,8 @@ SRC += avm_cache.vhd
 SRC += axi_avalon.vhd
 SRC += avalon_axi.vhd
 SRC += axi_fifo_small.vhd
+SRC += axi_shrinker.vhd
+SRC += axi_expander.vhd
 SRC += axi_gcr.vhd
 
 
@@ -23,7 +25,8 @@ SRC += axi_gcr.vhd
 #DUT ?= avm_cache
 #DUT ?= avm_cache2
 #DUT ?= avm_master2
-DUT ?= axi_gcr
+#DUT ?= axi_gcr
+DUT ?= axi_shrinker_expander
 #GENERIC ?= -gG_CACHE_SIZE=4 -gG_REQ_PAUSE=2 -gG_RESP_PAUSE=2
 
 

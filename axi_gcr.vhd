@@ -74,17 +74,7 @@ architecture synthesis of axi_gcr is
       end case;
    end function dec_5_to_4;
 
-   signal enc_data_4_valid : natural range 0 to 8;
-   signal enc_data_4       : std_logic_vector(7 downto 0);  -- Valid bits are from 7 down.
-   signal enc_data_5_valid : natural range 0 to 8;
-   signal enc_data_5       : std_logic_vector(7 downto 0);  -- Valid bits are from 0 up.
-   signal enc_concat_s     : std_logic_vector(12 downto 0);
-
-   signal dec_data_4_valid : natural range 0 to 8;
-   signal dec_data_4       : std_logic_vector(7 downto 0);  -- Valid bits are from 7 down.
-   signal dec_data_5_valid : natural range 0 to 8;
-   signal dec_data_5       : std_logic_vector(7 downto 0);  -- Valid bits are from 0 up.
-   signal dec_concat_s     : std_logic_vector(11 downto 0);
+   signal dec_data : std_logic_vector(9 downto 0);
 
 begin
 
@@ -92,129 +82,45 @@ begin
    -- Encoder - 8 bit to 10 bit
    ---------------------------------------------------------
 
-   s_enc_ready_o <= '1' when enc_data_4_valid = 0 and rst_i = '0' else '0';
-
-   p_enc_concat : process (all)
-   begin
-      enc_concat_s <= (others => '0');
-      enc_concat_s(12 downto 13-enc_data_5_valid)                 <= enc_data_5(enc_data_5_valid-1 downto 0);
-      enc_concat_s(12-enc_data_5_valid downto 8-enc_data_5_valid) <= enc_4_to_5(enc_data_4(7 downto 4));
-   end process p_enc_concat;
-
-   p_enc : process (clk_i)
-   begin
-      if rising_edge(clk_i) then
-
-         if m_enc_ready_i = '1' then
-            m_enc_valid_o <= '0';
-         end if;
-
-         if enc_data_4_valid >= 4 then
-            if enc_data_5_valid + 5 >= 8 then
-               if m_enc_valid_o = '0' or m_enc_ready_i = '1' then
-                  m_enc_data_o  <= enc_concat_s(12 downto 5);
-                  m_enc_valid_o <= '1';
-                  enc_data_5(7 downto 3) <= enc_concat_s(4 downto 0);
-                  enc_data_5_valid <= enc_data_5_valid + 5 - 8;
-                  enc_data_4_valid <= enc_data_4_valid - 4;
-               end if;
-            end if;
-
-            if enc_data_5_valid + 5 <= 8 then
-               enc_data_5(enc_data_5_valid+4 downto 5) <= enc_data_5(enc_data_5_valid-1 downto 0);
-               enc_data_5(4 downto 0) <= enc_4_to_5(enc_data_4(7 downto 4));
-               enc_data_4(7 downto 4) <= enc_data_4(3 downto 0);
-               enc_data_5_valid <= enc_data_5_valid + 5;
-               enc_data_4_valid <= enc_data_4_valid - 4;
-            end if;
-         else
-            if enc_data_5_valid = 8 then
-               m_enc_data_o     <= enc_data_5;
-               m_enc_valid_o    <= '1';
-               enc_data_5_valid <= 0;
-            end if;
-         end if;
-
-         if s_enc_valid_i = '1' and s_enc_ready_o = '1' then
-            assert enc_data_4_valid = 0;
-            enc_data_4 <= s_enc_data_i;
-            enc_data_4_valid <= 8;
-         end if;
-
-         if s_enc_sync_i = '1' then
-            m_enc_valid_o <= '1';
-         end if;
-
-         if rst_i = '1' then
-            enc_data_4_valid <= 0;
-            enc_data_5_valid <= 0;
-            m_enc_valid_o    <= '0';
-         end if;
-      end if;
-   end process p_enc;
+   i_axi_shrinker : entity work.axi_shrinker
+      generic map (
+         G_INPUT_SIZE  => 10,
+         G_OUTPUT_SIZE => 8
+      )
+      port map (
+         clk_i     => clk_i,
+         rst_i     => rst_i,
+         s_ready_o => s_enc_ready_o,
+         s_valid_i => s_enc_valid_i,
+         s_data_i  => enc_4_to_5(s_enc_data_i(7 downto 4)) & enc_4_to_5(s_enc_data_i(3 downto 0)),
+         m_ready_i => m_enc_ready_i ,
+         m_valid_o => m_enc_valid_o ,
+         m_data_o  => m_enc_data_o
+      ); -- i_axi_shrinker
 
 
    ---------------------------------------------------------
    -- Decoder - 10 bit to 8 bit
    ---------------------------------------------------------
 
-   s_dec_ready_o <= '1' when dec_data_4_valid = 0 and rst_i = '0' else '0';
+   i_axi_expander : entity work.axi_expander
+      generic map (
+         G_INPUT_SIZE  => 8,
+         G_OUTPUT_SIZE => 10
+      )
+      port map (
+         clk_i     => clk_i,
+         rst_i     => rst_i,
+         s_ready_o => s_dec_ready_o,
+         s_valid_i => s_dec_valid_i,
+         s_data_i  => s_dec_data_i,
+         m_ready_i => m_dec_ready_i ,
+         m_valid_o => m_dec_valid_o ,
+         m_data_o  => dec_data
+      ); -- i_axi_expander
 
-   p_dec_concat : process (all)
-   begin
-      dec_concat_s <= (others => '0');
-      dec_concat_s(11 downto 12-dec_data_5_valid)                 <= dec_data_5(dec_data_5_valid-1 downto 0);
-      dec_concat_s(11-dec_data_5_valid downto 8-dec_data_5_valid) <= dec_5_to_4(dec_data_4(7 downto 3));
-   end process p_dec_concat;
-
-   p_dec : process (clk_i)
-   begin
-      if rising_edge(clk_i) then
-
-         if m_dec_ready_i = '1' then
-            m_dec_valid_o <= '0';
-         end if;
-
-         if dec_data_5_valid >= 5 then
-            if dec_data_4_valid + 4 >= 8 then
-               if m_dec_valid_o = '0' or m_dec_ready_i = '1' then
-                  m_dec_data_o  <= dec_concat_s(11 downto 4);
-                  m_dec_valid_o <= '1';
-                  dec_data_4(7 downto 4) <= dec_concat_s(3 downto 0);
-                  dec_data_4_valid <= dec_data_4_valid + 5 - 8;
-                  dec_data_5_valid <= dec_data_5_valid - 4;
-               end if;
-            end if;
-
-            if dec_data_4_valid + 5 <= 8 then
-               dec_data_4(dec_data_5_valid+4 downto 5) <= dec_data_5(dec_data_5_valid-1 downto 0);
-               dec_data_4(4 downto 0) <= dec_5_to_4(dec_data_4(7 downto 3));
-               dec_data_5(7 downto 4) <= dec_data_5(3 downto 0);
-               dec_data_4_valid <= dec_data_4_valid + 4;
-               dec_data_5_valid <= dec_data_5_valid - 5;
-            end if;
-         else
-            if dec_data_4_valid = 8 then
-               m_dec_data_o     <= dec_data_4;
-               m_dec_valid_o    <= '1';
-               dec_data_4_valid <= 0;
-            end if;
-         end if;
-
-         if s_dec_valid_i = '1' and s_dec_ready_o = '1' then
-            assert dec_data_4_valid = 0;
-            dec_data_4 <= s_dec_data_i;
-            dec_data_4_valid <= 8;
-         end if;
-
-         if rst_i = '1' then
-            dec_data_4_valid <= 0;
-            dec_data_5_valid <= 0;
-            m_dec_valid_o    <= '0';
-            m_dec_sync_o     <= '0';
-         end if;
-      end if;
-   end process p_dec;
+   m_dec_data_o(7 downto 4) <= dec_5_to_4(dec_data(9 downto 5));
+   m_dec_data_o(3 downto 0) <= dec_5_to_4(dec_data(4 downto 0));
 
 end architecture synthesis;
 

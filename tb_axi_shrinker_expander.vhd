@@ -2,31 +2,31 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity tb_axi_gcr is
-end entity tb_axi_gcr;
+entity tb_axi_shrinker_expander is
+end entity tb_axi_shrinker_expander;
 
-architecture simulation of tb_axi_gcr is
+architecture simulation of tb_axi_shrinker_expander is
 
    constant C_CLK_PERIOD : time := 10 ns;
 
-   signal clk         : std_logic;
-   signal rst         : std_logic;
-   signal s_enc_ready : std_logic;
-   signal s_enc_valid : std_logic;
-   signal s_enc_data  : std_logic_vector(7 downto 0);
-   signal m_enc_ready : std_logic;
-   signal m_enc_valid : std_logic;
-   signal m_enc_data  : std_logic_vector(7 downto 0);
-   signal s_dec_ready : std_logic;
-   signal s_dec_valid : std_logic;
-   signal s_dec_data  : std_logic_vector(7 downto 0);
-   signal m_dec_ready : std_logic;
-   signal m_dec_valid : std_logic;
-   signal m_dec_data  : std_logic_vector(7 downto 0);
+   constant C_STIM_SIZE   : natural := 8;
+   constant C_EXPAND_SIZE : natural := 12;
+
+   signal clk          : std_logic;
+   signal rst          : std_logic;
+   signal stim_ready   : std_logic;
+   signal stim_valid   : std_logic;
+   signal stim_data    : std_logic_vector(C_STIM_SIZE-1 downto 0);
+   signal expand_ready : std_logic;
+   signal expand_valid : std_logic;
+   signal expand_data  : std_logic_vector(C_EXPAND_SIZE-1 downto 0);
+   signal shrink_ready : std_logic;
+   signal shrink_valid : std_logic;
+   signal shrink_data  : std_logic_vector(C_STIM_SIZE-1 downto 0);
 
    signal resp_ready  : std_logic;
    signal resp_valid  : std_logic;
-   signal resp_data   : std_logic_vector(7 downto 0);
+   signal resp_data   : std_logic_vector(C_STIM_SIZE-1 downto 0);
    signal tb_error    : std_logic;
 
    signal lfsr_update_s  : std_logic;
@@ -68,9 +68,9 @@ begin
    -- TBD: Add some random pauses here
    --------------------------------------
 
-   s_enc_valid   <= '1';
-   s_enc_data    <= lfsr_random_s(7 downto 0);
-   lfsr_update_s <= s_enc_valid and s_enc_ready;
+   stim_valid   <= '1';
+   stim_data    <= lfsr_random_s(C_STIM_SIZE-1 downto 0);
+   lfsr_update_s <= stim_valid and stim_ready;
 
 
    --------------------------------------
@@ -79,15 +79,15 @@ begin
 
    i_axi_fifo_small : entity work.axi_fifo_small
       generic map (
-         G_RAM_WIDTH => 8,
+         G_RAM_WIDTH => C_STIM_SIZE,
          G_RAM_DEPTH => 16
       )
       port map (
          clk_i     => clk,
          rst_i     => rst,
          s_ready_o => open, -- Just ignore this, because the FIFO is plenty big enough
-         s_valid_i => s_enc_valid and s_enc_ready,
-         s_data_i  => s_enc_data,
+         s_valid_i => stim_valid and stim_ready,
+         s_data_i  => stim_data,
          m_ready_i => resp_ready,
          m_valid_o => resp_valid,
          m_data_o  => resp_data
@@ -95,28 +95,18 @@ begin
 
 
    --------------------------------------
-   -- Connect encoder and decoder
-   -- TBD: Add some random pauses here
-   --------------------------------------
-
-   s_dec_valid <= m_enc_valid;
-   s_dec_data  <= m_enc_data;
-   m_enc_ready <= s_dec_ready;
-
-
-   --------------------------------------
    -- Check output results
    -- TBD: Add some random pauses here
    --------------------------------------
 
-   m_dec_ready <= '1';
-   resp_ready <= m_dec_valid;
+   shrink_ready <= '1';
+   resp_ready <= shrink_valid;
 
    p_verify : process (clk)
    begin
       if rising_edge(clk) then
          if resp_valid = '1' and resp_ready = '1' then
-            if m_dec_data /= resp_data then
+            if shrink_data /= resp_data then
                tb_error <= '1';
             end if;
          end if;
@@ -129,28 +119,45 @@ begin
 
 
    ---------------------------------------------------------
-   -- Instantiate DUT
+   -- Instantiate Expander
    ---------------------------------------------------------
 
-   i_axi_gcr : entity work.axi_gcr
+   i_axi_expander : entity work.axi_expander
+      generic map (
+         G_INPUT_SIZE  => C_STIM_SIZE,
+         G_OUTPUT_SIZE => C_EXPAND_SIZE
+      )
       port map (
-         clk_i         => clk,
-         rst_i         => rst,
-         s_enc_ready_o => s_enc_ready,
-         s_enc_valid_i => s_enc_valid,
-         s_enc_data_i  => s_enc_data,
-         s_enc_sync_i  => '0',
-         m_enc_ready_i => m_enc_ready,
-         m_enc_valid_o => m_enc_valid,
-         m_enc_data_o  => m_enc_data,
-         s_dec_ready_o => s_dec_ready,
-         s_dec_valid_i => s_dec_valid,
-         s_dec_data_i  => s_dec_data,
-         m_dec_ready_i => m_dec_ready,
-         m_dec_valid_o => m_dec_valid,
-         m_dec_data_o  => m_dec_data,
-         m_dec_sync_o  => open
-      ); -- i_axi_gcr
+         clk_i     => clk,
+         rst_i     => rst,
+         s_ready_o => stim_ready,
+         s_valid_i => stim_valid,
+         s_data_i  => stim_data,
+         m_ready_i => expand_ready,
+         m_valid_o => expand_valid,
+         m_data_o  => expand_data
+      ); -- i_axi_expander
+
+
+   ---------------------------------------------------------
+   -- Instantiate Shrinker
+   ---------------------------------------------------------
+
+   i_axi_shrinker : entity work.axi_shrinker
+      generic map (
+         G_INPUT_SIZE  => C_EXPAND_SIZE,
+         G_OUTPUT_SIZE => C_STIM_SIZE
+      )
+      port map (
+         clk_i     => clk,
+         rst_i     => rst,
+         s_ready_o => expand_ready,
+         s_valid_i => expand_valid,
+         s_data_i  => expand_data,
+         m_ready_i => shrink_ready,
+         m_valid_o => shrink_valid,
+         m_data_o  => shrink_data
+      ); -- i_axi_shrinker
 
 
    --------------------------------------
