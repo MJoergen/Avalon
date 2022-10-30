@@ -9,20 +9,20 @@ architecture simulation of tb_axi_shrinker_expander is
 
    constant C_CLK_PERIOD : time := 10 ns;
 
-   constant C_STIM_SIZE   : natural := 8;
-   constant C_EXPAND_SIZE : natural := 12;
+   constant C_STIM_SIZE   : natural := 12;
+   constant C_SHRINK_SIZE : natural := 8;
 
    signal clk          : std_logic;
    signal rst          : std_logic;
    signal stim_ready   : std_logic;
    signal stim_valid   : std_logic;
    signal stim_data    : std_logic_vector(C_STIM_SIZE-1 downto 0);
-   signal expand_ready : std_logic;
-   signal expand_valid : std_logic;
-   signal expand_data  : std_logic_vector(C_EXPAND_SIZE-1 downto 0);
    signal shrink_ready : std_logic;
    signal shrink_valid : std_logic;
-   signal shrink_data  : std_logic_vector(C_STIM_SIZE-1 downto 0);
+   signal shrink_data  : std_logic_vector(C_SHRINK_SIZE-1 downto 0);
+   signal expand_ready : std_logic;
+   signal expand_valid : std_logic;
+   signal expand_data  : std_logic_vector(C_STIM_SIZE-1 downto 0);
 
    signal resp_ready  : std_logic;
    signal resp_valid  : std_logic;
@@ -99,14 +99,14 @@ begin
    -- TBD: Add some random pauses here
    --------------------------------------
 
-   shrink_ready <= '1';
-   resp_ready <= shrink_valid;
+   expand_ready <= '1';
+   resp_ready <= expand_valid;
 
    p_verify : process (clk)
    begin
       if rising_edge(clk) then
          if resp_valid = '1' and resp_ready = '1' then
-            if shrink_data /= resp_data then
+            if expand_data /= resp_data then
                tb_error <= '1';
             end if;
          end if;
@@ -119,13 +119,13 @@ begin
 
 
    ---------------------------------------------------------
-   -- Instantiate Expander
+   -- Instantiate Shrinker
    ---------------------------------------------------------
 
-   i_axi_expander : entity work.axi_expander
+   i_axi_shrinker : entity work.axi_shrinker
       generic map (
          G_INPUT_SIZE  => C_STIM_SIZE,
-         G_OUTPUT_SIZE => C_EXPAND_SIZE
+         G_OUTPUT_SIZE => C_SHRINK_SIZE
       )
       port map (
          clk_i     => clk,
@@ -133,31 +133,31 @@ begin
          s_ready_o => stim_ready,
          s_valid_i => stim_valid,
          s_data_i  => stim_data,
-         m_ready_i => expand_ready,
-         m_valid_o => expand_valid,
-         m_data_o  => expand_data
-      ); -- i_axi_expander
+         m_ready_i => shrink_ready,
+         m_valid_o => shrink_valid,
+         m_data_o  => shrink_data
+      ); -- i_axi_shrinker
 
 
    ---------------------------------------------------------
-   -- Instantiate Shrinker
+   -- Instantiate Expander
    ---------------------------------------------------------
 
-   i_axi_shrinker : entity work.axi_shrinker
+   i_axi_expander : entity work.axi_expander
       generic map (
-         G_INPUT_SIZE  => C_EXPAND_SIZE,
+         G_INPUT_SIZE  => C_SHRINK_SIZE,
          G_OUTPUT_SIZE => C_STIM_SIZE
       )
       port map (
          clk_i     => clk,
          rst_i     => rst,
-         s_ready_o => expand_ready,
-         s_valid_i => expand_valid,
-         s_data_i  => expand_data,
-         m_ready_i => shrink_ready,
-         m_valid_o => shrink_valid,
-         m_data_o  => shrink_data
-      ); -- i_axi_shrinker
+         s_ready_o => shrink_ready,
+         s_valid_i => shrink_valid,
+         s_data_i  => shrink_data,
+         m_ready_i => expand_ready,
+         m_valid_o => expand_valid,
+         m_data_o  => expand_data
+      ); -- i_axi_expander
 
 
    --------------------------------------

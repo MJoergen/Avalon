@@ -1,22 +1,21 @@
 [*]
 [*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
-[*] Sun Oct 30 16:31:54 2022
+[*] Sun Oct 30 16:44:25 2022
 [*]
 [dumpfile] "/home/mike/git/MJoergen/Avalon/tb_axi_shrinker_expander.ghw"
-[dumpfile_mtime] "Sun Oct 30 16:31:45 2022"
-[dumpfile_size] 28176
+[dumpfile_mtime] "Sun Oct 30 16:44:07 2022"
+[dumpfile_size] 4574
 [savefile] "/home/mike/git/MJoergen/Avalon/tb_axi_shrinker_expander.gtkw"
 [timestart] 0
-[size] 1920 1052
-[pos] -1 -1
-*-27.268579 116000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[size] 1920 1012
+[pos] -1921 -1
+*-24.482704 124700000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] top.
 [treeopen] top.tb_axi_shrinker_expander.
-[treeopen] top.tb_axi_shrinker_expander.i_axi_expander.
 [sst_width] 249
 [signals_width] 387
 [sst_expanded] 1
-[sst_vpaned_height] 260
+[sst_vpaned_height] 236
 @28
 top.tb_axi_shrinker_expander.clk
 top.tb_axi_shrinker_expander.rst
@@ -26,19 +25,7 @@ top.tb_axi_shrinker_expander.stim_ready
 [color] 2
 top.tb_axi_shrinker_expander.stim_valid
 @22
-#{top.tb_axi_shrinker_expander.stim_data[7:0]} top.tb_axi_shrinker_expander.stim_data[7] top.tb_axi_shrinker_expander.stim_data[6] top.tb_axi_shrinker_expander.stim_data[5] top.tb_axi_shrinker_expander.stim_data[4] top.tb_axi_shrinker_expander.stim_data[3] top.tb_axi_shrinker_expander.stim_data[2] top.tb_axi_shrinker_expander.stim_data[1] top.tb_axi_shrinker_expander.stim_data[0]
-@420
-top.tb_axi_shrinker_expander.i_axi_expander.size_r
-@22
-#{top.tb_axi_shrinker_expander.i_axi_expander.data_r[11:0]} top.tb_axi_shrinker_expander.i_axi_expander.data_r[11] top.tb_axi_shrinker_expander.i_axi_expander.data_r[10] top.tb_axi_shrinker_expander.i_axi_expander.data_r[9] top.tb_axi_shrinker_expander.i_axi_expander.data_r[8] top.tb_axi_shrinker_expander.i_axi_expander.data_r[7] top.tb_axi_shrinker_expander.i_axi_expander.data_r[6] top.tb_axi_shrinker_expander.i_axi_expander.data_r[5] top.tb_axi_shrinker_expander.i_axi_expander.data_r[4] top.tb_axi_shrinker_expander.i_axi_expander.data_r[3] top.tb_axi_shrinker_expander.i_axi_expander.data_r[2] top.tb_axi_shrinker_expander.i_axi_expander.data_r[1] top.tb_axi_shrinker_expander.i_axi_expander.data_r[0]
-#{top.tb_axi_shrinker_expander.i_axi_expander.concat_s[19:0]} top.tb_axi_shrinker_expander.i_axi_expander.concat_s[19] top.tb_axi_shrinker_expander.i_axi_expander.concat_s[18] top.tb_axi_shrinker_expander.i_axi_expander.concat_s[17] top.tb_axi_shrinker_expander.i_axi_expander.concat_s[16] top.tb_axi_shrinker_expander.i_axi_expander.concat_s[15] top.tb_axi_shrinker_expander.i_axi_expander.concat_s[14] top.tb_axi_shrinker_expander.i_axi_expander.concat_s[13] top.tb_axi_shrinker_expander.i_axi_expander.concat_s[12] top.tb_axi_shrinker_expander.i_axi_expander.concat_s[11] top.tb_axi_shrinker_expander.i_axi_expander.concat_s[10] top.tb_axi_shrinker_expander.i_axi_expander.concat_s[9] top.tb_axi_shrinker_expander.i_axi_expander.concat_s[8] top.tb_axi_shrinker_expander.i_axi_expander.concat_s[7] top.tb_axi_shrinker_expander.i_axi_expander.concat_s[6] top.tb_axi_shrinker_expander.i_axi_expander.concat_s[5] top.tb_axi_shrinker_expander.i_axi_expander.concat_s[4] top.tb_axi_shrinker_expander.i_axi_expander.concat_s[3] top.tb_axi_shrinker_expander.i_axi_expander.concat_s[2] top.tb_axi_shrinker_expander.i_axi_expander.concat_s[1] top.tb_axi_shrinker_expander.i_axi_expander.concat_s[0]
-@28
-[color] 5
-top.tb_axi_shrinker_expander.expand_ready
-[color] 2
-top.tb_axi_shrinker_expander.expand_valid
-@22
-#{top.tb_axi_shrinker_expander.expand_data[11:0]} top.tb_axi_shrinker_expander.expand_data[11] top.tb_axi_shrinker_expander.expand_data[10] top.tb_axi_shrinker_expander.expand_data[9] top.tb_axi_shrinker_expander.expand_data[8] top.tb_axi_shrinker_expander.expand_data[7] top.tb_axi_shrinker_expander.expand_data[6] top.tb_axi_shrinker_expander.expand_data[5] top.tb_axi_shrinker_expander.expand_data[4] top.tb_axi_shrinker_expander.expand_data[3] top.tb_axi_shrinker_expander.expand_data[2] top.tb_axi_shrinker_expander.expand_data[1] top.tb_axi_shrinker_expander.expand_data[0]
+#{top.tb_axi_shrinker_expander.stim_data[11:0]} top.tb_axi_shrinker_expander.stim_data[11] top.tb_axi_shrinker_expander.stim_data[10] top.tb_axi_shrinker_expander.stim_data[9] top.tb_axi_shrinker_expander.stim_data[8] top.tb_axi_shrinker_expander.stim_data[7] top.tb_axi_shrinker_expander.stim_data[6] top.tb_axi_shrinker_expander.stim_data[5] top.tb_axi_shrinker_expander.stim_data[4] top.tb_axi_shrinker_expander.stim_data[3] top.tb_axi_shrinker_expander.stim_data[2] top.tb_axi_shrinker_expander.stim_data[1] top.tb_axi_shrinker_expander.stim_data[0]
 @420
 top.tb_axi_shrinker_expander.i_axi_shrinker.size_r
 @22
@@ -51,12 +38,24 @@ top.tb_axi_shrinker_expander.shrink_ready
 top.tb_axi_shrinker_expander.shrink_valid
 @22
 #{top.tb_axi_shrinker_expander.shrink_data[7:0]} top.tb_axi_shrinker_expander.shrink_data[7] top.tb_axi_shrinker_expander.shrink_data[6] top.tb_axi_shrinker_expander.shrink_data[5] top.tb_axi_shrinker_expander.shrink_data[4] top.tb_axi_shrinker_expander.shrink_data[3] top.tb_axi_shrinker_expander.shrink_data[2] top.tb_axi_shrinker_expander.shrink_data[1] top.tb_axi_shrinker_expander.shrink_data[0]
+@420
+top.tb_axi_shrinker_expander.i_axi_expander.size_r
+@22
+#{top.tb_axi_shrinker_expander.i_axi_expander.data_r[11:0]} top.tb_axi_shrinker_expander.i_axi_expander.data_r[11] top.tb_axi_shrinker_expander.i_axi_expander.data_r[10] top.tb_axi_shrinker_expander.i_axi_expander.data_r[9] top.tb_axi_shrinker_expander.i_axi_expander.data_r[8] top.tb_axi_shrinker_expander.i_axi_expander.data_r[7] top.tb_axi_shrinker_expander.i_axi_expander.data_r[6] top.tb_axi_shrinker_expander.i_axi_expander.data_r[5] top.tb_axi_shrinker_expander.i_axi_expander.data_r[4] top.tb_axi_shrinker_expander.i_axi_expander.data_r[3] top.tb_axi_shrinker_expander.i_axi_expander.data_r[2] top.tb_axi_shrinker_expander.i_axi_expander.data_r[1] top.tb_axi_shrinker_expander.i_axi_expander.data_r[0]
+#{top.tb_axi_shrinker_expander.i_axi_expander.concat_s[19:0]} top.tb_axi_shrinker_expander.i_axi_expander.concat_s[19] top.tb_axi_shrinker_expander.i_axi_expander.concat_s[18] top.tb_axi_shrinker_expander.i_axi_expander.concat_s[17] top.tb_axi_shrinker_expander.i_axi_expander.concat_s[16] top.tb_axi_shrinker_expander.i_axi_expander.concat_s[15] top.tb_axi_shrinker_expander.i_axi_expander.concat_s[14] top.tb_axi_shrinker_expander.i_axi_expander.concat_s[13] top.tb_axi_shrinker_expander.i_axi_expander.concat_s[12] top.tb_axi_shrinker_expander.i_axi_expander.concat_s[11] top.tb_axi_shrinker_expander.i_axi_expander.concat_s[10] top.tb_axi_shrinker_expander.i_axi_expander.concat_s[9] top.tb_axi_shrinker_expander.i_axi_expander.concat_s[8] top.tb_axi_shrinker_expander.i_axi_expander.concat_s[7] top.tb_axi_shrinker_expander.i_axi_expander.concat_s[6] top.tb_axi_shrinker_expander.i_axi_expander.concat_s[5] top.tb_axi_shrinker_expander.i_axi_expander.concat_s[4] top.tb_axi_shrinker_expander.i_axi_expander.concat_s[3] top.tb_axi_shrinker_expander.i_axi_expander.concat_s[2] top.tb_axi_shrinker_expander.i_axi_expander.concat_s[1] top.tb_axi_shrinker_expander.i_axi_expander.concat_s[0]
+@28
+[color] 5
+top.tb_axi_shrinker_expander.expand_ready
+[color] 2
+top.tb_axi_shrinker_expander.expand_valid
+@22
+#{top.tb_axi_shrinker_expander.expand_data[11:0]} top.tb_axi_shrinker_expander.expand_data[11] top.tb_axi_shrinker_expander.expand_data[10] top.tb_axi_shrinker_expander.expand_data[9] top.tb_axi_shrinker_expander.expand_data[8] top.tb_axi_shrinker_expander.expand_data[7] top.tb_axi_shrinker_expander.expand_data[6] top.tb_axi_shrinker_expander.expand_data[5] top.tb_axi_shrinker_expander.expand_data[4] top.tb_axi_shrinker_expander.expand_data[3] top.tb_axi_shrinker_expander.expand_data[2] top.tb_axi_shrinker_expander.expand_data[1] top.tb_axi_shrinker_expander.expand_data[0]
 @28
 [color] 5
 top.tb_axi_shrinker_expander.resp_ready
 [color] 2
 top.tb_axi_shrinker_expander.resp_valid
 @22
-#{top.tb_axi_shrinker_expander.resp_data[7:0]} top.tb_axi_shrinker_expander.resp_data[7] top.tb_axi_shrinker_expander.resp_data[6] top.tb_axi_shrinker_expander.resp_data[5] top.tb_axi_shrinker_expander.resp_data[4] top.tb_axi_shrinker_expander.resp_data[3] top.tb_axi_shrinker_expander.resp_data[2] top.tb_axi_shrinker_expander.resp_data[1] top.tb_axi_shrinker_expander.resp_data[0]
+#{top.tb_axi_shrinker_expander.resp_data[11:0]} top.tb_axi_shrinker_expander.resp_data[11] top.tb_axi_shrinker_expander.resp_data[10] top.tb_axi_shrinker_expander.resp_data[9] top.tb_axi_shrinker_expander.resp_data[8] top.tb_axi_shrinker_expander.resp_data[7] top.tb_axi_shrinker_expander.resp_data[6] top.tb_axi_shrinker_expander.resp_data[5] top.tb_axi_shrinker_expander.resp_data[4] top.tb_axi_shrinker_expander.resp_data[3] top.tb_axi_shrinker_expander.resp_data[2] top.tb_axi_shrinker_expander.resp_data[1] top.tb_axi_shrinker_expander.resp_data[0]
 [pattern_trace] 1
 [pattern_trace] 0

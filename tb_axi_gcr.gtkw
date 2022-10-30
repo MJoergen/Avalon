@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
-[*] Sun Oct 30 16:28:59 2022
+[*] Sun Oct 30 16:56:27 2022
 [*]
 [dumpfile] "/home/mike/git/MJoergen/Avalon/tb_axi_gcr.ghw"
-[dumpfile_mtime] "Sun Oct 30 16:28:34 2022"
-[dumpfile_size] 4341
+[dumpfile_mtime] "Sun Oct 30 16:56:17 2022"
+[dumpfile_size] 28008
 [savefile] "/home/mike/git/MJoergen/Avalon/tb_axi_gcr.gtkw"
 [timestart] 0
 [size] 1920 1052
 [pos] -1 -1
-*-24.309174 137400000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-27.145676 137400000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] top.
 [treeopen] top.tb_axi_gcr.
 [treeopen] top.tb_axi_gcr.i_axi_gcr.
