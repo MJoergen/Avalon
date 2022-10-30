@@ -1,0 +1,43 @@
+[*]
+[*] GTKWave Analyzer v3.3.103 (w)1999-2019 BSI
+[*] Sun Oct 30 09:10:18 2022
+[*]
+[dumpfile] "/home/mike/git/MJoergen/Avalon/tb_axi_gcr.ghw"
+[dumpfile_mtime] "Sun Oct 30 09:09:32 2022"
+[dumpfile_size] 2686
+[savefile] "/home/mike/git/MJoergen/Avalon/tb_axi_gcr.gtkw"
+[timestart] 0
+[size] 1678 979
+[pos] -1 -1
+*-27.309988 10000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] top.
+[treeopen] top.tb_axi_gcr.
+[treeopen] top.tb_axi_gcr.i_axi_gcr.
+[sst_width] 249
+[signals_width] 277
+[sst_expanded] 1
+[sst_vpaned_height] 378
+@28
+top.tb_axi_gcr.clk
+top.tb_axi_gcr.rst
+top.tb_axi_gcr.s_enc_ready
+top.tb_axi_gcr.s_enc_valid
+@22
+#{top.tb_axi_gcr.s_enc_data[7:0]} top.tb_axi_gcr.s_enc_data[7] top.tb_axi_gcr.s_enc_data[6] top.tb_axi_gcr.s_enc_data[5] top.tb_axi_gcr.s_enc_data[4] top.tb_axi_gcr.s_enc_data[3] top.tb_axi_gcr.s_enc_data[2] top.tb_axi_gcr.s_enc_data[1] top.tb_axi_gcr.s_enc_data[0]
+@28
+top.tb_axi_gcr.m_enc_ready
+top.tb_axi_gcr.m_enc_valid
+@22
+#{top.tb_axi_gcr.m_enc_data[7:0]} top.tb_axi_gcr.m_enc_data[7] top.tb_axi_gcr.m_enc_data[6] top.tb_axi_gcr.m_enc_data[5] top.tb_axi_gcr.m_enc_data[4] top.tb_axi_gcr.m_enc_data[3] top.tb_axi_gcr.m_enc_data[2] top.tb_axi_gcr.m_enc_data[1] top.tb_axi_gcr.m_enc_data[0]
+@28
+top.tb_axi_gcr.s_dec_ready
+top.tb_axi_gcr.s_dec_valid
+@22
+#{top.tb_axi_gcr.s_dec_data[7:0]} top.tb_axi_gcr.s_dec_data[7] top.tb_axi_gcr.s_dec_data[6] top.tb_axi_gcr.s_dec_data[5] top.tb_axi_gcr.s_dec_data[4] top.tb_axi_gcr.s_dec_data[3] top.tb_axi_gcr.s_dec_data[2] top.tb_axi_gcr.s_dec_data[1] top.tb_axi_gcr.s_dec_data[0]
+@28
+top.tb_axi_gcr.m_dec_ready
+top.tb_axi_gcr.m_dec_valid
+@22
+#{top.tb_axi_gcr.m_dec_data[7:0]} top.tb_axi_gcr.m_dec_data[7] top.tb_axi_gcr.m_dec_data[6] top.tb_axi_gcr.m_dec_data[5] top.tb_axi_gcr.m_dec_data[4] top.tb_axi_gcr.m_dec_data[3] top.tb_axi_gcr.m_dec_data[2] top.tb_axi_gcr.m_dec_data[1] top.tb_axi_gcr.m_dec_data[0]
+[pattern_trace] 1
+[pattern_trace] 0

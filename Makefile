@@ -11,6 +11,7 @@ SRC += avm_memory_pause.vhd
 SRC += avm_cache.vhd
 SRC += axi_avalon.vhd
 SRC += avalon_axi.vhd
+SRC += axi_gcr.vhd
 
 
 #DUT ?= burst_ctrl
@@ -18,9 +19,11 @@ SRC += avalon_axi.vhd
 #DUT ?= avalon_axi
 #DUT ?= avm_arbit
 #DUT ?= avm_pause
-DUT ?= avm_cache
+#DUT ?= avm_cache
 #DUT ?= avm_cache2
 #DUT ?= avm_master2
+DUT ?= axi_gcr
+#GENERIC ?= -gG_CACHE_SIZE=4 -gG_REQ_PAUSE=2 -gG_RESP_PAUSE=2
 
 
 TB = tb_$(DUT)
@@ -31,7 +34,7 @@ SAVE = $(TB).gtkw
 sim: $(SRC)
 	ghdl -i --std=08 --work=work $(SRC)
 	ghdl -m --std=08 -fexplicit $(TB)
-	ghdl -r --std=08 $(TB) -gG_CACHE_SIZE=4 -gG_REQ_PAUSE=2 -gG_RESP_PAUSE=2 --assert-level=error --wave=$(WAVE) --stop-time=50us
+	ghdl -r --std=08 $(TB) $(GENERIC) --assert-level=error --wave=$(WAVE) --stop-time=1us
 
 questa: $(SRC)
 	vcom -2008 $(SRC)
