@@ -78,11 +78,13 @@ architecture synthesis of axi_gcr is
    signal enc_data_4       : std_logic_vector(7 downto 0);  -- Valid bits are from 7 down.
    signal enc_data_5_valid : natural range 0 to 8;
    signal enc_data_5       : std_logic_vector(7 downto 0);  -- Valid bits are from 0 up.
+   signal enc_concat_s     : std_logic_vector(12 downto 0);
 
-   signal dec_bit_cnt : natural range 0 to 4;
-   signal dec_data    : std_logic_vector(4 downto 0);
-
-   signal enc_concat_s : std_logic_vector(12 downto 0);
+   signal dec_data_4_valid : natural range 0 to 8;
+   signal dec_data_4       : std_logic_vector(7 downto 0);  -- Valid bits are from 7 down.
+   signal dec_data_5_valid : natural range 0 to 8;
+   signal dec_data_5       : std_logic_vector(7 downto 0);  -- Valid bits are from 0 up.
+   signal dec_concat_s     : std_logic_vector(11 downto 0);
 
 begin
 
@@ -153,22 +155,63 @@ begin
 
 
    ---------------------------------------------------------
-   -- Decoder - 5 bit to 4 bit
+   -- Decoder - 10 bit to 8 bit
    ---------------------------------------------------------
 
-   s_dec_ready_o <= '1' when dec_bit_cnt = 0 and rst_i = '0' else '0';
+   s_dec_ready_o <= '1' when dec_data_4_valid = 0 and rst_i = '0' else '0';
+
+   p_dec_concat : process (all)
+   begin
+      dec_concat_s <= (others => '0');
+      dec_concat_s(11 downto 12-dec_data_5_valid)                 <= dec_data_5(dec_data_5_valid-1 downto 0);
+      dec_concat_s(11-dec_data_5_valid downto 8-dec_data_5_valid) <= dec_5_to_4(dec_data_4(7 downto 3));
+   end process p_dec_concat;
 
    p_dec : process (clk_i)
    begin
       if rising_edge(clk_i) then
+
          if m_dec_ready_i = '1' then
             m_dec_valid_o <= '0';
          end if;
 
+         if dec_data_5_valid >= 5 then
+            if dec_data_4_valid + 4 >= 8 then
+               if m_dec_valid_o = '0' or m_dec_ready_i = '1' then
+                  m_dec_data_o  <= dec_concat_s(11 downto 4);
+                  m_dec_valid_o <= '1';
+                  dec_data_4(7 downto 4) <= dec_concat_s(3 downto 0);
+                  dec_data_4_valid <= dec_data_4_valid + 5 - 8;
+                  dec_data_5_valid <= dec_data_5_valid - 4;
+               end if;
+            end if;
+
+            if dec_data_4_valid + 5 <= 8 then
+               dec_data_4(dec_data_5_valid+4 downto 5) <= dec_data_5(dec_data_5_valid-1 downto 0);
+               dec_data_4(4 downto 0) <= dec_5_to_4(dec_data_4(7 downto 3));
+               dec_data_5(7 downto 4) <= dec_data_5(3 downto 0);
+               dec_data_4_valid <= dec_data_4_valid + 4;
+               dec_data_5_valid <= dec_data_5_valid - 5;
+            end if;
+         else
+            if dec_data_4_valid = 8 then
+               m_dec_data_o     <= dec_data_4;
+               m_dec_valid_o    <= '1';
+               dec_data_4_valid <= 0;
+            end if;
+         end if;
+
+         if s_dec_valid_i = '1' and s_dec_ready_o = '1' then
+            assert dec_data_4_valid = 0;
+            dec_data_4 <= s_dec_data_i;
+            dec_data_4_valid <= 8;
+         end if;
+
          if rst_i = '1' then
-            m_dec_sync_o  <= '0';
-            m_dec_valid_o <= '0';
-            dec_bit_cnt   <= 0;
+            dec_data_4_valid <= 0;
+            dec_data_5_valid <= 0;
+            m_dec_valid_o    <= '0';
+            m_dec_sync_o     <= '0';
          end if;
       end if;
    end process p_dec;

@@ -11,6 +11,7 @@ SRC += avm_memory_pause.vhd
 SRC += avm_cache.vhd
 SRC += axi_avalon.vhd
 SRC += avalon_axi.vhd
+SRC += axi_fifo_small.vhd
 SRC += axi_gcr.vhd
 
 
