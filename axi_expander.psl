@@ -1,0 +1,35 @@
+vunit i_axi_expander(axi_expander(synthesis))
+{
+   -- set all declarations to run on clk_i
+   default clock is rising_edge(clk_i);
+
+   -----------------------------
+   -- ASSERTIONS ABOUT OUTPUTS
+   -----------------------------
+
+   -- Master must be empty after reset
+   f_master_after_reset_empty : assert always {rst_i} |=> not (m_valid_o);
+
+   -- Master must be stable until accepted
+   f_master_stable : assert always {m_valid_o and not m_ready_i and not rst_i} |=>
+      {stable(m_valid_o) and stable(m_data_o)};
+
+
+   -----------------------------
+   -- ASSUMPTIONS ABOUT INPUTS
+   -----------------------------
+
+   -- Require reset at startup.
+   f_reset : assume {rst_i};
+
+   -- Slave must be stable until accepted
+   f_slave_stable : assume always {s_valid_i and not s_ready_o and not rst_i} |=>
+      {stable(s_valid_i) and stable(s_data_i)};
+
+
+   --------------------------------------------
+   -- COVER STATEMENTS TO VERIFY REACHABILITY
+   --------------------------------------------
+
+} -- vunit i_axi_expander(axi_expander(synthesis))
+

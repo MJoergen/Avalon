@@ -33,9 +33,9 @@ begin
    assert G_OUTPUT_SIZE > G_INPUT_SIZE;
 
    s_ready_o <= '0' when rst_i = '1' else
+                '0' when m_valid_o = '1' and m_ready_i = '0' else
                 '1' when size_r + G_INPUT_SIZE <= G_OUTPUT_SIZE else
-                '1' when m_valid_o = '0' or m_ready_i = '1' else
-                '0';
+                '1';
 
    concat_s <= data_r & s_data_i;
 

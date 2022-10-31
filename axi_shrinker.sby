@@ -1,0 +1,18 @@
+[tasks]
+bmc
+
+[options]
+bmc: mode bmc
+bmc: depth 6
+
+[engines]
+smtbmc
+
+[script]
+ghdl --std=08 -gG_INPUT_SIZE=12 -gG_OUTPUT_SIZE=8 axi_shrinker.vhd axi_shrinker.psl -e axi_shrinker
+prep -top axi_shrinker
+
+[files]
+axi_shrinker.psl
+axi_shrinker.vhd
+

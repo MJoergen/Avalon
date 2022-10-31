@@ -35,7 +35,7 @@ begin
    assert G_OUTPUT_SIZE < G_INPUT_SIZE;
 
    s_ready_o <= '0' when rst_i = '1' else
-                '1' when size_r < G_OUTPUT_SIZE else
+                m_ready_i or not m_valid_o when size_r < G_OUTPUT_SIZE else
                 '0';
 
    p_shrinker : process (clk_i)
@@ -52,7 +52,7 @@ begin
             data_r <= s_data_i;
             size_r <= size_r + G_INPUT_SIZE - G_OUTPUT_SIZE;
          else
-            if size_r >= G_OUTPUT_SIZE then
+            if size_r >= G_OUTPUT_SIZE and (m_ready_i = '1' or m_valid_o = '0') then
                m_data_o  <= concat_s(size_r+G_INPUT_SIZE-1 downto size_r+G_INPUT_SIZE-G_OUTPUT_SIZE);
                m_valid_o <= '1';
                size_r <= size_r - G_OUTPUT_SIZE;

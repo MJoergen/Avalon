@@ -74,6 +74,7 @@ architecture synthesis of axi_gcr is
       end case;
    end function dec_5_to_4;
 
+   signal enc_data : std_logic_vector(9 downto 0);
    signal dec_data : std_logic_vector(9 downto 0);
 
 begin
@@ -92,11 +93,14 @@ begin
          rst_i     => rst_i,
          s_ready_o => s_enc_ready_o,
          s_valid_i => s_enc_valid_i,
-         s_data_i  => enc_4_to_5(s_enc_data_i(7 downto 4)) & enc_4_to_5(s_enc_data_i(3 downto 0)),
-         m_ready_i => m_enc_ready_i ,
-         m_valid_o => m_enc_valid_o ,
+         s_data_i  => enc_data,
+         m_ready_i => m_enc_ready_i,
+         m_valid_o => m_enc_valid_o,
          m_data_o  => m_enc_data_o
       ); -- i_axi_shrinker
+
+   enc_data <= (others => '1') when s_enc_sync_i = '1' else
+      enc_4_to_5(s_enc_data_i(7 downto 4)) & enc_4_to_5(s_enc_data_i(3 downto 0));
 
 
    ---------------------------------------------------------

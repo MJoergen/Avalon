@@ -1,6 +1,6 @@
 library ieee;
 use ieee.std_logic_1164.all;
-use ieee.numeric_std.all;
+use ieee.numeric_std_unsigned.all;
 
 entity tb_axi_gcr is
 end entity tb_axi_gcr;
@@ -28,6 +28,7 @@ architecture simulation of tb_axi_gcr is
    signal resp_valid  : std_logic;
    signal resp_data   : std_logic_vector(7 downto 0);
    signal tb_error    : std_logic;
+   signal rand_idx    : std_logic_vector(4 downto 0);
 
    signal lfsr_update_s  : std_logic;
    signal lfsr_output_s  : std_logic_vector(31 downto 0);
@@ -109,12 +110,14 @@ begin
    -- TBD: Add some random pauses here
    --------------------------------------
 
-   m_dec_ready <= '1';
-   resp_ready <= m_dec_valid;
+   m_dec_ready <= resp_valid and lfsr_random_s(to_integer(rand_idx));
+   resp_ready <= m_dec_valid and lfsr_random_s(to_integer(rand_idx));
 
    p_verify : process (clk)
    begin
       if rising_edge(clk) then
+         rand_idx <= rand_idx + 1;
+
          if resp_valid = '1' and resp_ready = '1' then
             if m_dec_data /= resp_data then
                tb_error <= '1';
@@ -123,6 +126,7 @@ begin
 
          if rst = '1' then
             tb_error <= '0';
+            rand_idx <= (others => '0');
          end if;
       end if;
    end process p_verify;
@@ -178,7 +182,7 @@ begin
       end loop;
    end process p_reverse;
 
-   lfsr_random_s <= std_logic_vector(unsigned(lfsr_output_s) + unsigned(lfsr_reverse_s));
+   lfsr_random_s <= lfsr_output_s + lfsr_reverse_s;
 
 end architecture simulation;
 

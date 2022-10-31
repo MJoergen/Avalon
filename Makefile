@@ -26,6 +26,8 @@ SRC += axi_gcr.vhd
 #DUT ?= avm_cache2
 #DUT ?= avm_master2
 DUT ?= axi_gcr
+#DUT ?= axi_shrinker
+#DUT ?= axi_expander
 #DUT ?= axi_shrinker_expander
 #GENERIC ?= -gG_CACHE_SIZE=4 -gG_REQ_PAUSE=2 -gG_RESP_PAUSE=2
 

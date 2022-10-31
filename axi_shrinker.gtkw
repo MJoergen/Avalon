@@ -1,0 +1,39 @@
+[*]
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Mon Oct 31 07:08:29 2022
+[*]
+[dumpfile] "/home/mfj/git/PRIVATE/MJoergen/Avalon/axi_shrinker_bmc/engine_0/trace.vcd"
+[dumpfile_mtime] "Mon Oct 31 07:08:05 2022"
+[dumpfile_size] 1617
+[savefile] "/home/mfj/git/PRIVATE/MJoergen/Avalon/axi_shrinker.gtkw"
+[timestart] 0
+[size] 1920 1172
+[pos] -1 -1
+*-3.753481 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] axi_shrinker.
+[sst_width] 263
+[signals_width] 283
+[sst_expanded] 1
+[sst_vpaned_height] 359
+@28
+axi_shrinker.clk_i
+axi_shrinker.rst_i
+[color] 5
+axi_shrinker.s_ready_o
+[color] 2
+axi_shrinker.s_valid_i
+@22
+axi_shrinker.s_data_i[11:0]
+@28
+[color] 5
+axi_shrinker.m_ready_i
+[color] 2
+axi_shrinker.m_valid_o
+@22
+axi_shrinker.m_data_o[7:0]
+axi_shrinker.size_r[4:0]
+axi_shrinker.concat_s[23:0]
+@23
+axi_shrinker.data_r[11:0]
+[pattern_trace] 1
+[pattern_trace] 0

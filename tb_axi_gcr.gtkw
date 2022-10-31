@@ -1,44 +1,50 @@
 [*]
 [*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
-[*] Sun Oct 30 16:56:27 2022
+[*] Mon Oct 31 07:33:29 2022
 [*]
-[dumpfile] "/home/mike/git/MJoergen/Avalon/tb_axi_gcr.ghw"
-[dumpfile_mtime] "Sun Oct 30 16:56:17 2022"
-[dumpfile_size] 28008
-[savefile] "/home/mike/git/MJoergen/Avalon/tb_axi_gcr.gtkw"
+[dumpfile] "/home/mfj/git/PRIVATE/MJoergen/Avalon/tb_axi_gcr.ghw"
+[dumpfile_mtime] "Mon Oct 31 07:33:19 2022"
+[dumpfile_size] 17010
+[savefile] "/home/mfj/git/PRIVATE/MJoergen/Avalon/tb_axi_gcr.gtkw"
 [timestart] 0
-[size] 1920 1052
+[size] 1853 1138
 [pos] -1 -1
-*-27.145676 137400000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-27.239714 137400000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] top.
 [treeopen] top.tb_axi_gcr.
 [treeopen] top.tb_axi_gcr.i_axi_gcr.
-[sst_width] 249
+[sst_width] 263
 [signals_width] 277
 [sst_expanded] 1
 [sst_vpaned_height] 378
 @28
 top.tb_axi_gcr.clk
 top.tb_axi_gcr.rst
-@29
 top.tb_axi_gcr.tb_error
-@28
+[color] 5
 top.tb_axi_gcr.s_enc_ready
+[color] 2
 top.tb_axi_gcr.s_enc_valid
 @22
 #{top.tb_axi_gcr.s_enc_data[7:0]} top.tb_axi_gcr.s_enc_data[7] top.tb_axi_gcr.s_enc_data[6] top.tb_axi_gcr.s_enc_data[5] top.tb_axi_gcr.s_enc_data[4] top.tb_axi_gcr.s_enc_data[3] top.tb_axi_gcr.s_enc_data[2] top.tb_axi_gcr.s_enc_data[1] top.tb_axi_gcr.s_enc_data[0]
 @28
+[color] 5
 top.tb_axi_gcr.m_enc_ready
+[color] 2
 top.tb_axi_gcr.m_enc_valid
 @22
 #{top.tb_axi_gcr.m_enc_data[7:0]} top.tb_axi_gcr.m_enc_data[7] top.tb_axi_gcr.m_enc_data[6] top.tb_axi_gcr.m_enc_data[5] top.tb_axi_gcr.m_enc_data[4] top.tb_axi_gcr.m_enc_data[3] top.tb_axi_gcr.m_enc_data[2] top.tb_axi_gcr.m_enc_data[1] top.tb_axi_gcr.m_enc_data[0]
 @28
+[color] 5
 top.tb_axi_gcr.s_dec_ready
+[color] 2
 top.tb_axi_gcr.s_dec_valid
 @22
 #{top.tb_axi_gcr.s_dec_data[7:0]} top.tb_axi_gcr.s_dec_data[7] top.tb_axi_gcr.s_dec_data[6] top.tb_axi_gcr.s_dec_data[5] top.tb_axi_gcr.s_dec_data[4] top.tb_axi_gcr.s_dec_data[3] top.tb_axi_gcr.s_dec_data[2] top.tb_axi_gcr.s_dec_data[1] top.tb_axi_gcr.s_dec_data[0]
 @28
+[color] 5
 top.tb_axi_gcr.m_dec_ready
+[color] 2
 top.tb_axi_gcr.m_dec_valid
 @22
 #{top.tb_axi_gcr.m_dec_data[7:0]} top.tb_axi_gcr.m_dec_data[7] top.tb_axi_gcr.m_dec_data[6] top.tb_axi_gcr.m_dec_data[5] top.tb_axi_gcr.m_dec_data[4] top.tb_axi_gcr.m_dec_data[3] top.tb_axi_gcr.m_dec_data[2] top.tb_axi_gcr.m_dec_data[1] top.tb_axi_gcr.m_dec_data[0]

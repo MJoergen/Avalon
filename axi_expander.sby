@@ -1,0 +1,18 @@
+[tasks]
+bmc
+
+[options]
+bmc: mode bmc
+bmc: depth 6
+
+[engines]
+smtbmc
+
+[script]
+ghdl --std=08 -gG_INPUT_SIZE=8 -gG_OUTPUT_SIZE=12 axi_expander.vhd axi_expander.psl -e axi_expander
+prep -top axi_expander
+
+[files]
+axi_expander.psl
+axi_expander.vhd
+

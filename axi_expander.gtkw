@@ -1,0 +1,38 @@
+[*]
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Mon Oct 31 07:14:09 2022
+[*]
+[dumpfile] "/home/mfj/git/PRIVATE/MJoergen/Avalon/axi_expander_bmc/engine_0/trace.vcd"
+[dumpfile_mtime] "Mon Oct 31 07:13:28 2022"
+[dumpfile_size] 1818
+[savefile] "/home/mfj/git/PRIVATE/MJoergen/Avalon/axi_expander.gtkw"
+[timestart] 0
+[size] 1920 1172
+[pos] 1852 -35
+*-4.068354 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] axi_expander.
+[sst_width] 263
+[signals_width] 217
+[sst_expanded] 1
+[sst_vpaned_height] 346
+@28
+axi_expander.clk_i
+axi_expander.rst_i
+[color] 5
+axi_expander.s_ready_o
+[color] 2
+axi_expander.s_valid_i
+@22
+axi_expander.s_data_i[7:0]
+@28
+[color] 5
+axi_expander.m_ready_i
+[color] 2
+axi_expander.m_valid_o
+@22
+axi_expander.m_data_o[11:0]
+axi_expander.size_r[4:0]
+axi_expander.concat_s[19:0]
+axi_expander.data_r[11:0]
+[pattern_trace] 1
+[pattern_trace] 0

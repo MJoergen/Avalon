@@ -1,18 +1,18 @@
 [*]
 [*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
-[*] Sun Oct 30 16:44:25 2022
+[*] Mon Oct 31 07:16:43 2022
 [*]
-[dumpfile] "/home/mike/git/MJoergen/Avalon/tb_axi_shrinker_expander.ghw"
-[dumpfile_mtime] "Sun Oct 30 16:44:07 2022"
-[dumpfile_size] 4574
-[savefile] "/home/mike/git/MJoergen/Avalon/tb_axi_shrinker_expander.gtkw"
-[timestart] 0
-[size] 1920 1012
-[pos] -1921 -1
-*-24.482704 124700000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[dumpfile] "/home/mfj/git/PRIVATE/MJoergen/Avalon/tb_axi_shrinker_expander.ghw"
+[dumpfile_mtime] "Mon Oct 31 07:15:36 2022"
+[dumpfile_size] 5185
+[savefile] "/home/mfj/git/PRIVATE/MJoergen/Avalon/tb_axi_shrinker_expander.gtkw"
+[timestart] 47200000
+[size] 1853 1138
+[pos] -1 -1
+*-24.371284 114100000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] top.
 [treeopen] top.tb_axi_shrinker_expander.
-[sst_width] 249
+[sst_width] 263
 [signals_width] 387
 [sst_expanded] 1
 [sst_vpaned_height] 236
