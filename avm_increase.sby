@@ -1,0 +1,19 @@
+[tasks]
+bmc
+
+[options]
+bmc: mode bmc
+bmc: depth 6
+
+[engines]
+smtbmc
+
+[script]
+ghdl --std=08 -gG_SLAVE_DATA_SIZE=8 -gG_MASTER_DATA_SIZE=16 -gG_SLAVE_ADDRESS_SIZE=10 -gG_MASTER_ADDRESS_SIZE=9 avm_increase.vhd avm_increase.psl axi_fifo_small.vhd -e avm_increase
+prep -top avm_increase
+
+[files]
+avm_increase.psl
+avm_increase.vhd
+axi_fifo_small.vhd
+

@@ -1,0 +1,89 @@
+[*]
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Mon Mar  6 18:41:12 2023
+[*]
+[dumpfile] "/home/mike/git/MJoergen/Avalon/tb_avm_increase.ghw"
+[dumpfile_mtime] "Mon Mar  6 18:41:00 2023"
+[dumpfile_size] 1477391
+[savefile] "/home/mike/git/MJoergen/Avalon/tb_avm_increase.gtkw"
+[timestart] 0
+[size] 1607 902
+[pos] 1996 5
+*-32.925472 5295300000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] top.
+[treeopen] top.tb_avm_increase.
+[treeopen] top.tb_avm_increase.i_avm_increase.
+[sst_width] 249
+[signals_width] 333
+[sst_expanded] 1
+[sst_vpaned_height] 248
+@c00200
+-avm_master
+@28
+top.tb_avm_increase.i_avm_master.clk_i
+top.tb_avm_increase.i_avm_master.rst_i
+top.tb_avm_increase.i_avm_master.start_i
+top.tb_avm_increase.i_avm_master.wait_o
+top.tb_avm_increase.i_avm_master.avm_write_o
+top.tb_avm_increase.i_avm_master.avm_read_o
+top.tb_avm_increase.i_avm_master.avm_readdatavalid_i
+top.tb_avm_increase.i_avm_master.avm_waitrequest_i
+top.tb_avm_increase.i_avm_master.error_o
+@22
+#{top.tb_avm_increase.i_avm_master.write_burstcount_i[7:0]} top.tb_avm_increase.i_avm_master.write_burstcount_i[7] top.tb_avm_increase.i_avm_master.write_burstcount_i[6] top.tb_avm_increase.i_avm_master.write_burstcount_i[5] top.tb_avm_increase.i_avm_master.write_burstcount_i[4] top.tb_avm_increase.i_avm_master.write_burstcount_i[3] top.tb_avm_increase.i_avm_master.write_burstcount_i[2] top.tb_avm_increase.i_avm_master.write_burstcount_i[1] top.tb_avm_increase.i_avm_master.write_burstcount_i[0]
+#{top.tb_avm_increase.i_avm_master.read_burstcount_i[7:0]} top.tb_avm_increase.i_avm_master.read_burstcount_i[7] top.tb_avm_increase.i_avm_master.read_burstcount_i[6] top.tb_avm_increase.i_avm_master.read_burstcount_i[5] top.tb_avm_increase.i_avm_master.read_burstcount_i[4] top.tb_avm_increase.i_avm_master.read_burstcount_i[3] top.tb_avm_increase.i_avm_master.read_burstcount_i[2] top.tb_avm_increase.i_avm_master.read_burstcount_i[1] top.tb_avm_increase.i_avm_master.read_burstcount_i[0]
+#{top.tb_avm_increase.i_avm_master.avm_address_o[5:0]} top.tb_avm_increase.i_avm_master.avm_address_o[5] top.tb_avm_increase.i_avm_master.avm_address_o[4] top.tb_avm_increase.i_avm_master.avm_address_o[3] top.tb_avm_increase.i_avm_master.avm_address_o[2] top.tb_avm_increase.i_avm_master.avm_address_o[1] top.tb_avm_increase.i_avm_master.avm_address_o[0]
+#{top.tb_avm_increase.i_avm_master.avm_writedata_o[15:0]} top.tb_avm_increase.i_avm_master.avm_writedata_o[7] top.tb_avm_increase.i_avm_master.avm_writedata_o[6] top.tb_avm_increase.i_avm_master.avm_writedata_o[5] top.tb_avm_increase.i_avm_master.avm_writedata_o[4] top.tb_avm_increase.i_avm_master.avm_writedata_o[3] top.tb_avm_increase.i_avm_master.avm_writedata_o[2] top.tb_avm_increase.i_avm_master.avm_writedata_o[1] top.tb_avm_increase.i_avm_master.avm_writedata_o[0]
+@28
+#{top.tb_avm_increase.i_avm_master.avm_byteenable_o[1:0]} top.tb_avm_increase.i_avm_master.avm_byteenable_o[0]
+@22
+#{top.tb_avm_increase.i_avm_master.avm_burstcount_o[7:0]} top.tb_avm_increase.i_avm_master.avm_burstcount_o[7] top.tb_avm_increase.i_avm_master.avm_burstcount_o[6] top.tb_avm_increase.i_avm_master.avm_burstcount_o[5] top.tb_avm_increase.i_avm_master.avm_burstcount_o[4] top.tb_avm_increase.i_avm_master.avm_burstcount_o[3] top.tb_avm_increase.i_avm_master.avm_burstcount_o[2] top.tb_avm_increase.i_avm_master.avm_burstcount_o[1] top.tb_avm_increase.i_avm_master.avm_burstcount_o[0]
+#{top.tb_avm_increase.i_avm_master.avm_readdata_i[15:0]} top.tb_avm_increase.i_avm_master.avm_readdata_i[7] top.tb_avm_increase.i_avm_master.avm_readdata_i[6] top.tb_avm_increase.i_avm_master.avm_readdata_i[5] top.tb_avm_increase.i_avm_master.avm_readdata_i[4] top.tb_avm_increase.i_avm_master.avm_readdata_i[3] top.tb_avm_increase.i_avm_master.avm_readdata_i[2] top.tb_avm_increase.i_avm_master.avm_readdata_i[1] top.tb_avm_increase.i_avm_master.avm_readdata_i[0]
+#{top.tb_avm_increase.i_avm_master.address_o[5:0]} top.tb_avm_increase.i_avm_master.address_o[5] top.tb_avm_increase.i_avm_master.address_o[4] top.tb_avm_increase.i_avm_master.address_o[3] top.tb_avm_increase.i_avm_master.address_o[2] top.tb_avm_increase.i_avm_master.address_o[1] top.tb_avm_increase.i_avm_master.address_o[0]
+#{top.tb_avm_increase.i_avm_master.data_exp_o[15:0]} top.tb_avm_increase.i_avm_master.data_exp_o[7] top.tb_avm_increase.i_avm_master.data_exp_o[6] top.tb_avm_increase.i_avm_master.data_exp_o[5] top.tb_avm_increase.i_avm_master.data_exp_o[4] top.tb_avm_increase.i_avm_master.data_exp_o[3] top.tb_avm_increase.i_avm_master.data_exp_o[2] top.tb_avm_increase.i_avm_master.data_exp_o[1] top.tb_avm_increase.i_avm_master.data_exp_o[0]
+#{top.tb_avm_increase.i_avm_master.data_read_o[15:0]} top.tb_avm_increase.i_avm_master.data_read_o[7] top.tb_avm_increase.i_avm_master.data_read_o[6] top.tb_avm_increase.i_avm_master.data_read_o[5] top.tb_avm_increase.i_avm_master.data_read_o[4] top.tb_avm_increase.i_avm_master.data_read_o[3] top.tb_avm_increase.i_avm_master.data_read_o[2] top.tb_avm_increase.i_avm_master.data_read_o[1] top.tb_avm_increase.i_avm_master.data_read_o[0]
+@1401200
+-avm_master
+@800200
+-avm_increase
+@28
+top.tb_avm_increase.i_avm_increase.clk_i
+top.tb_avm_increase.i_avm_increase.rst_i
+top.tb_avm_increase.i_avm_increase.s_avm_waitrequest_o
+top.tb_avm_increase.i_avm_increase.s_avm_write_i
+top.tb_avm_increase.i_avm_increase.s_avm_read_i
+@22
+#{top.tb_avm_increase.i_avm_increase.s_avm_address_i[5:0]} top.tb_avm_increase.i_avm_increase.s_avm_address_i[5] top.tb_avm_increase.i_avm_increase.s_avm_address_i[4] top.tb_avm_increase.i_avm_increase.s_avm_address_i[3] top.tb_avm_increase.i_avm_increase.s_avm_address_i[2] top.tb_avm_increase.i_avm_increase.s_avm_address_i[1] top.tb_avm_increase.i_avm_increase.s_avm_address_i[0]
+#{top.tb_avm_increase.i_avm_increase.s_avm_writedata_i[15:0]} top.tb_avm_increase.i_avm_increase.s_avm_writedata_i[7] top.tb_avm_increase.i_avm_increase.s_avm_writedata_i[6] top.tb_avm_increase.i_avm_increase.s_avm_writedata_i[5] top.tb_avm_increase.i_avm_increase.s_avm_writedata_i[4] top.tb_avm_increase.i_avm_increase.s_avm_writedata_i[3] top.tb_avm_increase.i_avm_increase.s_avm_writedata_i[2] top.tb_avm_increase.i_avm_increase.s_avm_writedata_i[1] top.tb_avm_increase.i_avm_increase.s_avm_writedata_i[0]
+@28
+#{top.tb_avm_increase.i_avm_increase.s_avm_byteenable_i[1:0]} top.tb_avm_increase.i_avm_increase.s_avm_byteenable_i[0]
+@23
+#{top.tb_avm_increase.i_avm_increase.s_avm_burstcount_i[7:0]} top.tb_avm_increase.i_avm_increase.s_avm_burstcount_i[7] top.tb_avm_increase.i_avm_increase.s_avm_burstcount_i[6] top.tb_avm_increase.i_avm_increase.s_avm_burstcount_i[5] top.tb_avm_increase.i_avm_increase.s_avm_burstcount_i[4] top.tb_avm_increase.i_avm_increase.s_avm_burstcount_i[3] top.tb_avm_increase.i_avm_increase.s_avm_burstcount_i[2] top.tb_avm_increase.i_avm_increase.s_avm_burstcount_i[1] top.tb_avm_increase.i_avm_increase.s_avm_burstcount_i[0]
+@28
+top.tb_avm_increase.i_avm_increase.s_avm_readdatavalid_o
+@22
+#{top.tb_avm_increase.i_avm_increase.s_avm_readdata_o[15:0]} top.tb_avm_increase.i_avm_increase.s_avm_readdata_o[7] top.tb_avm_increase.i_avm_increase.s_avm_readdata_o[6] top.tb_avm_increase.i_avm_increase.s_avm_readdata_o[5] top.tb_avm_increase.i_avm_increase.s_avm_readdata_o[4] top.tb_avm_increase.i_avm_increase.s_avm_readdata_o[3] top.tb_avm_increase.i_avm_increase.s_avm_readdata_o[2] top.tb_avm_increase.i_avm_increase.s_avm_readdata_o[1] top.tb_avm_increase.i_avm_increase.s_avm_readdata_o[0]
+@28
+top.tb_avm_increase.i_avm_increase.m_avm_waitrequest_i
+top.tb_avm_increase.i_avm_increase.m_avm_write_o
+top.tb_avm_increase.i_avm_increase.m_avm_read_o
+@22
+#{top.tb_avm_increase.i_avm_increase.m_avm_address_o[4:0]} top.tb_avm_increase.i_avm_increase.m_avm_address_o[4] top.tb_avm_increase.i_avm_increase.m_avm_address_o[3] top.tb_avm_increase.i_avm_increase.m_avm_address_o[2] top.tb_avm_increase.i_avm_increase.m_avm_address_o[1] top.tb_avm_increase.i_avm_increase.m_avm_address_o[0]
+#{top.tb_avm_increase.i_avm_increase.m_avm_writedata_o[31:0]} top.tb_avm_increase.i_avm_increase.m_avm_writedata_o[15] top.tb_avm_increase.i_avm_increase.m_avm_writedata_o[14] top.tb_avm_increase.i_avm_increase.m_avm_writedata_o[13] top.tb_avm_increase.i_avm_increase.m_avm_writedata_o[12] top.tb_avm_increase.i_avm_increase.m_avm_writedata_o[11] top.tb_avm_increase.i_avm_increase.m_avm_writedata_o[10] top.tb_avm_increase.i_avm_increase.m_avm_writedata_o[9] top.tb_avm_increase.i_avm_increase.m_avm_writedata_o[8] top.tb_avm_increase.i_avm_increase.m_avm_writedata_o[7] top.tb_avm_increase.i_avm_increase.m_avm_writedata_o[6] top.tb_avm_increase.i_avm_increase.m_avm_writedata_o[5] top.tb_avm_increase.i_avm_increase.m_avm_writedata_o[4] top.tb_avm_increase.i_avm_increase.m_avm_writedata_o[3] top.tb_avm_increase.i_avm_increase.m_avm_writedata_o[2] top.tb_avm_increase.i_avm_increase.m_avm_writedata_o[1] top.tb_avm_increase.i_avm_increase.m_avm_writedata_o[0]
+#{top.tb_avm_increase.i_avm_increase.m_avm_byteenable_o[3:0]} top.tb_avm_increase.i_avm_increase.m_avm_byteenable_o[1] top.tb_avm_increase.i_avm_increase.m_avm_byteenable_o[0]
+#{top.tb_avm_increase.i_avm_increase.m_avm_burstcount_o[7:0]} top.tb_avm_increase.i_avm_increase.m_avm_burstcount_o[7] top.tb_avm_increase.i_avm_increase.m_avm_burstcount_o[6] top.tb_avm_increase.i_avm_increase.m_avm_burstcount_o[5] top.tb_avm_increase.i_avm_increase.m_avm_burstcount_o[4] top.tb_avm_increase.i_avm_increase.m_avm_burstcount_o[3] top.tb_avm_increase.i_avm_increase.m_avm_burstcount_o[2] top.tb_avm_increase.i_avm_increase.m_avm_burstcount_o[1] top.tb_avm_increase.i_avm_increase.m_avm_burstcount_o[0]
+@28
+top.tb_avm_increase.i_avm_increase.m_avm_readdatavalid_i
+@22
+#{top.tb_avm_increase.i_avm_increase.m_avm_readdata_i[31:0]} top.tb_avm_increase.i_avm_increase.m_avm_readdata_i[15] top.tb_avm_increase.i_avm_increase.m_avm_readdata_i[14] top.tb_avm_increase.i_avm_increase.m_avm_readdata_i[13] top.tb_avm_increase.i_avm_increase.m_avm_readdata_i[12] top.tb_avm_increase.i_avm_increase.m_avm_readdata_i[11] top.tb_avm_increase.i_avm_increase.m_avm_readdata_i[10] top.tb_avm_increase.i_avm_increase.m_avm_readdata_i[9] top.tb_avm_increase.i_avm_increase.m_avm_readdata_i[8] top.tb_avm_increase.i_avm_increase.m_avm_readdata_i[7] top.tb_avm_increase.i_avm_increase.m_avm_readdata_i[6] top.tb_avm_increase.i_avm_increase.m_avm_readdata_i[5] top.tb_avm_increase.i_avm_increase.m_avm_readdata_i[4] top.tb_avm_increase.i_avm_increase.m_avm_readdata_i[3] top.tb_avm_increase.i_avm_increase.m_avm_readdata_i[2] top.tb_avm_increase.i_avm_increase.m_avm_readdata_i[1] top.tb_avm_increase.i_avm_increase.m_avm_readdata_i[0]
+@28
+top.tb_avm_increase.i_avm_increase.offset[0]
+@22
+#{top.tb_avm_increase.i_avm_increase.s_burstcount[7:0]} top.tb_avm_increase.i_avm_increase.s_burstcount[7] top.tb_avm_increase.i_avm_increase.s_burstcount[6] top.tb_avm_increase.i_avm_increase.s_burstcount[5] top.tb_avm_increase.i_avm_increase.s_burstcount[4] top.tb_avm_increase.i_avm_increase.s_burstcount[3] top.tb_avm_increase.i_avm_increase.s_burstcount[2] top.tb_avm_increase.i_avm_increase.s_burstcount[1] top.tb_avm_increase.i_avm_increase.s_burstcount[0]
+#{top.tb_avm_increase.i_avm_increase.m_avm_readdata[15:0]} top.tb_avm_increase.i_avm_increase.m_avm_readdata[15] top.tb_avm_increase.i_avm_increase.m_avm_readdata[14] top.tb_avm_increase.i_avm_increase.m_avm_readdata[13] top.tb_avm_increase.i_avm_increase.m_avm_readdata[12] top.tb_avm_increase.i_avm_increase.m_avm_readdata[11] top.tb_avm_increase.i_avm_increase.m_avm_readdata[10] top.tb_avm_increase.i_avm_increase.m_avm_readdata[9] top.tb_avm_increase.i_avm_increase.m_avm_readdata[8] top.tb_avm_increase.i_avm_increase.m_avm_readdata[7] top.tb_avm_increase.i_avm_increase.m_avm_readdata[6] top.tb_avm_increase.i_avm_increase.m_avm_readdata[5] top.tb_avm_increase.i_avm_increase.m_avm_readdata[4] top.tb_avm_increase.i_avm_increase.m_avm_readdata[3] top.tb_avm_increase.i_avm_increase.m_avm_readdata[2] top.tb_avm_increase.i_avm_increase.m_avm_readdata[1] top.tb_avm_increase.i_avm_increase.m_avm_readdata[0]
+@420
+top.tb_avm_increase.i_avm_increase.state
+@1000200
+-avm_increase
+[pattern_trace] 1
+[pattern_trace] 0

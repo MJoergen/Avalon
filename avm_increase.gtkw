@@ -1,0 +1,51 @@
+[*]
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Mon Mar  6 19:12:24 2023
+[*]
+[dumpfile] "/home/mike/git/MJoergen/Avalon/avm_increase_bmc/engine_0/trace.vcd"
+[dumpfile_mtime] "Mon Mar  6 19:10:45 2023"
+[dumpfile_size] 6176
+[savefile] "/home/mike/git/MJoergen/Avalon/avm_increase.gtkw"
+[timestart] 0
+[size] 1566 856
+[pos] 2018 30
+*-3.624538 24 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] avm_increase.
+[sst_width] 373
+[signals_width] 365
+[sst_expanded] 1
+[sst_vpaned_height] 232
+@28
+avm_increase.clk_i
+avm_increase.rst_i
+@22
+avm_increase.i_avm_increase.f_m_rd_burstcount[31:0]
+avm_increase.i_avm_increase.f_s_rd_burstcount[31:0]
+@23
+avm_increase.i_avm_increase.f_s_wr_burstcount[31:0]
+@28
+avm_increase.s_avm_waitrequest_o
+avm_increase.s_avm_write_i
+avm_increase.s_avm_read_i
+@22
+avm_increase.s_avm_address_i[9:0]
+avm_increase.s_avm_burstcount_i[7:0]
+@28
+avm_increase.s_avm_readdatavalid_o
+avm_increase.m_avm_waitrequest_i
+avm_increase.m_avm_write_o
+avm_increase.m_avm_read_o
+@22
+avm_increase.m_avm_address_o[8:0]
+avm_increase.m_avm_burstcount_o[7:0]
+@28
+avm_increase.m_avm_readdatavalid_i
+avm_increase.m_avm_ready
+avm_increase.m_avm_readdatavalid
+@22
+avm_increase.s_burstcount[7:0]
+@28
+avm_increase.offset
+avm_increase.state[1:0]
+[pattern_trace] 1
+[pattern_trace] 0
