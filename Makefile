@@ -9,12 +9,14 @@ SRC += avm_decrease.vhd
 SRC += avm_memory.vhd
 SRC += avm_memory_pause.vhd
 SRC += avm_cache.vhd
+SRC += avm_pipe.vhd
 SRC += axi_avalon.vhd
 SRC += avalon_axi.vhd
 SRC += axi_fifo_small.vhd
 SRC += axi_shrinker.vhd
 SRC += axi_expander.vhd
 SRC += axi_gcr.vhd
+SRC += axi_skid_buffer.vhd
 
 
 #DUT ?= burst_ctrl
@@ -25,7 +27,8 @@ SRC += axi_gcr.vhd
 #DUT ?= avm_cache
 #DUT ?= avm_cache2
 #DUT ?= avm_master2
-DUT ?= axi_gcr
+DUT ?= avm_pipe
+#DUT ?= axi_gcr
 #DUT ?= axi_shrinker
 #DUT ?= axi_expander
 #DUT ?= axi_shrinker_expander
@@ -40,7 +43,7 @@ SAVE = $(TB).gtkw
 sim: $(SRC)
 	ghdl -i --std=08 --work=work $(SRC)
 	ghdl -m --std=08 -fexplicit $(TB)
-	ghdl -r --std=08 $(TB) $(GENERIC) --assert-level=error --wave=$(WAVE) --stop-time=1us
+	ghdl -r --std=08 $(TB) $(GENERIC) --assert-level=error --wave=$(WAVE) --stop-time=100us
 
 questa: $(SRC)
 	vcom -2008 $(SRC)

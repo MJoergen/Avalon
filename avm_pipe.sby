@@ -1,0 +1,22 @@
+[tasks]
+bmc
+cover
+
+[options]
+bmc: mode bmc
+bmc: depth 8
+cover: mode cover
+cover: depth 9
+
+[engines]
+smtbmc
+
+[script]
+ghdl --std=08 -gG_ADDRESS_SIZE=4 -gG_DATA_SIZE=16 avm_pipe.vhd avm_pipe.psl axi_skid_buffer.vhd -e avm_pipe
+prep -top avm_pipe
+
+[files]
+avm_pipe.psl
+avm_pipe.vhd
+axi_skid_buffer.vhd
+
