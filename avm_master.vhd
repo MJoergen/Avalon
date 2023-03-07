@@ -9,6 +9,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
+use ieee.numeric_std_unsigned.all;
 
 entity avm_master is
    generic (
@@ -62,6 +63,16 @@ architecture synthesis of avm_master is
 
    signal state  : state_t := INIT_ST;
    signal reset_verify : std_logic;
+   signal margin : integer;
+
+   pure function max(a : integer; b : integer) return integer is
+   begin
+      if a > b then
+         return a;
+      else
+         return b;
+      end if;
+   end function max;
 
    -- The pseudo-random data is generated using a 64-bit maximal-period Galois LFSR,
    -- see http://users.ece.cmu.edu/~koopman/lfsr/64.txt
@@ -83,6 +94,8 @@ begin
    new_burstcount <= std_logic_vector(unsigned(avm_burstcount_o) - 1) when unsigned(avm_burstcount_o) > 1 else
                      burstcount;
 
+   margin <= max(to_integer(write_burstcount_i), to_integer(read_burstcount_i));
+
    p_error : process (clk_i)
    begin
       if rising_edge(clk_i) then
@@ -99,7 +112,9 @@ begin
             data_exp_o  <= rd_data(G_DATA_SIZE-1 downto 0);
 
             if avm_readdata_i /= rd_data(G_DATA_SIZE-1 downto 0) then
-               report "ERROR: Expected " & to_hstring(rd_data(G_DATA_SIZE-1 downto 0)) & ", read " & to_hstring(avm_readdata_i)
+               report "ERROR: Address " & to_hstring(avm_address_o) &
+                  ". Expected " & to_hstring(rd_data(G_DATA_SIZE-1 downto 0)) &
+                  ", read " & to_hstring(avm_readdata_i)
                   severity warning;
                error_o <= '1';
             else
@@ -163,7 +178,7 @@ begin
 
                   wr_data <= lfsr(wr_data);
 
-                  if signed(avm_address_o) = -wordcount and unsigned(avm_burstcount_o) = 1 then
+                  if new_address + (to_integer(write_burstcount_i)-1) < avm_address_o and unsigned(avm_burstcount_o) = 1 then
                      wr_data       <= data_init;
                      avm_write_o   <= '0';
                      avm_address_o <= (others => '0');
@@ -187,7 +202,7 @@ begin
             when WAITING_ST =>
                if avm_readdatavalid_i = '1' then
 
-                  if signed(avm_address_o) = -wordcount then
+                  if std_logic_vector(unsigned(avm_address_o) + wordcount) + margin < avm_address_o then
                      wait_o <= '0';
                      state  <= INIT_ST;
                   else

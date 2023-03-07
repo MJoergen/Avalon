@@ -9,6 +9,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
+use ieee.numeric_std_unsigned.all;
 
 entity burst_ctrl is
    port (
@@ -27,7 +28,7 @@ end entity burst_ctrl;
 
 architecture synthesis of burst_ctrl is
 
-   constant C_MAX_BURST : std_logic_vector(7 downto 0) := X"08";
+   constant C_MAX_BURST : std_logic_vector(7 downto 0) := X"06";
 
    type state_t is (
       IDLE_ST,
@@ -58,11 +59,11 @@ begin
                   start_o <= '1';
 
                   if write_burstcount_o /= C_MAX_BURST then
-                     write_burstcount_o <= write_burstcount_o(6 downto 0) & "0";
+                     write_burstcount_o <= write_burstcount_o + 1;
                   else
                      write_burstcount_o <= X"01";
                      if read_burstcount_o /= C_MAX_BURST then
-                        read_burstcount_o <= read_burstcount_o(6 downto 0) & "0";
+                        read_burstcount_o <= read_burstcount_o + 1;
                      else
                         read_burstcount_o <= X"01";
                         start_o <= '0';
