@@ -81,8 +81,11 @@ begin
   begin
     if rising_edge(clk_i) then
       if m_avm_waitrequest_i = '0' then
-        m_avm_read_o  <= '0';
-        m_avm_write_o <= '0';
+        m_avm_read_o       <= '0';
+        m_avm_write_o      <= '0';
+        if m_avm_write_o = '1' then
+          m_avm_byteenable_o <= (others => '0');
+        end if;
       end if;
 
       case state is
@@ -107,6 +110,10 @@ begin
               s_burstcount  <= s_avm_burstcount_i - 1;
               offset        <= s_avm_address_i(C_ADDRESS_SHIFT - 1 downto 0) + 1;
               state         <= WRITING_ST;
+            end if;
+
+            if and(s_avm_address_i(C_ADDRESS_SHIFT - 1 downto 0)) then
+              m_avm_write_o <= '1';
             end if;
           end if;
 
@@ -137,7 +144,8 @@ begin
             end loop;
 
             if s_burstcount = 1 then
-              state <= IDLE_ST;
+              m_avm_write_o <= '1';
+              state         <= IDLE_ST;
             end if;
           end if;
 
@@ -178,7 +186,7 @@ begin
                            '1' when state = RESPONSE_ST else
                            '0';
 
-  m_avm_ready           <= '1' when offset = C_RATIO - 1 else
+  m_avm_ready           <= '1' when offset = C_RATIO - 1 or state = IDLE_ST else
                            '0';
 
   axi_fifo_small_inst : entity work.axi_fifo_small
