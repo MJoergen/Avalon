@@ -48,7 +48,7 @@ begin
    avm_waitrequest_o <= '0' when unsigned(read_burstcount) = 0 else '1';
 
    p_mem : process (clk_i)
-      variable mem : mem_t;
+      variable mem : mem_t := (others => (others => '0'));
    begin
       if rising_edge(clk_i) then
          avm_readdatavalid_o <= '0';

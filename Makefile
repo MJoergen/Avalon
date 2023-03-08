@@ -1,7 +1,9 @@
 SRC += burst_ctrl.vhd
 SRC += lfsr.vhd
+SRC += random.vhd
 SRC += avm_master.vhd
 SRC += avm_master2.vhd
+SRC += avm_master3.vhd
 SRC += avm_pause.vhd
 SRC += avm_master_general.vhd
 SRC += avm_arbit.vhd
@@ -20,9 +22,10 @@ SRC += axi_gcr.vhd
 SRC += axi_skid_buffer.vhd
 
 
+DUT ?= avm_master3
 #DUT ?= burst_ctrl
 #DUT ?= avm_decrease
-DUT ?= avm_increase
+#DUT ?= avm_increase
 #DUT ?= avalon_axi
 #DUT ?= avm_arbit
 #DUT ?= avm_pause
