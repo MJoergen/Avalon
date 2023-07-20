@@ -1,0 +1,50 @@
+[*]
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Wed Jul 19 07:58:29 2023
+[*]
+[dumpfile] "/home/mfj/git/rast2/txpc/axi_merger_bmc/engine_0/trace.vcd"
+[dumpfile_mtime] "Wed Jul 19 07:57:59 2023"
+[dumpfile_size] 2361
+[savefile] "/home/mfj/git/rast2/txpc/axi_merger.gtkw"
+[timestart] 0
+[size] 1920 1127
+[pos] -1 -1
+*-2.882696 13 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] axi_merger.
+[sst_width] 210
+[signals_width] 273
+[sst_expanded] 1
+[sst_vpaned_height] 326
+@28
+axi_merger.clk_i
+axi_merger.rst_i
+[color] 7
+axi_merger.s1_ready_o
+[color] 2
+axi_merger.s1_valid_i
+@22
+axi_merger.s1_data_i[7:0]
+@28
+[color] 7
+axi_merger.s2_ready_o
+[color] 2
+axi_merger.s2_valid_i
+@22
+axi_merger.s2_data_i[7:0]
+@28
+[color] 7
+axi_merger.m_ready_i
+[color] 2
+axi_merger.m_valid_o
+@22
+axi_merger.m_data_o[7:0]
+@28
+axi_merger.i_axi_merger.f_sampled_in_da
+axi_merger.i_axi_merger.f_sampled_in_db
+axi_merger.i_axi_merger.f_sampled_out_da
+axi_merger.i_axi_merger.f_sampled_out_db
+@22
+axi_merger.i_axi_merger.f_value_da[7:0]
+axi_merger.i_axi_merger.f_value_db[7:0]
+[pattern_trace] 1
+[pattern_trace] 0

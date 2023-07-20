@@ -1,0 +1,97 @@
+vunit i_axi_merger(axi_merger(rtl))
+{
+   -- set all declarations to run on clk_i
+   default clock is rising_edge(clk_i);
+
+   signal f_sampled_in_da  : std_logic := '0';
+   signal f_sampled_in_db  : std_logic := '0';
+   signal f_sampled_out_da : std_logic := '0';
+   signal f_sampled_out_db : std_logic := '0';
+
+   -- Two random values to be pushed into the FIFO
+   signal f_value_da : std_logic_vector(G_DATA_SIZE - 1 downto 0);
+   signal f_value_db : std_logic_vector(G_DATA_SIZE - 1 downto 0);
+   attribute anyconst : boolean;
+   attribute anyconst of f_value_da : signal is true;
+   attribute anyconst of f_value_db : signal is true;
+
+   p_sampled : process (clk_i)
+   begin
+      if rising_edge(clk_i) then
+         if s1_valid_i and s1_ready_o then
+            if s1_data_i = f_value_da then
+               f_sampled_in_da <= '1';
+            end if;
+            if s1_data_i = f_value_db then
+               f_sampled_in_db <= '1';
+            end if;
+         end if;
+
+         if s2_valid_i and s2_ready_o then
+            if s2_data_i = f_value_da then
+               f_sampled_in_da <= '1';
+            end if;
+            if s2_data_i = f_value_db then
+               f_sampled_in_db <= '1';
+            end if;
+         end if;
+
+         if m_valid_o and m_ready_i then
+            if m_data_o = f_value_da then
+               f_sampled_out_da <= '1';
+            end if;
+            if m_data_o = f_value_db then
+               f_sampled_out_db <= '1';
+            end if;
+         end if;
+
+         if rst_i = '1' then
+            f_sampled_in_da  <= '0';
+            f_sampled_in_db  <= '0';
+            f_sampled_out_da <= '0';
+            f_sampled_out_db <= '0';
+         end if;
+      end if;
+   end process p_sampled;
+
+
+   -----------------------------
+   -- ASSERTIONS ABOUT OUTPUTS
+   -----------------------------
+
+   -- Master must be empty after reset
+   f_master_after_reset_empty : assert always {rst_i} |=> not (m_valid_o);
+
+   -- Master valid and data must be stable until accepted
+   f_master_stable : assert always {m_valid_o and not m_ready_i and not rst_i} |=>
+      {stable(m_valid_o) and stable(m_data_o)};
+
+   -- Verify the FIFO preserves ordering.
+   f_fifo_ordering_out_1 : assert always {f_sampled_out_db} |-> {f_sampled_out_da};
+
+
+   -----------------------------
+   -- ASSUMPTIONS ABOUT INPUTS
+   -----------------------------
+
+   -- Require reset at startup.
+   f_reset : assume {rst_i};
+
+   -- Slave1 must be stable until accepted
+   f_slave_stable1 : assume always {s1_valid_i and not s1_ready_o and not rst_i} |=>
+      {stable(s1_valid_i) and stable(s1_data_i)};
+
+   -- Slave2 must be stable until accepted
+   f_slave_stable2 : assume always {s2_valid_i and not s2_ready_o and not rst_i} |=>
+      {stable(s2_valid_i) and stable(s2_data_i)};
+
+   -- Assume input ordering is preserved
+   f_fifo_ordering_in : assume always {f_sampled_in_db} |-> {f_sampled_in_da};
+
+
+   --------------------------------------------
+   -- COVER STATEMENTS TO VERIFY REACHABILITY
+   --------------------------------------------
+
+} -- vunit i_axi_merger(axi_merger(rtl))
+

@@ -20,9 +20,10 @@ SRC += axi_shrinker.vhd
 SRC += axi_expander.vhd
 SRC += axi_gcr.vhd
 SRC += axi_skid_buffer.vhd
+SRC += axi_merger.vhd
 
 
-DUT ?= avm_master3
+#DUT ?= avm_master3
 #DUT ?= burst_ctrl
 #DUT ?= avm_decrease
 #DUT ?= avm_increase
@@ -37,6 +38,7 @@ DUT ?= avm_master3
 #DUT ?= axi_shrinker
 #DUT ?= axi_expander
 #DUT ?= axi_shrinker_expander
+DUT ?= axi_merger
 #GENERIC ?= -gG_CACHE_SIZE=4 -gG_REQ_PAUSE=2 -gG_RESP_PAUSE=2
 
 
@@ -72,4 +74,6 @@ clean:
 	rm -rf work-obj08.cf
 	rm -rf $(TB)
 	rm -rf $(WAVE)
+	rm -rf $(DUT)_bmc
+	rm -rf $(DUT)_cover
 

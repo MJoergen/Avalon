@@ -1,0 +1,21 @@
+[tasks]
+bmc
+cover
+
+[options]
+bmc: mode bmc
+bmc: depth 8
+cover: mode cover
+cover: depth 9
+
+[engines]
+smtbmc
+
+[script]
+ghdl --std=08 -gG_DATA_SIZE=8 axi_merger.vhd axi_merger.psl -e axi_merger
+prep -top axi_merger
+
+[files]
+axi_merger.psl
+axi_merger.vhd
+
