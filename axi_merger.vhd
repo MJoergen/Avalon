@@ -1,19 +1,8 @@
 -- ----------------------------------------------------------------------------
--- Title      : Tx PREAmp Controller FPGA top module
--- Project    : RAST-2100
--- ----------------------------------------------------------------------------
--- File       : axi_merger.vhd
--- Author     : Michael Jørgensen
--- Company    : Weibel Scientific
--- Created    : 2023-07-14
--- Platform   : Xilinx Spartan-7
--- ----------------------------------------------------------------------------
 -- Description: Merge two generic AXI streams together.
 -- Stream 1 has the highest priority.
 -- This merger is not stateful; instead it has a combinatorial path from
 -- s1_valid_i to s2_ready_o.
--- ----------------------------------------------------------------------------
--- Copyright (c) 2023
 -- ----------------------------------------------------------------------------
 
 library ieee;
