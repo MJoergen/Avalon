@@ -28,7 +28,7 @@ SRC += axi_merger.vhd
 #DUT ?= avm_decrease
 #DUT ?= avm_increase
 #DUT ?= avalon_axi
-#DUT ?= avm_arbit
+DUT ?= avm_arbit
 #DUT ?= avm_pause
 #DUT ?= avm_cache
 #DUT ?= avm_cache2
@@ -38,8 +38,9 @@ SRC += axi_merger.vhd
 #DUT ?= axi_shrinker
 #DUT ?= axi_expander
 #DUT ?= axi_shrinker_expander
-DUT ?= axi_merger
+#DUT ?= axi_merger
 #GENERIC ?= -gG_CACHE_SIZE=4 -gG_REQ_PAUSE=2 -gG_RESP_PAUSE=2
+GENERIC ?= -gG_PREFER_SWAP=false
 
 
 TB = tb_$(DUT)
@@ -50,7 +51,7 @@ SAVE = $(TB).gtkw
 sim: $(SRC)
 	ghdl -i --std=08 --work=work $(SRC)
 	ghdl -m --std=08 -fexplicit $(TB)
-	ghdl -r --std=08 $(TB) $(GENERIC) --assert-level=error --wave=$(WAVE) --stop-time=100us
+	ghdl -r --std=08 $(TB) $(GENERIC) --assert-level=error --wave=$(WAVE) --stop-time=200us
 
 questa: $(SRC)
 	vcom -2008 $(SRC)

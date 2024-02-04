@@ -4,10 +4,11 @@ use ieee.numeric_std.all;
 
 entity tb_avm_arbit is
    generic (
-      G_M0_START   : integer := 11;
-      G_M1_START   : integer := 10;
-      G_REQ_PAUSE  : integer := 0;
-      G_RESP_PAUSE : integer := 0
+      G_PREFER_SWAP : boolean;
+      G_M0_START    : integer := 11;
+      G_M1_START    : integer := 10;
+      G_REQ_PAUSE   : integer := 0;
+      G_RESP_PAUSE  : integer := 0
    );
 end entity tb_avm_arbit;
 
@@ -192,6 +193,7 @@ begin
 
    i_avm_arbit : entity work.avm_arbit
       generic map (
+         G_PREFER_SWAP  => G_PREFER_SWAP,
          G_ADDRESS_SIZE => C_ADDRESS_SIZE + 1,
          G_DATA_SIZE    => C_DATA_SIZE
       )
