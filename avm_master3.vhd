@@ -30,20 +30,13 @@ entity avm_master3 is
       m_avm_byteenable_o    : out   std_logic_vector(G_DATA_SIZE / 8 - 1 downto 0);
       m_avm_burstcount_o    : out   std_logic_vector(7 downto 0);
       m_avm_readdata_i      : in    std_logic_vector(G_DATA_SIZE - 1 downto 0);
-      m_avm_readdatavalid_i : in    std_logic;
-
-      -- Debug output
-      count_error_o         : out   std_logic_vector(31 downto 0);
-      address_o             : out   std_logic_vector(G_ADDRESS_SIZE - 1 downto 0);
-      data_exp_o            : out   std_logic_vector(G_DATA_SIZE - 1 downto 0);
-      data_read_o           : out   std_logic_vector(G_DATA_SIZE - 1 downto 0)
+      m_avm_readdatavalid_i : in    std_logic
    );
 end entity avm_master3;
 
 architecture synthesis of avm_master3 is
 
    constant C_WRITE_SIZE : integer                                        := 1;
-   constant C_ALL_ONES   : std_logic_vector(G_DATA_SIZE / 8 - 1 downto 0) := (others => '1');
 
    -- Combinatorial signals
    signal   rand_update_s : std_logic;
@@ -63,7 +56,6 @@ architecture synthesis of avm_master3 is
 
    signal   state    : state_type                                         := IDLE_ST;
    signal   count    : std_logic_vector(G_ADDRESS_SIZE + 2 downto 0);
-   signal   mem_data : std_logic_vector(G_DATA_SIZE - 1 downto 0);
 
 begin
 
@@ -155,52 +147,6 @@ begin
          end if;
       end if;
    end process master_proc;
-
-   mem_proc : process (clk_i)
-      -- This defines a type containing an array of bytes
-      type     mem_type is array (0 to 2 ** G_ADDRESS_SIZE - 1) of std_logic_vector(G_DATA_SIZE - 1 downto 0);
-      variable mem_v : mem_type := (others => (others => '0'));
-   begin
-      if rising_edge(clk_i) then
-         if m_avm_write_o = '1' and m_avm_waitrequest_i = '0' then
-
-            for b in 0 to G_DATA_SIZE / 8 - 1 loop
-               if m_avm_byteenable_o(b) = '1' then
-                  mem_v(to_integer(m_avm_address_o))(8 * b + 7 downto 8 * b) := m_avm_writedata_o(8 * b + 7 downto 8 * b);
-               end if;
-            end loop;
-
-         end if;
-
-         if m_avm_read_o = '1' and m_avm_waitrequest_i = '0' then
-            mem_data <= mem_v(to_integer(m_avm_address_o));
-         end if;
-      end if;
-   end process mem_proc;
-
-   verifier_proc : process (clk_i)
-   begin
-      if rising_edge(clk_i) then
-         if m_avm_readdatavalid_i = '1' then
-            if m_avm_readdata_i /= mem_data then
-               if count_error_o = 0 then
-                  address_o   <= m_avm_address_o;
-                  data_exp_o  <= mem_data;
-                  data_read_o <= m_avm_readdata_i;
-               end if;
-               assert false
-                  report "ERROR at Address " & to_hstring(m_avm_address_o) &
-                         ". Expected " & to_hstring(mem_data) &
-                         ", read " & to_hstring(m_avm_readdata_i)
-                  severity failure;
-               count_error_o <= count_error_o + 1;
-            end if;
-         end if;
-         if rst_i = '1' then
-            count_error_o <= (others => '0');
-         end if;
-      end if;
-   end process verifier_proc;
 
 end architecture synthesis;
 

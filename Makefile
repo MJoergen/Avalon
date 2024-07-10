@@ -1,34 +1,35 @@
+SRC += avalon_axi.vhd
+SRC += avm_arbit.vhd
+SRC += avm_cache.vhd
+SRC += avm_decrease.vhd
+SRC += avm_increase.vhd
+SRC += avm_master2.vhd
+SRC += avm_master3.vhd
+SRC += avm_master_general.vhd
+SRC += avm_master.vhd
+SRC += avm_memory_pause.vhd
+SRC += avm_memory.vhd
+SRC += avm_pause.vhd
+SRC += avm_pipe.vhd
+SRC += avm_verifier.vhd
+SRC += axi_avalon.vhd
+SRC += axi_expander.vhd
+SRC += axi_fifo_small.vhd
+SRC += axi_gcr.vhd
+SRC += axi_merger.vhd
+SRC += axi_shrinker.vhd
+SRC += axi_skid_buffer.vhd
 SRC += burst_ctrl.vhd
 SRC += lfsr.vhd
 SRC += random.vhd
-SRC += avm_master.vhd
-SRC += avm_master2.vhd
-SRC += avm_master3.vhd
-SRC += avm_pause.vhd
-SRC += avm_master_general.vhd
-SRC += avm_arbit.vhd
-SRC += avm_decrease.vhd
-SRC += avm_increase.vhd
-SRC += avm_memory.vhd
-SRC += avm_memory_pause.vhd
-SRC += avm_cache.vhd
-SRC += avm_pipe.vhd
-SRC += axi_avalon.vhd
-SRC += avalon_axi.vhd
-SRC += axi_fifo_small.vhd
-SRC += axi_shrinker.vhd
-SRC += axi_expander.vhd
-SRC += axi_gcr.vhd
-SRC += axi_skid_buffer.vhd
-SRC += axi_merger.vhd
 
 
-#DUT ?= avm_master3
+DUT ?= avm_master3
 #DUT ?= burst_ctrl
 #DUT ?= avm_decrease
 #DUT ?= avm_increase
 #DUT ?= avalon_axi
-DUT ?= avm_arbit
+#DUT ?= avm_arbit
 #DUT ?= avm_pause
 #DUT ?= avm_cache
 #DUT ?= avm_cache2
@@ -40,7 +41,7 @@ DUT ?= avm_arbit
 #DUT ?= axi_shrinker_expander
 #DUT ?= axi_merger
 #GENERIC ?= -gG_CACHE_SIZE=4 -gG_REQ_PAUSE=2 -gG_RESP_PAUSE=2
-GENERIC ?= -gG_PREFER_SWAP=false
+#GENERIC ?= -gG_PREFER_SWAP=false
 
 
 TB = tb_$(DUT)

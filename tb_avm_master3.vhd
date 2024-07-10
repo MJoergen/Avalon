@@ -80,6 +80,7 @@ begin
          rst_i                 => rst,
          start_i               => avm_start,
          wait_o                => avm_wait,
+         m_avm_waitrequest_i   => avm_waitrequest,
          m_avm_write_o         => avm_write,
          m_avm_read_o          => avm_read,
          m_avm_address_o       => avm_address,
@@ -87,10 +88,27 @@ begin
          m_avm_byteenable_o    => avm_byteenable,
          m_avm_burstcount_o    => avm_burstcount,
          m_avm_readdata_i      => avm_readdata,
-         m_avm_readdatavalid_i => avm_readdatavalid,
-         m_avm_waitrequest_i   => avm_waitrequest
+         m_avm_readdatavalid_i => avm_readdatavalid
       ); -- avm_master3_inst
 
+   avm_verifier_inst : entity work.avm_verifier
+      generic map (
+         G_ADDRESS_SIZE => C_ADDRESS_SIZE,
+         G_DATA_SIZE    => C_DATA_SIZE
+      )
+      port map (
+         clk_i               => clk,
+         rst_i               => rst,
+         avm_waitrequest_i   => avm_waitrequest,
+         avm_write_i         => avm_write,
+         avm_read_i          => avm_read,
+         avm_address_i       => avm_address,
+         avm_writedata_i     => avm_writedata,
+         avm_byteenable_i    => avm_byteenable,
+         avm_burstcount_i    => avm_burstcount,
+         avm_readdata_i      => avm_readdata,
+         avm_readdatavalid_i => avm_readdatavalid
+      ); -- avm_verifier_inst
 
    ---------------------------------------------------------
    -- Instantiate Slave
