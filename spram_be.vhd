@@ -12,10 +12,10 @@ entity spram_be is
    );
    port (
       clk_i     : in    std_logic;
-      en_i      : in    std_logic;
       addr_i    : in    std_logic_vector(G_ADDRESS_SIZE - 1 downto 0);
       wr_en_i   : in    std_logic_vector(G_DATA_SIZE / 8 - 1 downto 0);
       wr_data_i : in    std_logic_vector(G_DATA_SIZE - 1 downto 0);
+      rd_en_i   : in    std_logic;
       rd_data_o : out   std_logic_vector(G_DATA_SIZE - 1 downto 0)
    );
 end entity spram_be;
@@ -40,14 +40,14 @@ begin
    ram_proc : process (clk_i)
    begin
       if rising_edge(clk_i) then
-         if en_i = '1' then
 
-            for i in 0 to G_DATA_SIZE / 8 - 1 loop
-               if wr_en_i(i) = '1' then
-                  ram(to_integer(addr_i))(8 * i + 7 downto 8 * i) <= wr_data_i(8 * i + 7 downto 8 * i);
-               end if;
-            end loop;
+         for i in 0 to G_DATA_SIZE / 8 - 1 loop
+            if wr_en_i(i) = '1' then
+               ram(to_integer(addr_i))(8 * i + 7 downto 8 * i) <= wr_data_i(8 * i + 7 downto 8 * i);
+            end if;
+         end loop;
 
+         if rd_en_i = '1' then
             rd_data_o <= ram(to_integer(addr_i));
          end if;
       end if;
