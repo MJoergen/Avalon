@@ -29,31 +29,28 @@ end entity avm_verifier;
 
 architecture synthesis of avm_verifier is
 
+   signal wr_en    : std_logic_vector(G_DATA_SIZE / 8 - 1 downto 0);
    signal mem_data : std_logic_vector(G_DATA_SIZE - 1 downto 0);
 
 begin
 
-   mem_proc : process (clk_i)
-      -- This defines a type containing an array of bytes
-      type     mem_type is array (0 to 2 ** G_ADDRESS_SIZE - 1) of std_logic_vector(G_DATA_SIZE - 1 downto 0);
-      variable mem_v : mem_type := (others => (others => '0'));
-   begin
-      if rising_edge(clk_i) then
-         if avm_write_i = '1' and avm_waitrequest_i = '0' then
+   wr_en <= avm_byteenable_i when avm_write_i = '1' and avm_waitrequest_i = '0' else
+            (others => '0');
 
-            for b in 0 to G_DATA_SIZE / 8 - 1 loop
-               if avm_byteenable_i(b) = '1' then
-                  mem_v(to_integer(avm_address_i))(8 * b + 7 downto 8 * b) := avm_writedata_i(8 * b + 7 downto 8 * b);
-               end if;
-            end loop;
-
-         end if;
-
-         if avm_read_i = '1' and avm_waitrequest_i = '0' then
-            mem_data <= mem_v(to_integer(avm_address_i));
-         end if;
-      end if;
-   end process mem_proc;
+   spram_be_inst : entity work.spram_be
+      generic map (
+         G_INIT_ZEROS   => true,
+         G_ADDRESS_SIZE => G_ADDRESS_SIZE,
+         G_DATA_SIZE    => G_DATA_SIZE
+      )
+      port map (
+         clk_i     => clk_i,
+         en_i      => '1',
+         addr_i    => avm_address_i,
+         wr_en_i   => wr_en,
+         wr_data_i => avm_writedata_i,
+         rd_data_o => mem_data
+      ); -- spram_be_inst
 
    verifier_proc : process (clk_i)
    begin

@@ -22,6 +22,7 @@ SRC += axi_skid_buffer.vhd
 SRC += burst_ctrl.vhd
 SRC += lfsr.vhd
 SRC += random.vhd
+SRC += spram_be.vhd
 
 
 DUT ?= avm_master3
