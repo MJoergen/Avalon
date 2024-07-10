@@ -1,10 +1,10 @@
 [*]
 [*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
-[*] Wed Jul 10 10:59:51 2024
+[*] Wed Jul 10 11:07:44 2024
 [*]
 [dumpfile] "/home/mike/git/MJoergen/Avalon/tb_avm_master3.ghw"
-[dumpfile_mtime] "Wed Jul 10 10:59:47 2024"
-[dumpfile_size] 224251
+[dumpfile_mtime] "Wed Jul 10 11:06:54 2024"
+[dumpfile_size] 219862
 [savefile] "/home/mike/git/MJoergen/Avalon/tb_avm_master3.gtkw"
 [timestart] 0
 [size] 1920 1052

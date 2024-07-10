@@ -94,9 +94,10 @@ begin
 
             when IDLE_ST =>
                if start_i = '1' then
-                  wait_o <= '1';
-                  state  <= WORKING_ST;
                   report "Starting";
+                  wait_o <= '1';
+                  count  <= (others => '0');
+                  state  <= WORKING_ST;
                end if;
 
             when WORKING_ST | READING_ST =>
@@ -131,7 +132,10 @@ begin
                end if;
 
             when DONE_ST =>
-               wait_o <= '0';
+               if start_i = '0' and m_avm_waitrequest_i = '0' then
+                  wait_o <= '0';
+                  state  <= IDLE_ST;
+               end if;
 
             when others =>
                null;

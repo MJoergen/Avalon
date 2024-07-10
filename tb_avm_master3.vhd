@@ -42,6 +42,7 @@ begin
    begin
       avm_start <= '0';
       wait until rst = '0';
+
       avm_start <= '1';
       wait until clk = '1';
       avm_start <= '0';
@@ -50,6 +51,16 @@ begin
       wait until clk = '1';
       wait until clk = '1';
       wait until clk = '1';
+
+      avm_start <= '1';
+      wait until clk = '1';
+      avm_start <= '0';
+      wait until clk = '1';
+      wait until avm_wait = '0';
+      wait until clk = '1';
+      wait until clk = '1';
+      wait until clk = '1';
+
       running   <= '0';
       wait;
    end process avm_start_proc;
