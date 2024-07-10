@@ -40,7 +40,6 @@ architecture synthesis of avm_master3 is
    constant C_WRITE_SIZE : integer := 1;
 
    -- Combinatorial signals
-   signal   rand_update_s : std_logic;
    signal   random_s      : std_logic_vector(63 downto 0);
 
    subtype  R_ADDRESS    is natural range G_ADDRESS_SIZE - 1 downto 0;
@@ -64,7 +63,7 @@ begin
       port map (
          clk_i    => clk_i,
          rst_i    => rst_i,
-         update_i => rand_update_s,
+         update_i => '1',
          output_o => random_s
       ); -- random_inst
 
@@ -72,8 +71,6 @@ begin
    data_s        <= random_s(R_DATA);
    byteenable_s  <= random_s(R_BYTEENABLE);
    write_s       <= random_s(R_WRITE);
-
-   rand_update_s <= (m_avm_write_o or m_avm_read_o) and not m_avm_waitrequest_i;
 
    master_proc : process (clk_i)
    begin

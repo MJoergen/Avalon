@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
-[*] Wed Jul 10 11:51:30 2024
+[*] Wed Jul 10 12:11:14 2024
 [*]
 [dumpfile] "/home/mike/git/MJoergen/Avalon/tb_avm_master3.ghw"
-[dumpfile_mtime] "Wed Jul 10 11:50:58 2024"
-[dumpfile_size] 528256
+[dumpfile_mtime] "Wed Jul 10 12:10:57 2024"
+[dumpfile_size] 864297
 [savefile] "/home/mike/git/MJoergen/Avalon/tb_avm_master3.gtkw"
 [timestart] 0
 [size] 1920 1052
 [pos] -1 -1
-*-31.324644 132600000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-31.533159 132600000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] top.
 [treeopen] top.tb_avm_master3.
 [treeopen] top.tb_avm_master3.avm_verifier_inst.
@@ -40,8 +40,6 @@ top.tb_avm_master3.avm_master3_inst.m_avm_read_o
 top.tb_avm_master3.avm_master3_inst.m_avm_readdatavalid_i
 @22
 #{top.tb_avm_master3.avm_master3_inst.random_s[63:0]} top.tb_avm_master3.avm_master3_inst.random_s[63] top.tb_avm_master3.avm_master3_inst.random_s[62] top.tb_avm_master3.avm_master3_inst.random_s[61] top.tb_avm_master3.avm_master3_inst.random_s[60] top.tb_avm_master3.avm_master3_inst.random_s[59] top.tb_avm_master3.avm_master3_inst.random_s[58] top.tb_avm_master3.avm_master3_inst.random_s[57] top.tb_avm_master3.avm_master3_inst.random_s[56] top.tb_avm_master3.avm_master3_inst.random_s[55] top.tb_avm_master3.avm_master3_inst.random_s[54] top.tb_avm_master3.avm_master3_inst.random_s[53] top.tb_avm_master3.avm_master3_inst.random_s[52] top.tb_avm_master3.avm_master3_inst.random_s[51] top.tb_avm_master3.avm_master3_inst.random_s[50] top.tb_avm_master3.avm_master3_inst.random_s[49] top.tb_avm_master3.avm_master3_inst.random_s[48] top.tb_avm_master3.avm_master3_inst.random_s[47] top.tb_avm_master3.avm_master3_inst.random_s[46] top.tb_avm_master3.avm_master3_inst.random_s[45] top.tb_avm_master3.avm_master3_inst.random_s[44] top.tb_avm_master3.avm_master3_inst.random_s[43] top.tb_avm_master3.avm_master3_inst.random_s[42] top.tb_avm_master3.avm_master3_inst.random_s[41] top.tb_avm_master3.avm_master3_inst.random_s[40] top.tb_avm_master3.avm_master3_inst.random_s[39] top.tb_avm_master3.avm_master3_inst.random_s[38] top.tb_avm_master3.avm_master3_inst.random_s[37] top.tb_avm_master3.avm_master3_inst.random_s[36] top.tb_avm_master3.avm_master3_inst.random_s[35] top.tb_avm_master3.avm_master3_inst.random_s[34] top.tb_avm_master3.avm_master3_inst.random_s[33] top.tb_avm_master3.avm_master3_inst.random_s[32] top.tb_avm_master3.avm_master3_inst.random_s[31] top.tb_avm_master3.avm_master3_inst.random_s[30] top.tb_avm_master3.avm_master3_inst.random_s[29] top.tb_avm_master3.avm_master3_inst.random_s[28] top.tb_avm_master3.avm_master3_inst.random_s[27] top.tb_avm_master3.avm_master3_inst.random_s[26] top.tb_avm_master3.avm_master3_inst.random_s[25] top.tb_avm_master3.avm_master3_inst.random_s[24] top.tb_avm_master3.avm_master3_inst.random_s[23] top.tb_avm_master3.avm_master3_inst.random_s[22] top.tb_avm_master3.avm_master3_inst.random_s[21] top.tb_avm_master3.avm_master3_inst.random_s[20] top.tb_avm_master3.avm_master3_inst.random_s[19] top.tb_avm_master3.avm_master3_inst.random_s[18] top.tb_avm_master3.avm_master3_inst.random_s[17] top.tb_avm_master3.avm_master3_inst.random_s[16] top.tb_avm_master3.avm_master3_inst.random_s[15] top.tb_avm_master3.avm_master3_inst.random_s[14] top.tb_avm_master3.avm_master3_inst.random_s[13] top.tb_avm_master3.avm_master3_inst.random_s[12] top.tb_avm_master3.avm_master3_inst.random_s[11] top.tb_avm_master3.avm_master3_inst.random_s[10] top.tb_avm_master3.avm_master3_inst.random_s[9] top.tb_avm_master3.avm_master3_inst.random_s[8] top.tb_avm_master3.avm_master3_inst.random_s[7] top.tb_avm_master3.avm_master3_inst.random_s[6] top.tb_avm_master3.avm_master3_inst.random_s[5] top.tb_avm_master3.avm_master3_inst.random_s[4] top.tb_avm_master3.avm_master3_inst.random_s[3] top.tb_avm_master3.avm_master3_inst.random_s[2] top.tb_avm_master3.avm_master3_inst.random_s[1] top.tb_avm_master3.avm_master3_inst.random_s[0]
-@28
-top.tb_avm_master3.avm_master3_inst.rand_update_s
 @420
 top.tb_avm_master3.avm_master3_inst.state
 @22
