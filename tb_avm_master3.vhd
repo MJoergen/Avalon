@@ -7,16 +7,15 @@ end entity tb_avm_master3;
 
 architecture simulation of tb_avm_master3 is
 
-   constant C_DATA_SIZE    : integer    := 32;
-   constant C_ADDRESS_SIZE : integer    := 5;
+   constant C_DATA_SIZE    : integer := 32;
+   constant C_ADDRESS_SIZE : integer := 5;
 
-   signal   clk       : std_logic;
-   signal   rst       : std_logic;
-   signal   stop_test : std_logic       := '0';
+   signal   clk     : std_logic      := '1';
+   signal   rst     : std_logic      := '1';
+   signal   running : std_logic      := '1';
 
-   signal   avm_has_started : std_logic := '0';
-   signal   avm_start       : std_logic;
-   signal   avm_wait        : std_logic;
+   signal   avm_start : std_logic;
+   signal   avm_wait  : std_logic;
 
    signal   avm_write         : std_logic;
    signal   avm_read          : std_logic;
@@ -28,7 +27,7 @@ architecture simulation of tb_avm_master3 is
    signal   avm_readdatavalid : std_logic;
    signal   avm_waitrequest   : std_logic;
 
-   constant C_CLK_PERIOD : time         := 10 ns;
+   constant C_CLK_PERIOD : time      := 10 ns;
 
 begin
 
@@ -36,53 +35,24 @@ begin
    -- Controller clock and reset
    ---------------------------------------------------------
 
-   clk_proc : process
-   begin
-      clk <= '1';
-      wait for C_CLK_PERIOD / 2;
-      clk <= '0';
-      wait for C_CLK_PERIOD / 2;
-      if stop_test = '1' then
-         wait;
-      end if;
-   end process clk_proc;
+   clk <= running and not clk after C_CLK_PERIOD / 2;
+   rst <= '1', '0' after 10 * C_CLK_PERIOD;
 
-   rst_proc : process
-   begin
-      rst <= '1';
-      wait for 10 * C_CLK_PERIOD;
-      wait until clk = '1';
-      rst <= '0';
-      wait;
-   end process rst_proc;
-
-   s_avm_start_proc : process
+   avm_start_proc : process
    begin
       avm_start <= '0';
       wait until rst = '0';
       avm_start <= '1';
       wait until clk = '1';
       avm_start <= '0';
-      wait;
-   end process s_avm_start_proc;
-
-   has_started_proc : process (clk)
-   begin
-      if rising_edge(clk) then
-         if avm_start = '1' then
-            avm_has_started <= '1';
-         end if;
-      end if;
-   end process has_started_proc;
-
-   stop_test_proc : process
-   begin
-      wait until avm_has_started = '1';
+      wait until clk = '1';
       wait until avm_wait = '0';
       wait until clk = '1';
-      stop_test <= '1';
+      wait until clk = '1';
+      wait until clk = '1';
+      running   <= '0';
       wait;
-   end process stop_test_proc;
+   end process avm_start_proc;
 
 
    ---------------------------------------------------------
@@ -117,8 +87,8 @@ begin
 
    avm_memory_pause_inst : entity work.avm_memory_pause
       generic map (
-         G_REQ_PAUSE    => 0,
-         G_RESP_PAUSE   => 0,
+         G_REQ_PAUSE    => 3,
+         G_RESP_PAUSE   => 4,
          G_ADDRESS_SIZE => C_ADDRESS_SIZE,
          G_DATA_SIZE    => C_DATA_SIZE
       )

@@ -9,7 +9,6 @@
 
 library ieee;
    use ieee.std_logic_1164.all;
-   use ieee.numeric_std.all;
    use ieee.numeric_std_unsigned.all;
 
 entity avm_master3 is
@@ -22,8 +21,8 @@ entity avm_master3 is
       rst_i                 : in    std_logic;
       start_i               : in    std_logic;
       wait_o                : out   std_logic;
-      error_o               : out   std_logic;
 
+      m_avm_waitrequest_i   : in    std_logic;
       m_avm_write_o         : out   std_logic;
       m_avm_read_o          : out   std_logic;
       m_avm_address_o       : out   std_logic_vector(G_ADDRESS_SIZE - 1 downto 0);
@@ -32,8 +31,9 @@ entity avm_master3 is
       m_avm_burstcount_o    : out   std_logic_vector(7 downto 0);
       m_avm_readdata_i      : in    std_logic_vector(G_DATA_SIZE - 1 downto 0);
       m_avm_readdatavalid_i : in    std_logic;
-      m_avm_waitrequest_i   : in    std_logic;
+
       -- Debug output
+      count_error_o         : out   std_logic_vector(31 downto 0);
       address_o             : out   std_logic_vector(G_ADDRESS_SIZE - 1 downto 0);
       data_exp_o            : out   std_logic_vector(G_DATA_SIZE - 1 downto 0);
       data_read_o           : out   std_logic_vector(G_DATA_SIZE - 1 downto 0)
@@ -178,11 +178,22 @@ begin
    begin
       if rising_edge(clk_i) then
          if m_avm_readdatavalid_i = '1' then
-            assert m_avm_readdata_i = mem_data
-               report "ERROR at Address " & to_hstring(m_avm_address_o) &
-                      ". Expected " & to_hstring(mem_data) &
-                      ", read " & to_hstring(m_avm_readdata_i)
-               severity failure;
+            if m_avm_readdata_i /= mem_data then
+               if count_error_o = 0 then
+                  address_o   <= m_avm_address_o;
+                  data_exp_o  <= mem_data;
+                  data_read_o <= m_avm_readdata_i;
+               end if;
+               assert false
+                  report "ERROR at Address " & to_hstring(m_avm_address_o) &
+                         ". Expected " & to_hstring(mem_data) &
+                         ", read " & to_hstring(m_avm_readdata_i)
+                  severity failure;
+               count_error_o <= count_error_o + 1;
+            end if;
+         end if;
+         if rst_i = '1' then
+            count_error_o <= (others => '0');
          end if;
       end if;
    end process verifier_proc;
