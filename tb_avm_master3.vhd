@@ -72,6 +72,7 @@ begin
 
    avm_master3_inst : entity work.avm_master3
       generic map (
+         G_INIT_FIRST   => true,
          G_ADDRESS_SIZE => C_ADDRESS_SIZE,
          G_DATA_SIZE    => C_DATA_SIZE
       )

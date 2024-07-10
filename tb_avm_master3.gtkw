@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
-[*] Wed Jul 10 11:27:07 2024
+[*] Wed Jul 10 11:51:30 2024
 [*]
 [dumpfile] "/home/mike/git/MJoergen/Avalon/tb_avm_master3.ghw"
-[dumpfile_mtime] "Wed Jul 10 11:25:42 2024"
-[dumpfile_size] 440580
+[dumpfile_mtime] "Wed Jul 10 11:50:58 2024"
+[dumpfile_size] 528256
 [savefile] "/home/mike/git/MJoergen/Avalon/tb_avm_master3.gtkw"
 [timestart] 0
 [size] 1920 1052
 [pos] -1 -1
-*-31.266220 132600000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-31.324644 132600000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] top.
 [treeopen] top.tb_avm_master3.
 [treeopen] top.tb_avm_master3.avm_verifier_inst.

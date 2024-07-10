@@ -13,6 +13,7 @@ library ieee;
 
 entity avm_master3 is
    generic (
+      G_INIT_FIRST   : boolean;
       G_ADDRESS_SIZE : integer; -- Number of bits
       G_DATA_SIZE    : integer  -- Number of bits
    );
@@ -36,7 +37,7 @@ end entity avm_master3;
 
 architecture synthesis of avm_master3 is
 
-   constant C_WRITE_SIZE : integer                                        := 1;
+   constant C_WRITE_SIZE : integer := 1;
 
    -- Combinatorial signals
    signal   rand_update_s : std_logic;
@@ -52,10 +53,10 @@ architecture synthesis of avm_master3 is
    signal   byteenable_s : std_logic_vector(G_DATA_SIZE / 8 - 1 downto 0);
    signal   write_s      : std_logic_vector(C_WRITE_SIZE - 1 downto 0);
 
-   type     state_type is (IDLE_ST, WORKING_ST, READING_ST, DONE_ST);
+   type     state_type is (IDLE_ST, INIT_ST, WORKING_ST, READING_ST, DONE_ST);
 
-   signal   state    : state_type                                         := IDLE_ST;
-   signal   count    : std_logic_vector(G_ADDRESS_SIZE + 2 downto 0);
+   signal   state : state_type     := IDLE_ST;
+   signal   count : std_logic_vector(G_ADDRESS_SIZE + 2 downto 0);
 
 begin
 
@@ -90,6 +91,25 @@ begin
                   wait_o <= '1';
                   count  <= (others => '0');
                   state  <= WORKING_ST;
+                  if G_INIT_FIRST then
+                     m_avm_write_o      <= '1';
+                     m_avm_read_o       <= '0';
+                     m_avm_address_o    <= (others => '0');
+                     m_avm_writedata_o  <= (others => '1');
+                     m_avm_byteenable_o <= (others => '1');
+                     m_avm_burstcount_o <= X"01";
+                     state              <= INIT_ST;
+                  end if;
+               end if;
+
+            when INIT_ST =>
+               if m_avm_waitrequest_i = '0' then
+                  if and (m_avm_address_o) then
+                     state <= WORKING_ST;
+                  else
+                     m_avm_write_o   <= '1';
+                     m_avm_address_o <= m_avm_address_o + 1;
+                  end if;
                end if;
 
             when WORKING_ST | READING_ST =>
