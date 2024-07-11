@@ -25,12 +25,12 @@ SRC += random.vhd
 SRC += spram_be.vhd
 
 
-DUT ?= avm_master3
+#DUT ?= avm_master3
 #DUT ?= burst_ctrl
 #DUT ?= avm_decrease
 #DUT ?= avm_increase
 #DUT ?= avalon_axi
-#DUT ?= avm_arbit
+DUT ?= avm_arbit
 #DUT ?= avm_pause
 #DUT ?= avm_cache
 #DUT ?= avm_cache2
