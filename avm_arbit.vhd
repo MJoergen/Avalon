@@ -177,12 +177,11 @@ begin
 
       if s0_active_grant = '1' then
          if burstcount = X"00" or (burstcount = X"01" and s0_avm_readdatavalid_o = '1')
-                               or (burstcount = X"01" and s0_avm_write_i = '1') then
+            or (burstcount = X"01" and s0_avm_write_i = '1') then
             if s0_active_req = '0'
                or (burstcount = X"01"  and s0_avm_readdatavalid_o = '1' and s0_avm_waitrequest_o = '1')
                or (burstcount = X"01"          and s0_avm_write_i = '1' and s0_avm_waitrequest_o = '0')
-               or (s0_avm_burstcount_i = X"01" and s0_avm_write_i = '1' and s0_avm_waitrequest_o = '0')
-            then
+               or (s0_avm_burstcount_i = X"01" and s0_avm_write_i = '1' and s0_avm_waitrequest_o = '0') then
                s0_last <= '1';
             end if;
          end if;
@@ -190,12 +189,11 @@ begin
 
       if s1_active_grant = '1' then
          if burstcount = X"00" or (burstcount = X"01" and s1_avm_readdatavalid_o = '1')
-                               or (burstcount = X"01" and s1_avm_write_i = '1') then
+            or (burstcount = X"01" and s1_avm_write_i = '1') then
             if s1_active_req = '0'
                or (burstcount = X"01"  and s1_avm_readdatavalid_o = '1' and s1_avm_waitrequest_o = '1')
                or (burstcount = X"01"          and s1_avm_write_i = '1' and s1_avm_waitrequest_o = '0')
-               or (s1_avm_burstcount_i = X"01" and s1_avm_write_i = '1' and s1_avm_waitrequest_o = '0')
-            then
+               or (s1_avm_burstcount_i = X"01" and s1_avm_write_i = '1' and s1_avm_waitrequest_o = '0') then
                s1_last <= '1';
             end if;
          end if;
@@ -245,15 +243,15 @@ begin
                         s1_active_grant <= '1';
                         last_grant      <= '1';
                         swapped         <= '1';
-               end if;
+                     end if;
                      if s1_active_req = '0' and s0_active_req = '0' and swapped = '1' then
                         s0_active_grant <= '1';
                         last_grant      <= '0';
                      end if;
                   else
-               -- If no pending requests, keep the existing grant
-               if s1_active_req = '0' and s0_active_req = '0' then
-                  s0_active_grant <= '1';
+                     -- If no pending requests, keep the existing grant
+                     if s1_active_req = '0' and s0_active_req = '0' then
+                        s0_active_grant <= '1';
                         last_grant      <= '0';
                      end if;
                   end if;
@@ -276,17 +274,17 @@ begin
                         s0_active_grant <= '1';
                         last_grant      <= '0';
                         swapped         <= '1';
-               end if;
+                     end if;
                      if s1_active_req = '0' and s0_active_req = '0' and swapped = '1' then
                         s1_active_grant <= '1';
                         last_grant      <= '1';
                      end if;
                   else
-               -- If no pending requests, keep the existing grant
-               if s1_active_req = '0' and s0_active_req = '0' then
-                  s1_active_grant <= '1';
+                     -- If no pending requests, keep the existing grant
+                     if s1_active_req = '0' and s0_active_req = '0' then
+                        s1_active_grant <= '1';
                         last_grant      <= '1';
-               end if;
+                     end if;
                   end if;
                end if;
 
