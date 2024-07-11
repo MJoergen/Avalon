@@ -104,7 +104,8 @@ begin
    begin
       if rising_edge(clk_i) then
          if avm_readdatavalid_i = '1' then
-            assert afs_m_valid = '1'; -- Check FIFO not empty
+            assert afs_m_valid = '1' -- Check FIFO not empty
+               report "Spurious readdatavalid";
             if avm_readdata_i /= afs_m_data then
                if count_error_o = 0 then
                   address_o   <= avm_address_i;

@@ -13,9 +13,11 @@ library ieee;
 
 entity avm_master3 is
    generic (
-      G_INIT_FIRST   : boolean;
-      G_ADDRESS_SIZE : integer; -- Number of bits
-      G_DATA_SIZE    : integer  -- Number of bits
+      G_SINGLE_REQUEST_ONLY : boolean                       := false;
+      G_SEED                : std_logic_vector(63 downto 0) := (others => '0');
+      G_INIT_FIRST          : boolean;
+      G_ADDRESS_SIZE        : integer; -- Number of bits
+      G_DATA_SIZE           : integer  -- Number of bits
    );
    port (
       clk_i                 : in    std_logic;
@@ -60,9 +62,14 @@ architecture synthesis of avm_master3 is
    signal   state : state_type     := IDLE_ST;
    signal   count : std_logic_vector(G_ADDRESS_SIZE + 3 downto 0);
 
+   signal   outstanding_read : std_logic;
+
 begin
 
    random_inst : entity work.random
+      generic map (
+         G_SEED => G_SEED
+      )
       port map (
          clk_i    => clk_i,
          rst_i    => rst_i,
@@ -115,7 +122,9 @@ begin
 
             when WORKING_ST =>
                if m_avm_waitrequest_i = '0' or (m_avm_write_o = '0' and m_avm_read_o = '0') then
-                  if wait_s = '1' then
+                  if G_SINGLE_REQUEST_ONLY and (outstanding_read = '1' or m_avm_read_o = '1') then
+                     null;
+                  elsif wait_s = '1' then
                      null;
                   elsif write_s = '1' then
                      m_avm_write_o      <= '1';
@@ -143,7 +152,7 @@ begin
                end if;
 
             when DONE_ST =>
-               if start_i = '0' and m_avm_waitrequest_i = '0' then
+               if start_i = '0' then
                   wait_o <= '0';
                   state  <= IDLE_ST;
                   report "Done";
@@ -167,6 +176,21 @@ begin
          end if;
       end if;
    end process master_proc;
+
+   outstanding_read_proc : process (clk_i)
+   begin
+      if rising_edge(clk_i) then
+         if m_avm_readdatavalid_i = '1' then
+            outstanding_read <= '0';
+         end if;
+         if m_avm_read_o = '1' and m_avm_waitrequest_i = '0' then
+            outstanding_read <= '1';
+         end if;
+         if rst_i = '1' then
+            outstanding_read <= '0';
+         end if;
+      end if;
+   end process outstanding_read_proc;
 
 end architecture synthesis;
 
