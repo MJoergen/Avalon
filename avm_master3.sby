@@ -1,0 +1,23 @@
+[tasks]
+bmc
+cover
+
+[options]
+bmc: mode bmc
+bmc: depth 20
+cover: mode cover
+cover: depth 20
+
+[engines]
+smtbmc
+
+[script]
+ghdl --std=08 -gG_INIT_FIRST=false -gG_ADDRESS_SIZE=4 -gG_DATA_SIZE=8 avm_master3.vhd random.vhd lfsr.vhd avm_master3.psl -e avm_master3
+prep -top avm_master3
+
+[files]
+avm_master3.psl
+avm_master3.vhd
+random.vhd
+lfsr.vhd
+
