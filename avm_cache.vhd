@@ -202,11 +202,8 @@ begin
                      -- Read-ahead trigger: when the client reads the word at
                      -- the midpoint (offset = G_CACHE_SIZE/2 - 1), slide the
                      -- buffer window forward.
-                     --
-                     -- NOTE: The MSB byte-enable check gates this trigger.
-                     -- [AUTHOR: please document the intent of this condition.]
                      --------------------------------------------------------
-                     if cache_offset_s = G_CACHE_SIZE/2-1 and s_avm_byteenable_i(G_DATA_SIZE/8-1) = '1' then
+                     if cache_offset_s = G_CACHE_SIZE/2-1 then
                         -- Slide the window: shift the upper half into the lower half
                         cache_data(0 to G_CACHE_SIZE/2-1) <= cache_data(G_CACHE_SIZE/2 to G_CACHE_SIZE-1);
                         -- Advance the base address by half the buffer size
