@@ -94,7 +94,7 @@ begin
    assert G_CACHE_SIZE >= 2 and G_CACHE_SIZE mod 2 = 0
       report "G_CACHE_SIZE must be even and >= 2" severity failure;
    assert G_CACHE_SIZE <= 255
-      report "G_CACHE_SIZE must fit in 8-bit burstcount" severity failure
+      report "G_CACHE_SIZE must fit in 8-bit burstcount" severity failure;
 
 
    ---------------------------------------------------------------------------
