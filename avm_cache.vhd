@@ -90,6 +90,13 @@ architecture synthesis of avm_cache is
 
 begin
 
+   -- Compile-Time Validation of G_CACHE_SIZE
+   assert G_CACHE_SIZE >= 2 and G_CACHE_SIZE mod 2 = 0
+      report "G_CACHE_SIZE must be even and >= 2" severity failure;
+   assert G_CACHE_SIZE <= 255
+      report "G_CACHE_SIZE must fit in 8-bit burstcount" severity failure
+
+
    ---------------------------------------------------------------------------
    -- cache_filled_s: Asserted for exactly one cycle when the final word of
    -- a cache fill burst is received from the master bus.
@@ -129,7 +136,7 @@ begin
    --   Condition 5: Cache is full (all data received) — ready.
    --   Condition 6: Otherwise — wait (fill in progress, no hit).
    ---------------------------------------------------------------------------
-   s_avm_waitrequest_o <= '0' when cache_filled_s = '1' and s_avm_write_i = '0' and rd_burstcount = X"00" else
+   s_avm_waitrequest_o <= '0' when cache_filled_s = '1' and rd_burstcount = X"00" else
                           '0' when cache_rd_hit_s = '1' and s_avm_write_i = '0' and state = READING_ST else
                            m_avm_waitrequest_i and (m_avm_write_o or m_avm_read_o) when state = IDLE_ST else
                           '1' when rd_burstcount /= X"00" else
@@ -172,8 +179,8 @@ begin
                -- write-through update of cached data using byte-enables.
                -----------------------------------------------------------------
                if s_avm_write_i = '1' and s_avm_waitrequest_o = '0' then
-                  m_avm_write_o      <= s_avm_write_i;
-                  m_avm_read_o       <= s_avm_read_i;
+                  m_avm_write_o      <= '1';
+                  m_avm_read_o       <= '0';
                   m_avm_address_o    <= s_avm_address_i;
                   m_avm_writedata_o  <= s_avm_writedata_i;
                   m_avm_byteenable_o <= s_avm_byteenable_i;
@@ -270,8 +277,8 @@ begin
 
                      -- (Lowest priority) Accept a new write immediately
                      if s_avm_write_i = '1' and s_avm_waitrequest_o = '0' then
-                        m_avm_write_o      <= s_avm_write_i;
-                        m_avm_read_o       <= s_avm_read_i;
+                        m_avm_write_o      <= '1';
+                        m_avm_read_o       <= '0';
                         m_avm_address_o    <= s_avm_address_i;
                         m_avm_writedata_o  <= s_avm_writedata_i;
                         m_avm_byteenable_o <= s_avm_byteenable_i;
@@ -309,7 +316,7 @@ begin
                      -- (Highest priority) Continuation read: client burst is
                      -- still pending after fill completed. Fetch the next
                      -- G_CACHE_SIZE words from the next sequential address.
-                     if rd_burstcount > 0 then
+                     if rd_burstcount > 1 then -- account for the word forwarded this cycle
                         m_avm_write_o      <= '0';
                         m_avm_read_o       <= '1';
                         m_avm_address_o    <= std_logic_vector(unsigned(cache_addr) + G_CACHE_SIZE);
