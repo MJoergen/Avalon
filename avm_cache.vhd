@@ -8,7 +8,12 @@
 --   burst are forwarded to the client as they arrive.
 --
 --   On a read hit, data is served directly from the buffer in a single cycle.
---   Hits are only recognised for single-word reads (burstcount = 1).
+--   Multi-word reads (burstcount > 1) always bypass the cache and trigger a
+--   full-line fetch.  As fill data arrives from memory, the first
+--   'burstcount' words are forwarded to the client in-order.  If the client's
+--   burst spans more than G_CACHE_SIZE words, the module chains additional
+--   G_CACHE_SIZE-word fetches (continuation reads) until all requested words
+--   have been delivered.
 --
 --   When the client reads past the midpoint of the buffer, the module performs
 --   a sliding-window operation: the upper half of the buffer is shifted into
@@ -83,7 +88,13 @@ architecture synthesis of avm_cache is
    signal cache_data    : mem_type;                                       -- Buffer storage (one contiguous line of G_CACHE_SIZE words)
    signal cache_addr    : std_logic_vector(G_ADDRESS_SIZE - 1 downto 0);  -- Base address of the currently cached region
    signal cache_count   : natural range 0 to G_CACHE_SIZE;                -- Number of valid words received so far (0 = empty, G_CACHE_SIZE = full)
-   signal rd_burstcount : std_logic_vector(G_BURST_WIDTH - 1 downto 0);   -- Remaining words to forward to the client for the current read burst
+   signal rd_burstcount : std_logic_vector(G_BURST_WIDTH - 1 downto 0);   -- Remaining words to forward to the client for the current read burst.
+                                                                          -- Loaded from s_avm_burstcount_i on a read miss.  Decremented each
+                                                                          -- cycle a word is forwarded via s_avm_readdatavalid_o.  When a cache
+                                                                          -- fill completes and rd_burstcount > 1 (accounting for the word
+                                                                          -- forwarded in the same cycle), a continuation read is issued to
+                                                                          -- fetch the next G_CACHE_SIZE words.
+
    signal state         : state_type := IDLE_ST;
 
    ---------------------------------------------------------------------------
@@ -377,12 +388,20 @@ begin
 
                      if rd_burstcount > 1 then
                         ---------------------------------------------------------
-                        -- (Highest priority) Continuation read: client burst is
-                        -- still pending after fill completed.  Fetch the next
-                        -- G_CACHE_SIZE words from the next sequential address.
-                        -- The threshold is > 1 (not > 0) to account for the
-                        -- word forwarded to the client earlier in this cycle.
-                        ---------------------------------------------------------
+                        -- (Highest priority) Continuation read: the client's
+                        -- burst spans more than G_CACHE_SIZE words and data is
+                        -- still owed.  Fetch the next G_CACHE_SIZE words from
+                        -- the next sequential address.  The cache base advances
+                        -- so that subsequent continuation reads chain correctly.
+                        -- rd_burstcount is not modified here; it continues to
+                        -- be decremented by the forwarding logic as new fill
+                        -- data arrives.
+                        --
+                        -- The threshold is > 1 (not > 0) because the forwarding
+                        -- block earlier in this cycle already scheduled a
+                        -- decrement.  An old value of 2 means one word was just
+                        -- forwarded and one still remains — requiring more data.
+                        --------------------------------------------------
                         m_avm_write_o      <= '0';
                         m_avm_read_o       <= '1';
                         m_avm_byteenable_o <= (others => '1');
