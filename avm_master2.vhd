@@ -65,10 +65,10 @@ entity avm_master2 is
    port (
       clk_i                 : in    std_logic;
       rst_i                 : in    std_logic;
-      start_i               : in    std_logic;                                      -- Pulse high to begin the test
-      wait_o                : out   std_logic;                                      -- High while the test is running
-      write_burstcount_i    : in    std_logic_vector(G_BURST_WIDTH - 1 downto 0);   -- Burstcount forwarded on writes (must be X"01")
-      read_burstcount_i     : in    std_logic_vector(G_BURST_WIDTH - 1 downto 0);   -- Burstcount forwarded on reads
+      start_i               : in    std_logic;                                     -- Pulse high to begin the test
+      wait_o                : out   std_logic;                                     -- High while the test is running
+      write_burstcount_i    : in    std_logic_vector(G_BURST_WIDTH - 1 downto 0);  -- Burstcount forwarded on writes (must be X"01")
+      read_burstcount_i     : in    std_logic_vector(G_BURST_WIDTH - 1 downto 0);  -- Burstcount forwarded on reads
 
       -- Avalon-MM master interface (directly drives the DUT's slave port)
       m_avm_write_o         : out   std_logic;
@@ -82,10 +82,10 @@ entity avm_master2 is
       m_avm_waitrequest_i   : in    std_logic;
 
       -- Debug / verification outputs
-      address_o             : out   std_logic_vector(G_ADDRESS_SIZE - 1 downto 0);  -- Address of the most recently accepted read
-      data_exp_o            : out   std_logic_vector(G_DATA_SIZE - 1 downto 0);     -- Expected read data (from shadow memory)
-      data_read_o           : out   std_logic_vector(G_DATA_SIZE - 1 downto 0);     -- Actual read data (from DUT)
-      error_o               : out   std_logic                                       -- Sticky mismatch flag
+      address_o             : out   std_logic_vector(G_ADDRESS_SIZE - 1 downto 0); -- Address of the most recently accepted read
+      data_exp_o            : out   std_logic_vector(G_DATA_SIZE - 1 downto 0);    -- Expected read data (from shadow memory)
+      data_read_o           : out   std_logic_vector(G_DATA_SIZE - 1 downto 0);    -- Actual read data (from DUT)
+      error_o               : out   std_logic                                      -- Sticky mismatch flag
    );
 end entity avm_master2;
 
@@ -100,7 +100,7 @@ architecture synthesis of avm_master2 is
    -- accepted write with byte-enable granularity.
    ---------------------------------------------------------------------------
    type     mem_type is array (0 to 2 ** G_ADDRESS_SIZE - 1) of std_logic_vector(G_DATA_SIZE - 1 downto 0);
-   signal   mem : mem_type := (others => (others => '0'));
+   signal   mem : mem_type                                              := (others => (others => '0'));
 
    ---------------------------------------------------------------------------
    -- Per-address byte-enable accumulator: tracks which byte-lanes have been
@@ -108,18 +108,19 @@ architecture synthesis of avm_master2 is
    -- shadow memory holds a complete reference value for the full word.
    ---------------------------------------------------------------------------
    type     be_type is array (0 to 2 ** G_ADDRESS_SIZE - 1) of std_logic_vector(G_DATA_SIZE / 8 - 1 downto 0);
-   signal   written : be_type := (others => (others => '0'));
+   signal   written : be_type                                           := (others => (others => '0'));
 
    type     state_type is (
-      IDLE_ST,     -- Waiting for start_i pulse
-      WORKING_ST,  -- Issuing transactions; bus is idle or a write is pending acceptance
-      READING_ST,  -- A read has been issued; waiting for readdatavalid
-      DONE_ST      -- Test complete; wait_o deasserted
+      IDLE_ST,    -- Waiting for start_i pulse
+      WORKING_ST, -- Issuing transactions; bus is idle or a write is pending acceptance
+      WRITING_ST, -- Part of a burst write
+      READING_ST, -- A read has been issued; waiting for readdatavalid
+      DONE_ST     -- Test complete; wait_o deasserted
    );
 
    signal   lfsr_random_s : std_logic_vector(63 downto 0);
-   signal   state         : state_type := IDLE_ST;
-   signal   num_read      : natural    := 0;
+   signal   state         : state_type                                  := IDLE_ST;
+   signal   num_read      : natural                                     := 0;
 
    ---------------------------------------------------------------------------
    -- LFSR field mapping
@@ -148,6 +149,9 @@ architecture synthesis of avm_master2 is
    subtype  R_BYTEENABLE is natural range G_DATA_SIZE / 8 + R_DATA'left downto R_DATA'left + 1;
    subtype  R_WRITE      is natural range 4 + R_BYTEENABLE'left downto R_BYTEENABLE'left + 1;
 
+   signal   write_base_addr  : std_logic_vector(G_ADDRESS_SIZE - 1 downto 0);
+   signal   write_beat_index : std_logic_vector(G_BURST_WIDTH - 1 downto 0);
+   signal   write_burstcount : std_logic_vector(G_BURST_WIDTH - 1 downto 0);
 
    signal   read_base_addr  : std_logic_vector(G_ADDRESS_SIZE - 1 downto 0);
    signal   read_beat_index : std_logic_vector(G_BURST_WIDTH - 1 downto 0);
@@ -158,16 +162,16 @@ begin
    -- Compile-time validation
    assert G_DATA_SIZE >= 8
       report "G_DATA_SIZE must be >= 8"
-         severity failure;
+      severity failure;
    assert G_DATA_SIZE mod 8 = 0
       report "G_DATA_SIZE must be a multiple of 8"
-         severity failure;
+      severity failure;
    assert R_WRITE'left <= 63
       report "LFSR field mapping exceeds 64-bit LFSR width; reduce G_ADDRESS_SIZE or G_DATA_SIZE"
-         severity failure;
-   assert G_BURST_WIDTH <= 2**G_ADDRESS_SIZE
+      severity failure;
+   assert G_BURST_WIDTH <= 2 ** G_ADDRESS_SIZE
       report "G_BURST_WIDTH must be <= 2**G_ADDRESS_SIZE"
-         severity failure;
+      severity failure;
 
    ---------------------------------------------------------------------------
    -- Combinatorial decode of LFSR fields into transaction parameters.
@@ -187,8 +191,9 @@ begin
    ---------------------------------------------------------------------------
    master_proc : process (clk_i)
       -- Expected read data (from shadow memory)
-      variable data_exp_v     : std_logic_vector(G_DATA_SIZE - 1 downto 0);
-      variable read_address_v : std_logic_vector(G_ADDRESS_SIZE - 1 downto 0);
+      variable data_exp_v      : std_logic_vector(G_DATA_SIZE - 1 downto 0);
+      variable read_address_v  : std_logic_vector(G_ADDRESS_SIZE - 1 downto 0);
+      variable write_address_v : std_logic_vector(G_ADDRESS_SIZE - 1 downto 0);
    begin
       if rising_edge(clk_i) then
          lfsr_update_s <= '0';
@@ -223,15 +228,15 @@ begin
             -- and the termination check.
             ---------------------------------------------------------------
             when WORKING_ST | READING_ST =>
-
                -- --------------------------------------------------------
                -- Read-data verification
                -- --------------------------------------------------------
                if m_avm_readdatavalid_i = '1' then
-                  read_address_v  := read_base_addr + read_beat_index;
-                  data_exp_v := mem(to_integer(read_address_v));
+                  read_address_v := read_base_addr + read_beat_index;
+                  data_exp_v     := mem(to_integer(read_address_v));
                   if data_exp_v /= m_avm_readdata_i then
                      report "Read 0x" & to_hstring(m_avm_readdata_i) &
+                            " from address 0x" & to_hstring(read_address_v) &
                             ", but expected 0x" & to_hstring(data_exp_v)
                         severity failure;
                      address_o   <= read_base_addr + read_beat_index;
@@ -260,8 +265,7 @@ begin
                -- --------------------------------------------------------
                if (m_avm_waitrequest_i = '0' or (m_avm_write_o = '0' and m_avm_read_o = '0')) and
                   ((m_avm_readdatavalid_i = '1' and read_beat_index + 1 = read_burstcount) or
-                  state = WORKING_ST) then
-
+                    state = WORKING_ST) then
                   if written(to_integer(address_s)) /= C_ALL_ONES or write_s = '1' or byteenable_s = 0 then
                      -- ---------------------------------------------------
                      -- WRITE transaction
@@ -291,6 +295,19 @@ begin
                         written(to_integer(address_s)) <= (others => '1');
                      end if;
 
+                     -- Write data to shadow memory
+                     for i in 0 to G_DATA_SIZE / 8 - 1 loop
+                        if byteenable_s(i) = '1' or byteenable_s = 0 then
+                           mem(to_integer(address_s))(8 * i + 7 downto 8 * i) <= data_s(8 * i + 7 downto 8 * i);
+                        end if;
+                     end loop;
+
+                     if write_burstcount_i > 1 then
+                        write_base_addr  <= address_s;
+                        write_beat_index <= (0 => '1', others => '0'); -- Value 1
+                        write_burstcount <= write_burstcount_i;
+                        state            <= WRITING_ST;
+                     end if;
                   else
                      -- ---------------------------------------------------
                      -- READ transaction
@@ -326,6 +343,39 @@ begin
                end if;
 
             ---------------------------------------------------------------
+            -- WRITING_ST: Part of write burst
+            ---------------------------------------------------------------
+            when WRITING_ST =>
+               if m_avm_waitrequest_i = '0' then
+                  write_address_v                      := write_base_addr + write_beat_index;
+                  lfsr_update_s                        <= '1';
+                  m_avm_write_o                        <= '1';
+                  m_avm_read_o                         <= '0';
+                  m_avm_writedata_o                    <= data_s;
+                  m_avm_byteenable_o                   <= byteenable_s;
+                  written(to_integer(write_address_v)) <= written(to_integer(write_address_v)) or byteenable_s;
+
+                  -- Force all-ones when the random byte-enable is zero
+                  if byteenable_s = 0 then
+                     m_avm_byteenable_o                   <= (others => '1');
+                     written(to_integer(write_address_v)) <= (others => '1');
+                  end if;
+
+                  -- Write data to shadow memory
+                  for i in 0 to G_DATA_SIZE / 8 - 1 loop
+                     if byteenable_s(i) = '1' or byteenable_s = 0 then
+                        mem(to_integer(write_address_v))(8 * i + 7 downto 8 * i) <= data_s(8 * i + 7 downto 8 * i);
+                     end if;
+                  end loop;
+
+                  if write_beat_index + 1 = write_burstcount then
+                     state <= WORKING_ST;
+                  else
+                     write_beat_index <= write_beat_index + 1;
+                  end if;
+               end if;
+
+            ---------------------------------------------------------------
             -- DONE_ST: Test complete.
             ---------------------------------------------------------------
             when DONE_ST =>
@@ -356,19 +406,6 @@ begin
          end if;
       end if;
    end process master_proc;
-
-   mem_proc : process (clk_i)
-   begin
-      if rising_edge(clk_i) then
-         if m_avm_waitrequest_i = '0' and m_avm_write_o = '1' then
-            for i in 0 to G_DATA_SIZE / 8 - 1 loop
-               if m_avm_byteenable_o(i) = '1' then
-                  mem(to_integer(m_avm_address_o))(8 * i + 7 downto 8 * i) <= m_avm_writedata_o(8 * i + 7 downto 8 * i);
-               end if;
-            end loop;
-         end if;
-      end if;
-   end process mem_proc;
 
 
    --------------------------------------

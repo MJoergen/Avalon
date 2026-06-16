@@ -123,7 +123,7 @@ begin
          rst_i                 => rst,
          start_i               => s_avm_start,
          wait_o                => s_avm_wait,
-         write_burstcount_i    => "0001",
+         write_burstcount_i    => "0010",
          read_burstcount_i     => "0010",
          m_avm_write_o         => s_avm_write,
          m_avm_read_o          => s_avm_read,
