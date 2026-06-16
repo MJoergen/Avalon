@@ -1,18 +1,21 @@
 [*]
 [*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
-[*] Tue Jun 16 11:14:58 2026
+[*] Tue Jun 16 12:34:28 2026
 [*]
-[dumpfile] "(null)"
+[dumpfile] "/home/mfj/git/PRIVATE/MJoergen/Avalon/tb_avm_cache.ghw"
+[dumpfile_mtime] "Tue Jun 16 12:34:10 2026"
+[dumpfile_size] 1036140
 [savefile] "/home/mfj/git/PRIVATE/MJoergen/Avalon/tb_avm_cache.gtkw"
-[timestart] 453100000
+[timestart] 0
 [size] 1853 1127
-[pos] 0 33
-*-24.778669 597000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[pos] -1 -1
+*-32.842087 154400000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] top.
 [treeopen] top.tb_avm_cache.
 [treeopen] top.tb_avm_cache.i_avm_cache.cache_data.
-[treeopen] top.tb_avm_cache.i_avm_master2.
 [treeopen] top.tb_avm_cache.i_avm_master2.mem.
+[treeopen] top.tb_avm_cache.i_avm_memory_pause.
+[treeopen] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.
 [sst_width] 371
 [signals_width] 377
 [sst_expanded] 1
@@ -38,7 +41,7 @@ top.tb_avm_cache.s_avm_read
 @28
 top.tb_avm_cache.s_avm_byteenable[0]
 @22
-#{top.tb_avm_cache.s_avm_burstcount[7:0]} top.tb_avm_cache.s_avm_burstcount[7] top.tb_avm_cache.s_avm_burstcount[6] top.tb_avm_cache.s_avm_burstcount[5] top.tb_avm_cache.s_avm_burstcount[4] top.tb_avm_cache.s_avm_burstcount[3] top.tb_avm_cache.s_avm_burstcount[2] top.tb_avm_cache.s_avm_burstcount[1] top.tb_avm_cache.s_avm_burstcount[0]
+#{top.tb_avm_cache.s_avm_burstcount[7:0]} top.tb_avm_cache.s_avm_burstcount[3] top.tb_avm_cache.s_avm_burstcount[2] top.tb_avm_cache.s_avm_burstcount[1] top.tb_avm_cache.s_avm_burstcount[0]
 @28
 [color] 3
 top.tb_avm_cache.s_avm_readdatavalid
@@ -57,7 +60,7 @@ top.tb_avm_cache.m_avm_read
 @28
 top.tb_avm_cache.m_avm_byteenable[0]
 @22
-#{top.tb_avm_cache.m_avm_burstcount[7:0]} top.tb_avm_cache.m_avm_burstcount[7] top.tb_avm_cache.m_avm_burstcount[6] top.tb_avm_cache.m_avm_burstcount[5] top.tb_avm_cache.m_avm_burstcount[4] top.tb_avm_cache.m_avm_burstcount[3] top.tb_avm_cache.m_avm_burstcount[2] top.tb_avm_cache.m_avm_burstcount[1] top.tb_avm_cache.m_avm_burstcount[0]
+#{top.tb_avm_cache.m_avm_burstcount[7:0]} top.tb_avm_cache.m_avm_burstcount[3] top.tb_avm_cache.m_avm_burstcount[2] top.tb_avm_cache.m_avm_burstcount[1] top.tb_avm_cache.m_avm_burstcount[0]
 @28
 [color] 3
 top.tb_avm_cache.m_avm_readdatavalid
@@ -79,7 +82,7 @@ top.tb_avm_cache.i_avm_cache.s_avm_read_i
 @28
 top.tb_avm_cache.i_avm_cache.s_avm_byteenable_i[0]
 @22
-#{top.tb_avm_cache.i_avm_cache.s_avm_burstcount_i[7:0]} top.tb_avm_cache.i_avm_cache.s_avm_burstcount_i[7] top.tb_avm_cache.i_avm_cache.s_avm_burstcount_i[6] top.tb_avm_cache.i_avm_cache.s_avm_burstcount_i[5] top.tb_avm_cache.i_avm_cache.s_avm_burstcount_i[4] top.tb_avm_cache.i_avm_cache.s_avm_burstcount_i[3] top.tb_avm_cache.i_avm_cache.s_avm_burstcount_i[2] top.tb_avm_cache.i_avm_cache.s_avm_burstcount_i[1] top.tb_avm_cache.i_avm_cache.s_avm_burstcount_i[0]
+#{top.tb_avm_cache.i_avm_cache.s_avm_burstcount_i[7:0]} top.tb_avm_cache.i_avm_cache.s_avm_burstcount_i[3] top.tb_avm_cache.i_avm_cache.s_avm_burstcount_i[2] top.tb_avm_cache.i_avm_cache.s_avm_burstcount_i[1] top.tb_avm_cache.i_avm_cache.s_avm_burstcount_i[0]
 @28
 top.tb_avm_cache.i_avm_cache.s_avm_readdatavalid_o
 @22
@@ -94,7 +97,7 @@ top.tb_avm_cache.i_avm_cache.m_avm_read_o
 @28
 top.tb_avm_cache.i_avm_cache.m_avm_byteenable_o[0]
 @22
-#{top.tb_avm_cache.i_avm_cache.m_avm_burstcount_o[7:0]} top.tb_avm_cache.i_avm_cache.m_avm_burstcount_o[7] top.tb_avm_cache.i_avm_cache.m_avm_burstcount_o[6] top.tb_avm_cache.i_avm_cache.m_avm_burstcount_o[5] top.tb_avm_cache.i_avm_cache.m_avm_burstcount_o[4] top.tb_avm_cache.i_avm_cache.m_avm_burstcount_o[3] top.tb_avm_cache.i_avm_cache.m_avm_burstcount_o[2] top.tb_avm_cache.i_avm_cache.m_avm_burstcount_o[1] top.tb_avm_cache.i_avm_cache.m_avm_burstcount_o[0]
+#{top.tb_avm_cache.i_avm_cache.m_avm_burstcount_o[7:0]} top.tb_avm_cache.i_avm_cache.m_avm_burstcount_o[3] top.tb_avm_cache.i_avm_cache.m_avm_burstcount_o[2] top.tb_avm_cache.i_avm_cache.m_avm_burstcount_o[1] top.tb_avm_cache.i_avm_cache.m_avm_burstcount_o[0]
 @28
 top.tb_avm_cache.i_avm_cache.m_avm_readdatavalid_i
 @22
@@ -103,7 +106,7 @@ top.tb_avm_cache.i_avm_cache.m_avm_readdatavalid_i
 @420
 top.tb_avm_cache.i_avm_cache.cache_count
 @22
-#{top.tb_avm_cache.i_avm_cache.rd_burstcount[7:0]} top.tb_avm_cache.i_avm_cache.rd_burstcount[7] top.tb_avm_cache.i_avm_cache.rd_burstcount[6] top.tb_avm_cache.i_avm_cache.rd_burstcount[5] top.tb_avm_cache.i_avm_cache.rd_burstcount[4] top.tb_avm_cache.i_avm_cache.rd_burstcount[3] top.tb_avm_cache.i_avm_cache.rd_burstcount[2] top.tb_avm_cache.i_avm_cache.rd_burstcount[1] top.tb_avm_cache.i_avm_cache.rd_burstcount[0]
+#{top.tb_avm_cache.i_avm_cache.rd_burstcount[7:0]} top.tb_avm_cache.i_avm_cache.rd_burstcount[3] top.tb_avm_cache.i_avm_cache.rd_burstcount[2] top.tb_avm_cache.i_avm_cache.rd_burstcount[1] top.tb_avm_cache.i_avm_cache.rd_burstcount[0]
 @420
 top.tb_avm_cache.i_avm_cache.state
 @22
@@ -122,8 +125,8 @@ top.tb_avm_cache.i_avm_master2.rst_i
 top.tb_avm_cache.i_avm_master2.start_i
 top.tb_avm_cache.i_avm_master2.wait_o
 @22
-#{top.tb_avm_cache.i_avm_master2.write_burstcount_i[7:0]} top.tb_avm_cache.i_avm_master2.write_burstcount_i[7] top.tb_avm_cache.i_avm_master2.write_burstcount_i[6] top.tb_avm_cache.i_avm_master2.write_burstcount_i[5] top.tb_avm_cache.i_avm_master2.write_burstcount_i[4] top.tb_avm_cache.i_avm_master2.write_burstcount_i[3] top.tb_avm_cache.i_avm_master2.write_burstcount_i[2] top.tb_avm_cache.i_avm_master2.write_burstcount_i[1] top.tb_avm_cache.i_avm_master2.write_burstcount_i[0]
-#{top.tb_avm_cache.i_avm_master2.read_burstcount_i[7:0]} top.tb_avm_cache.i_avm_master2.read_burstcount_i[7] top.tb_avm_cache.i_avm_master2.read_burstcount_i[6] top.tb_avm_cache.i_avm_master2.read_burstcount_i[5] top.tb_avm_cache.i_avm_master2.read_burstcount_i[4] top.tb_avm_cache.i_avm_master2.read_burstcount_i[3] top.tb_avm_cache.i_avm_master2.read_burstcount_i[2] top.tb_avm_cache.i_avm_master2.read_burstcount_i[1] top.tb_avm_cache.i_avm_master2.read_burstcount_i[0]
+#{top.tb_avm_cache.i_avm_master2.write_burstcount_i[7:0]} top.tb_avm_cache.i_avm_master2.write_burstcount_i[3] top.tb_avm_cache.i_avm_master2.write_burstcount_i[2] top.tb_avm_cache.i_avm_master2.write_burstcount_i[1] top.tb_avm_cache.i_avm_master2.write_burstcount_i[0]
+#{top.tb_avm_cache.i_avm_master2.read_burstcount_i[7:0]} top.tb_avm_cache.i_avm_master2.read_burstcount_i[3] top.tb_avm_cache.i_avm_master2.read_burstcount_i[2] top.tb_avm_cache.i_avm_master2.read_burstcount_i[1] top.tb_avm_cache.i_avm_master2.read_burstcount_i[0]
 @28
 [color] 6
 top.tb_avm_cache.i_avm_master2.m_avm_waitrequest_i
@@ -137,7 +140,7 @@ top.tb_avm_cache.i_avm_master2.m_avm_read_o
 @28
 top.tb_avm_cache.i_avm_master2.m_avm_byteenable_o[0]
 @22
-#{top.tb_avm_cache.i_avm_master2.m_avm_burstcount_o[7:0]} top.tb_avm_cache.i_avm_master2.m_avm_burstcount_o[7] top.tb_avm_cache.i_avm_master2.m_avm_burstcount_o[6] top.tb_avm_cache.i_avm_master2.m_avm_burstcount_o[5] top.tb_avm_cache.i_avm_master2.m_avm_burstcount_o[4] top.tb_avm_cache.i_avm_master2.m_avm_burstcount_o[3] top.tb_avm_cache.i_avm_master2.m_avm_burstcount_o[2] top.tb_avm_cache.i_avm_master2.m_avm_burstcount_o[1] top.tb_avm_cache.i_avm_master2.m_avm_burstcount_o[0]
+#{top.tb_avm_cache.i_avm_master2.m_avm_burstcount_o[7:0]} top.tb_avm_cache.i_avm_master2.m_avm_burstcount_o[3] top.tb_avm_cache.i_avm_master2.m_avm_burstcount_o[2] top.tb_avm_cache.i_avm_master2.m_avm_burstcount_o[1] top.tb_avm_cache.i_avm_master2.m_avm_burstcount_o[0]
 @28
 [color] 2
 top.tb_avm_cache.i_avm_master2.m_avm_readdatavalid_i
@@ -160,13 +163,46 @@ top.tb_avm_cache.i_avm_master2.byteenable_s[0]
 top.tb_avm_cache.i_avm_master2.write_s
 top.tb_avm_cache.i_avm_master2.lfsr_update_s
 @22
+#{top.tb_avm_cache.i_avm_master2.write_base_addr[4:0]} top.tb_avm_cache.i_avm_master2.write_base_addr[4] top.tb_avm_cache.i_avm_master2.write_base_addr[3] top.tb_avm_cache.i_avm_master2.write_base_addr[2] top.tb_avm_cache.i_avm_master2.write_base_addr[1] top.tb_avm_cache.i_avm_master2.write_base_addr[0]
+#{top.tb_avm_cache.i_avm_master2.write_beat_index[3:0]} top.tb_avm_cache.i_avm_master2.write_beat_index[3] top.tb_avm_cache.i_avm_master2.write_beat_index[2] top.tb_avm_cache.i_avm_master2.write_beat_index[1] top.tb_avm_cache.i_avm_master2.write_beat_index[0]
+#{top.tb_avm_cache.i_avm_master2.write_burstcount[3:0]} top.tb_avm_cache.i_avm_master2.write_burstcount[3] top.tb_avm_cache.i_avm_master2.write_burstcount[2] top.tb_avm_cache.i_avm_master2.write_burstcount[1] top.tb_avm_cache.i_avm_master2.write_burstcount[0]
 #{top.tb_avm_cache.i_avm_master2.read_base_addr[4:0]} top.tb_avm_cache.i_avm_master2.read_base_addr[4] top.tb_avm_cache.i_avm_master2.read_base_addr[3] top.tb_avm_cache.i_avm_master2.read_base_addr[2] top.tb_avm_cache.i_avm_master2.read_base_addr[1] top.tb_avm_cache.i_avm_master2.read_base_addr[0]
-#{top.tb_avm_cache.i_avm_master2.read_beat_index[7:0]} top.tb_avm_cache.i_avm_master2.read_beat_index[7] top.tb_avm_cache.i_avm_master2.read_beat_index[6] top.tb_avm_cache.i_avm_master2.read_beat_index[5] top.tb_avm_cache.i_avm_master2.read_beat_index[4] top.tb_avm_cache.i_avm_master2.read_beat_index[3] top.tb_avm_cache.i_avm_master2.read_beat_index[2] top.tb_avm_cache.i_avm_master2.read_beat_index[1] top.tb_avm_cache.i_avm_master2.read_beat_index[0]
-#{top.tb_avm_cache.i_avm_master2.read_burstcount[7:0]} top.tb_avm_cache.i_avm_master2.read_burstcount[7] top.tb_avm_cache.i_avm_master2.read_burstcount[6] top.tb_avm_cache.i_avm_master2.read_burstcount[5] top.tb_avm_cache.i_avm_master2.read_burstcount[4] top.tb_avm_cache.i_avm_master2.read_burstcount[3] top.tb_avm_cache.i_avm_master2.read_burstcount[2] top.tb_avm_cache.i_avm_master2.read_burstcount[1] top.tb_avm_cache.i_avm_master2.read_burstcount[0]
+#{top.tb_avm_cache.i_avm_master2.read_beat_index[7:0]} top.tb_avm_cache.i_avm_master2.read_beat_index[3] top.tb_avm_cache.i_avm_master2.read_beat_index[2] top.tb_avm_cache.i_avm_master2.read_beat_index[1] top.tb_avm_cache.i_avm_master2.read_beat_index[0]
+#{top.tb_avm_cache.i_avm_master2.read_burstcount[7:0]} top.tb_avm_cache.i_avm_master2.read_burstcount[3] top.tb_avm_cache.i_avm_master2.read_burstcount[2] top.tb_avm_cache.i_avm_master2.read_burstcount[1] top.tb_avm_cache.i_avm_master2.read_burstcount[0]
 @1000200
 -avm_master2
+@c00200
+-avm_memory
+@28
+top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.clk_i
+top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.rst_i
+[color] 6
+top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.avm_waitrequest_o
+[color] 2
+top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.avm_write_i
+[color] 2
+top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.avm_read_i
 @22
-#{top.tb_avm_cache.i_avm_master2.mem[21][7:0]} top.tb_avm_cache.i_avm_master2.mem[21][7] top.tb_avm_cache.i_avm_master2.mem[21][6] top.tb_avm_cache.i_avm_master2.mem[21][5] top.tb_avm_cache.i_avm_master2.mem[21][4] top.tb_avm_cache.i_avm_master2.mem[21][3] top.tb_avm_cache.i_avm_master2.mem[21][2] top.tb_avm_cache.i_avm_master2.mem[21][1] top.tb_avm_cache.i_avm_master2.mem[21][0]
-#{top.tb_avm_cache.i_avm_master2.mem[22][7:0]} top.tb_avm_cache.i_avm_master2.mem[22][7] top.tb_avm_cache.i_avm_master2.mem[22][6] top.tb_avm_cache.i_avm_master2.mem[22][5] top.tb_avm_cache.i_avm_master2.mem[22][4] top.tb_avm_cache.i_avm_master2.mem[22][3] top.tb_avm_cache.i_avm_master2.mem[22][2] top.tb_avm_cache.i_avm_master2.mem[22][1] top.tb_avm_cache.i_avm_master2.mem[22][0]
+#{top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.avm_address_i[4:0]} top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.avm_address_i[4] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.avm_address_i[3] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.avm_address_i[2] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.avm_address_i[1] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.avm_address_i[0]
+#{top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.avm_writedata_i[7:0]} top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.avm_writedata_i[7] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.avm_writedata_i[6] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.avm_writedata_i[5] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.avm_writedata_i[4] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.avm_writedata_i[3] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.avm_writedata_i[2] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.avm_writedata_i[1] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.avm_writedata_i[0]
+@28
+top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.avm_byteenable_i[0]
+@22
+#{top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.avm_burstcount_i[3:0]} top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.avm_burstcount_i[3] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.avm_burstcount_i[2] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.avm_burstcount_i[1] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.avm_burstcount_i[0]
+@28
+[color] 2
+top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.avm_readdatavalid_o
+@22
+#{top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.avm_readdata_o[7:0]} top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.avm_readdata_o[7] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.avm_readdata_o[6] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.avm_readdata_o[5] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.avm_readdata_o[4] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.avm_readdata_o[3] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.avm_readdata_o[2] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.avm_readdata_o[1] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.avm_readdata_o[0]
+#{top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.write_burstcount[3:0]} top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.write_burstcount[3] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.write_burstcount[2] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.write_burstcount[1] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.write_burstcount[0]
+#{top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.write_address[4:0]} top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.write_address[4] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.write_address[3] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.write_address[2] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.write_address[1] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.write_address[0]
+#{top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.read_burstcount[3:0]} top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.read_burstcount[3] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.read_burstcount[2] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.read_burstcount[1] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.read_burstcount[0]
+#{top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.read_address[4:0]} top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.read_address[4] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.read_address[3] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.read_address[2] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.read_address[1] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.read_address[0]
+#{top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.mem_write_burstcount[3:0]} top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.mem_write_burstcount[3] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.mem_write_burstcount[2] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.mem_write_burstcount[1] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.mem_write_burstcount[0]
+#{top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.mem_read_burstcount[3:0]} top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.mem_read_burstcount[3] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.mem_read_burstcount[2] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.mem_read_burstcount[1] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.mem_read_burstcount[0]
+#{top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.mem_write_address[4:0]} top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.mem_write_address[4] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.mem_write_address[3] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.mem_write_address[2] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.mem_write_address[1] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.mem_write_address[0]
+#{top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.mem_read_address[4:0]} top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.mem_read_address[4] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.mem_read_address[3] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.mem_read_address[2] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.mem_read_address[1] top.tb_avm_cache.i_avm_memory_pause.i_avm_memory.mem_read_address[0]
+@1401200
+-avm_memory
 [pattern_trace] 1
 [pattern_trace] 0
