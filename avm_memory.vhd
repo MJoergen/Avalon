@@ -85,6 +85,12 @@ begin
 
          end if;
 
+         if to_integer(unsigned(read_burstcount)) > 0 then
+            assert avm_read_i = '0'
+               report "avm_memory: Read burst protocol error"
+                  severity error;
+         end if;
+
          if (avm_read_i = '1' and avm_waitrequest_o = '0') or to_integer(unsigned(read_burstcount)) > 0 then
             read_address        <= std_logic_vector(unsigned(mem_read_address) + 1);
             read_burstcount     <= std_logic_vector(unsigned(mem_read_burstcount) - 1);
