@@ -166,15 +166,19 @@ begin
    mem_proc : process (clk_i)
    begin
       if rising_edge(clk_i) then
-         if m_avm_write_o = '1' then
+         if m_avm_waitrequest_i = '0' and m_avm_write_o = '1' then
             for i in 0 to G_DATA_SIZE / 8 - 1 loop
-               if m_avm_byteenable_o(i) then
+               if m_avm_byteenable_o(i) = '1' then
                   mem(to_integer(m_avm_address_o))(8 * i + 7 downto 8 * i) <= m_avm_writedata_o(8 * i + 7 downto 8 * i);
                end if;
             end loop;
          end if;
-         if m_avm_read_o = '1' then
+         if m_avm_waitrequest_i = '0' and m_avm_read_o = '1' then
+            address_o  <= m_avm_address_o;
             data_exp_o <= mem(to_integer(m_avm_address_o));
+         end if;
+         if rst_i = '1' then
+           data_exp_o <= (others => '0');
          end if;
       end if;
    end process mem_proc;
