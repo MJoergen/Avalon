@@ -161,14 +161,6 @@ begin
       severity failure;
 
    ---------------------------------------------------------------------------
-   -- LFSR advance strobe: the LFSR steps to its next state whenever a
-   -- transaction is accepted on the master bus (write or read, with
-   -- waitrequest deasserted).  This guarantees each transaction uses a
-   -- unique LFSR sample.
-   ---------------------------------------------------------------------------
-   lfsr_update_s <= (m_avm_write_o or m_avm_read_o) and not m_avm_waitrequest_i;
-
-   ---------------------------------------------------------------------------
    -- Combinatorial decode of LFSR fields into transaction parameters.
    ---------------------------------------------------------------------------
    address_s    <= lfsr_random_s(R_ADDRESS);
@@ -187,6 +179,8 @@ begin
    master_proc : process (clk_i)
    begin
       if rising_edge(clk_i) then
+         lfsr_update_s <= '0';
+
          -- Default: deassert master bus request once accepted by the slave
          if m_avm_waitrequest_i = '0' then
             m_avm_write_o <= '0';
@@ -262,6 +256,7 @@ begin
                      --     full-word write to avoid a no-op that would
                      --     never mark any byte-lane as written).
                      -- ---------------------------------------------------
+                     lfsr_update_s                  <= '1';
                      m_avm_write_o                  <= '1';
                      m_avm_read_o                   <= '0';
                      m_avm_address_o                <= address_s;
@@ -284,6 +279,7 @@ begin
                      -- address has been written (written = C_ALL_ONES), so
                      -- the shadow memory holds a valid full-word reference.
                      -- ---------------------------------------------------
+                     lfsr_update_s      <= '1';
                      m_avm_write_o      <= '0';
                      m_avm_read_o       <= '1';
                      m_avm_address_o    <= address_s;
