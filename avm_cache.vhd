@@ -180,6 +180,54 @@ begin
    -- Main FSM
    ---------------------------------------------------------------------------
    fsm_proc : process (clk_i)
+
+      -----------------------------------------------------------------
+      -- Procedure: Pass a write through to the master bus and perform
+      -- an optional write-through update of cached data using
+      -- byte-enables.  Sets state <= IDLE_ST.
+      --
+      -- Called from both IDLE_ST and the READING_ST fill-completion
+      -- overlap section.
+      -----------------------------------------------------------------
+      procedure proc_write_passthrough is
+      begin
+         m_avm_write_o      <= '1';
+         m_avm_read_o       <= '0';
+         m_avm_address_o    <= s_avm_address_i;
+         m_avm_writedata_o  <= s_avm_writedata_i;
+         m_avm_byteenable_o <= s_avm_byteenable_i;
+         m_avm_burstcount_o <= s_avm_burstcount_i;
+         if cache_wr_hit_s = '1' then
+            for i in 0 to G_DATA_SIZE / 8 - 1 loop
+               if s_avm_byteenable_i(i) = '1' then
+                  cache_data(to_integer(cache_offset_s))(8 * i + 7 downto 8 * i) <= s_avm_writedata_i(8 * i + 7 downto 8 * i);
+               end if;
+            end loop;
+         end if;
+         state <= IDLE_ST;
+      end procedure proc_write_passthrough;
+
+      -----------------------------------------------------------------
+      -- Procedure: Initiate a full-line cache read from the client's
+      -- requested address on a cache miss.  Resets cache_addr and
+      -- cache_count, and enters READING_ST.
+      --
+      -- Called from both IDLE_ST and the READING_ST fill-completion
+      -- overlap section.
+      -----------------------------------------------------------------
+      procedure proc_read_miss is
+      begin
+         m_avm_write_o      <= '0';
+         m_avm_read_o       <= '1';
+         m_avm_byteenable_o <= (others => '1');
+         m_avm_address_o    <= s_avm_address_i;
+         m_avm_burstcount_o <= std_logic_vector(to_unsigned(G_CACHE_SIZE, G_BURST_WIDTH));
+         rd_burstcount      <= s_avm_burstcount_i;
+         cache_count        <= 0;
+         cache_addr         <= s_avm_address_i;
+         state              <= READING_ST;
+      end procedure proc_read_miss;
+
    begin
       if rising_edge(clk_i) then
          if rst_i = '0' then
@@ -209,21 +257,7 @@ begin
                -- write-through update of cached data using byte-enables.
                -----------------------------------------------------------------
                if s_avm_write_i = '1' and s_avm_waitrequest_o = '0' then
-                  m_avm_write_o      <= '1';
-                  m_avm_read_o       <= '0';
-                  m_avm_address_o    <= s_avm_address_i;
-                  m_avm_writedata_o  <= s_avm_writedata_i;
-                  m_avm_byteenable_o <= s_avm_byteenable_i;
-                  m_avm_burstcount_o <= s_avm_burstcount_i;
-                  if cache_wr_hit_s = '1' then
-                     -- Write-through: update individual bytes in the buffer
-                     for i in 0 to G_DATA_SIZE / 8 - 1 loop
-                        if s_avm_byteenable_i(i) = '1' then
-                           cache_data(to_integer(cache_offset_s))(8 * i + 7 downto 8 * i) <= s_avm_writedata_i(8 * i + 7 downto 8 * i);
-                        end if;
-                     end loop;
-                  end if;
-                  state <= IDLE_ST;
+                  proc_write_passthrough;
                end if;
 
                -----------------------------------------------------------------
@@ -239,6 +273,18 @@ begin
                      -- Read-ahead trigger: when the client reads the word at
                      -- the midpoint (offset = G_CACHE_SIZE/2 - 1), slide the
                      -- buffer window forward.
+                     --
+                     -- NOTE: This sliding-window logic is intentionally NOT
+                     -- duplicated in the READING_ST fill-completion read-hit
+                     -- path.  At fill completion the last word has just been
+                     -- received via m_avm_readdata_i but the corresponding
+                     -- cache_data entry has not yet been committed (VHDL
+                     -- deferred signal update).  A slide at that instant
+                     -- would copy the stale pre-fill value of
+                     -- cache_data(G_CACHE_SIZE-1) into the lower half,
+                     -- corrupting the buffer.  The slide will fire correctly
+                     -- one cycle later when the client re-reads at the
+                     -- midpoint in IDLE_ST.
                      --------------------------------------------------------
                      if cache_offset_s = G_CACHE_SIZE / 2 - 1 then
                         -- Slide the window: shift the upper half into the lower half
@@ -259,16 +305,7 @@ begin
                      end if;
                   else
                      -- Cache miss: initiate a full-line read from the requested address
-                     m_avm_write_o      <= '0';
-                     m_avm_read_o       <= '1';
-                     m_avm_byteenable_o <= (others => '1');
-                     m_avm_address_o    <= s_avm_address_i;
-                     m_avm_burstcount_o <= std_logic_vector(to_unsigned(G_CACHE_SIZE, G_BURST_WIDTH));
-                     cache_addr         <= s_avm_address_i;
-                     cache_count        <= 0;
-                     -- Forward this many words to the client as they arrive
-                     rd_burstcount      <= s_avm_burstcount_i;
-                     state              <= READING_ST;
+                     proc_read_miss;
                   end if;
                end if;
 
@@ -311,40 +348,19 @@ begin
 
                      -- (Lowest priority) Accept a new write immediately
                      if s_avm_write_i = '1' and s_avm_waitrequest_o = '0' then
-                        m_avm_write_o      <= '1';
-                        m_avm_read_o       <= '0';
-                        m_avm_address_o    <= s_avm_address_i;
-                        m_avm_writedata_o  <= s_avm_writedata_i;
-                        m_avm_byteenable_o <= s_avm_byteenable_i;
-                        m_avm_burstcount_o <= s_avm_burstcount_i;
-                        if cache_wr_hit_s = '1' then
-                           -- Write-through update
-                           for i in 0 to G_DATA_SIZE / 8 - 1 loop
-                              if s_avm_byteenable_i(i) = '1' then
-                                 cache_data(to_integer(cache_offset_s))(8 * i + 7 downto 8 * i) <= s_avm_writedata_i(8 * i + 7 downto 8 * i);
-                              end if;
-                           end loop;
-                        end if;
-                        state <= IDLE_ST;
+                        proc_write_passthrough;
                      end if;
 
                      -- (Medium priority) Accept a new read immediately
                      if s_avm_read_i = '1' and s_avm_waitrequest_o = '0' then
                         if cache_rd_hit_s = '1' then
-                           -- Hit: serve from buffer
+                           -- Hit: serve from buffer (no sliding-window check;
+                           -- see the NOTE in IDLE_ST for the rationale)
                            s_avm_readdata_o      <= cache_data(to_integer(cache_offset_s));
                            s_avm_readdatavalid_o <= '1';
                         else
                            -- Miss: initiate new full-line read
-                           m_avm_write_o      <= '0';
-                           m_avm_read_o       <= '1';
-                           m_avm_byteenable_o <= (others => '1');
-                           m_avm_address_o    <= s_avm_address_i;
-                           m_avm_burstcount_o <= std_logic_vector(to_unsigned(G_CACHE_SIZE, G_BURST_WIDTH));
-                           rd_burstcount      <= s_avm_burstcount_i;
-                           cache_count        <= 0;
-                           cache_addr         <= s_avm_address_i;
-                           state              <= READING_ST;
+                           proc_read_miss;
                         end if;
                      end if;
 
