@@ -1,22 +1,24 @@
 [*]
-[*] GTKWave Analyzer v3.3.103 (w)1999-2019 BSI
-[*] Mon Oct 17 13:12:45 2022
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Tue Jun 16 13:56:11 2026
 [*]
 [dumpfile] "/home/mfj/git/PRIVATE/MJoergen/Avalon/tb_avm_master2.ghw"
-[dumpfile_mtime] "Mon Oct 17 13:12:36 2022"
-[dumpfile_size] 729988
+[dumpfile_mtime] "Tue Jun 16 13:50:40 2026"
+[dumpfile_size] 472416
 [savefile] "/home/mfj/git/PRIVATE/MJoergen/Avalon/tb_avm_master2.gtkw"
 [timestart] 0
-[size] 1853 1138
+[size] 1853 1127
 [pos] 0 135
-*-32.229034 700000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-31.568947 930000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] top.
 [treeopen] top.tb_avm_master2.
+[treeopen] top.tb_avm_master2.i_avm_memory_pause.
+[treeopen] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.
 [sst_width] 331
 [signals_width] 380
 [sst_expanded] 1
 [sst_vpaned_height] 270
-@800200
+@c00200
 -tb
 @28
 top.tb_avm_master2.clk
@@ -37,13 +39,130 @@ top.tb_avm_master2.avm_read
 @28
 #{top.tb_avm_master2.avm_byteenable[1:0]} top.tb_avm_master2.avm_byteenable[1] top.tb_avm_master2.avm_byteenable[0]
 @22
-#{top.tb_avm_master2.avm_burstcount[7:0]} top.tb_avm_master2.avm_burstcount[7] top.tb_avm_master2.avm_burstcount[6] top.tb_avm_master2.avm_burstcount[5] top.tb_avm_master2.avm_burstcount[4] top.tb_avm_master2.avm_burstcount[3] top.tb_avm_master2.avm_burstcount[2] top.tb_avm_master2.avm_burstcount[1] top.tb_avm_master2.avm_burstcount[0]
+#{top.tb_avm_master2.avm_burstcount[7:0]} top.tb_avm_master2.avm_burstcount[3] top.tb_avm_master2.avm_burstcount[2] top.tb_avm_master2.avm_burstcount[1] top.tb_avm_master2.avm_burstcount[0]
 @28
 [color] 3
 top.tb_avm_master2.avm_readdatavalid
 @22
 #{top.tb_avm_master2.avm_readdata[15:0]} top.tb_avm_master2.avm_readdata[15] top.tb_avm_master2.avm_readdata[14] top.tb_avm_master2.avm_readdata[13] top.tb_avm_master2.avm_readdata[12] top.tb_avm_master2.avm_readdata[11] top.tb_avm_master2.avm_readdata[10] top.tb_avm_master2.avm_readdata[9] top.tb_avm_master2.avm_readdata[8] top.tb_avm_master2.avm_readdata[7] top.tb_avm_master2.avm_readdata[6] top.tb_avm_master2.avm_readdata[5] top.tb_avm_master2.avm_readdata[4] top.tb_avm_master2.avm_readdata[3] top.tb_avm_master2.avm_readdata[2] top.tb_avm_master2.avm_readdata[1] top.tb_avm_master2.avm_readdata[0]
-@1000200
+@1401200
 -tb
+@800200
+-avm_master2
+@28
+top.tb_avm_master2.i_avm_master2.clk_i
+top.tb_avm_master2.i_avm_master2.rst_i
+top.tb_avm_master2.i_avm_master2.start_i
+top.tb_avm_master2.i_avm_master2.wait_o
+@22
+#{top.tb_avm_master2.i_avm_master2.write_burstcount_i[3:0]} top.tb_avm_master2.i_avm_master2.write_burstcount_i[3] top.tb_avm_master2.i_avm_master2.write_burstcount_i[2] top.tb_avm_master2.i_avm_master2.write_burstcount_i[1] top.tb_avm_master2.i_avm_master2.write_burstcount_i[0]
+#{top.tb_avm_master2.i_avm_master2.read_burstcount_i[3:0]} top.tb_avm_master2.i_avm_master2.read_burstcount_i[3] top.tb_avm_master2.i_avm_master2.read_burstcount_i[2] top.tb_avm_master2.i_avm_master2.read_burstcount_i[1] top.tb_avm_master2.i_avm_master2.read_burstcount_i[0]
+@28
+[color] 6
+top.tb_avm_master2.i_avm_master2.m_avm_waitrequest_i
+[color] 2
+top.tb_avm_master2.i_avm_master2.m_avm_write_o
+[color] 2
+top.tb_avm_master2.i_avm_master2.m_avm_read_o
+@22
+#{top.tb_avm_master2.i_avm_master2.m_avm_address_o[4:0]} top.tb_avm_master2.i_avm_master2.m_avm_address_o[4] top.tb_avm_master2.i_avm_master2.m_avm_address_o[3] top.tb_avm_master2.i_avm_master2.m_avm_address_o[2] top.tb_avm_master2.i_avm_master2.m_avm_address_o[1] top.tb_avm_master2.i_avm_master2.m_avm_address_o[0]
+#{top.tb_avm_master2.i_avm_master2.m_avm_writedata_o[15:0]} top.tb_avm_master2.i_avm_master2.m_avm_writedata_o[15] top.tb_avm_master2.i_avm_master2.m_avm_writedata_o[14] top.tb_avm_master2.i_avm_master2.m_avm_writedata_o[13] top.tb_avm_master2.i_avm_master2.m_avm_writedata_o[12] top.tb_avm_master2.i_avm_master2.m_avm_writedata_o[11] top.tb_avm_master2.i_avm_master2.m_avm_writedata_o[10] top.tb_avm_master2.i_avm_master2.m_avm_writedata_o[9] top.tb_avm_master2.i_avm_master2.m_avm_writedata_o[8] top.tb_avm_master2.i_avm_master2.m_avm_writedata_o[7] top.tb_avm_master2.i_avm_master2.m_avm_writedata_o[6] top.tb_avm_master2.i_avm_master2.m_avm_writedata_o[5] top.tb_avm_master2.i_avm_master2.m_avm_writedata_o[4] top.tb_avm_master2.i_avm_master2.m_avm_writedata_o[3] top.tb_avm_master2.i_avm_master2.m_avm_writedata_o[2] top.tb_avm_master2.i_avm_master2.m_avm_writedata_o[1] top.tb_avm_master2.i_avm_master2.m_avm_writedata_o[0]
+@28
+#{top.tb_avm_master2.i_avm_master2.m_avm_byteenable_o[1:0]} top.tb_avm_master2.i_avm_master2.m_avm_byteenable_o[1] top.tb_avm_master2.i_avm_master2.m_avm_byteenable_o[0]
+@22
+#{top.tb_avm_master2.i_avm_master2.m_avm_burstcount_o[3:0]} top.tb_avm_master2.i_avm_master2.m_avm_burstcount_o[3] top.tb_avm_master2.i_avm_master2.m_avm_burstcount_o[2] top.tb_avm_master2.i_avm_master2.m_avm_burstcount_o[1] top.tb_avm_master2.i_avm_master2.m_avm_burstcount_o[0]
+@28
+[color] 3
+top.tb_avm_master2.i_avm_master2.m_avm_readdatavalid_i
+@22
+#{top.tb_avm_master2.i_avm_master2.m_avm_readdata_i[15:0]} top.tb_avm_master2.i_avm_master2.m_avm_readdata_i[15] top.tb_avm_master2.i_avm_master2.m_avm_readdata_i[14] top.tb_avm_master2.i_avm_master2.m_avm_readdata_i[13] top.tb_avm_master2.i_avm_master2.m_avm_readdata_i[12] top.tb_avm_master2.i_avm_master2.m_avm_readdata_i[11] top.tb_avm_master2.i_avm_master2.m_avm_readdata_i[10] top.tb_avm_master2.i_avm_master2.m_avm_readdata_i[9] top.tb_avm_master2.i_avm_master2.m_avm_readdata_i[8] top.tb_avm_master2.i_avm_master2.m_avm_readdata_i[7] top.tb_avm_master2.i_avm_master2.m_avm_readdata_i[6] top.tb_avm_master2.i_avm_master2.m_avm_readdata_i[5] top.tb_avm_master2.i_avm_master2.m_avm_readdata_i[4] top.tb_avm_master2.i_avm_master2.m_avm_readdata_i[3] top.tb_avm_master2.i_avm_master2.m_avm_readdata_i[2] top.tb_avm_master2.i_avm_master2.m_avm_readdata_i[1] top.tb_avm_master2.i_avm_master2.m_avm_readdata_i[0]
+#{top.tb_avm_master2.i_avm_master2.address_o[4:0]} top.tb_avm_master2.i_avm_master2.address_o[4] top.tb_avm_master2.i_avm_master2.address_o[3] top.tb_avm_master2.i_avm_master2.address_o[2] top.tb_avm_master2.i_avm_master2.address_o[1] top.tb_avm_master2.i_avm_master2.address_o[0]
+#{top.tb_avm_master2.i_avm_master2.data_exp_o[15:0]} top.tb_avm_master2.i_avm_master2.data_exp_o[15] top.tb_avm_master2.i_avm_master2.data_exp_o[14] top.tb_avm_master2.i_avm_master2.data_exp_o[13] top.tb_avm_master2.i_avm_master2.data_exp_o[12] top.tb_avm_master2.i_avm_master2.data_exp_o[11] top.tb_avm_master2.i_avm_master2.data_exp_o[10] top.tb_avm_master2.i_avm_master2.data_exp_o[9] top.tb_avm_master2.i_avm_master2.data_exp_o[8] top.tb_avm_master2.i_avm_master2.data_exp_o[7] top.tb_avm_master2.i_avm_master2.data_exp_o[6] top.tb_avm_master2.i_avm_master2.data_exp_o[5] top.tb_avm_master2.i_avm_master2.data_exp_o[4] top.tb_avm_master2.i_avm_master2.data_exp_o[3] top.tb_avm_master2.i_avm_master2.data_exp_o[2] top.tb_avm_master2.i_avm_master2.data_exp_o[1] top.tb_avm_master2.i_avm_master2.data_exp_o[0]
+#{top.tb_avm_master2.i_avm_master2.data_read_o[15:0]} top.tb_avm_master2.i_avm_master2.data_read_o[15] top.tb_avm_master2.i_avm_master2.data_read_o[14] top.tb_avm_master2.i_avm_master2.data_read_o[13] top.tb_avm_master2.i_avm_master2.data_read_o[12] top.tb_avm_master2.i_avm_master2.data_read_o[11] top.tb_avm_master2.i_avm_master2.data_read_o[10] top.tb_avm_master2.i_avm_master2.data_read_o[9] top.tb_avm_master2.i_avm_master2.data_read_o[8] top.tb_avm_master2.i_avm_master2.data_read_o[7] top.tb_avm_master2.i_avm_master2.data_read_o[6] top.tb_avm_master2.i_avm_master2.data_read_o[5] top.tb_avm_master2.i_avm_master2.data_read_o[4] top.tb_avm_master2.i_avm_master2.data_read_o[3] top.tb_avm_master2.i_avm_master2.data_read_o[2] top.tb_avm_master2.i_avm_master2.data_read_o[1] top.tb_avm_master2.i_avm_master2.data_read_o[0]
+@28
+top.tb_avm_master2.i_avm_master2.error_o
+@c00200
+-Internal
+@22
+#{top.tb_avm_master2.i_avm_master2.lfsr_random_s[63:0]} top.tb_avm_master2.i_avm_master2.lfsr_random_s[63] top.tb_avm_master2.i_avm_master2.lfsr_random_s[62] top.tb_avm_master2.i_avm_master2.lfsr_random_s[61] top.tb_avm_master2.i_avm_master2.lfsr_random_s[60] top.tb_avm_master2.i_avm_master2.lfsr_random_s[59] top.tb_avm_master2.i_avm_master2.lfsr_random_s[58] top.tb_avm_master2.i_avm_master2.lfsr_random_s[57] top.tb_avm_master2.i_avm_master2.lfsr_random_s[56] top.tb_avm_master2.i_avm_master2.lfsr_random_s[55] top.tb_avm_master2.i_avm_master2.lfsr_random_s[54] top.tb_avm_master2.i_avm_master2.lfsr_random_s[53] top.tb_avm_master2.i_avm_master2.lfsr_random_s[52] top.tb_avm_master2.i_avm_master2.lfsr_random_s[51] top.tb_avm_master2.i_avm_master2.lfsr_random_s[50] top.tb_avm_master2.i_avm_master2.lfsr_random_s[49] top.tb_avm_master2.i_avm_master2.lfsr_random_s[48] top.tb_avm_master2.i_avm_master2.lfsr_random_s[47] top.tb_avm_master2.i_avm_master2.lfsr_random_s[46] top.tb_avm_master2.i_avm_master2.lfsr_random_s[45] top.tb_avm_master2.i_avm_master2.lfsr_random_s[44] top.tb_avm_master2.i_avm_master2.lfsr_random_s[43] top.tb_avm_master2.i_avm_master2.lfsr_random_s[42] top.tb_avm_master2.i_avm_master2.lfsr_random_s[41] top.tb_avm_master2.i_avm_master2.lfsr_random_s[40] top.tb_avm_master2.i_avm_master2.lfsr_random_s[39] top.tb_avm_master2.i_avm_master2.lfsr_random_s[38] top.tb_avm_master2.i_avm_master2.lfsr_random_s[37] top.tb_avm_master2.i_avm_master2.lfsr_random_s[36] top.tb_avm_master2.i_avm_master2.lfsr_random_s[35] top.tb_avm_master2.i_avm_master2.lfsr_random_s[34] top.tb_avm_master2.i_avm_master2.lfsr_random_s[33] top.tb_avm_master2.i_avm_master2.lfsr_random_s[32] top.tb_avm_master2.i_avm_master2.lfsr_random_s[31] top.tb_avm_master2.i_avm_master2.lfsr_random_s[30] top.tb_avm_master2.i_avm_master2.lfsr_random_s[29] top.tb_avm_master2.i_avm_master2.lfsr_random_s[28] top.tb_avm_master2.i_avm_master2.lfsr_random_s[27] top.tb_avm_master2.i_avm_master2.lfsr_random_s[26] top.tb_avm_master2.i_avm_master2.lfsr_random_s[25] top.tb_avm_master2.i_avm_master2.lfsr_random_s[24] top.tb_avm_master2.i_avm_master2.lfsr_random_s[23] top.tb_avm_master2.i_avm_master2.lfsr_random_s[22] top.tb_avm_master2.i_avm_master2.lfsr_random_s[21] top.tb_avm_master2.i_avm_master2.lfsr_random_s[20] top.tb_avm_master2.i_avm_master2.lfsr_random_s[19] top.tb_avm_master2.i_avm_master2.lfsr_random_s[18] top.tb_avm_master2.i_avm_master2.lfsr_random_s[17] top.tb_avm_master2.i_avm_master2.lfsr_random_s[16] top.tb_avm_master2.i_avm_master2.lfsr_random_s[15] top.tb_avm_master2.i_avm_master2.lfsr_random_s[14] top.tb_avm_master2.i_avm_master2.lfsr_random_s[13] top.tb_avm_master2.i_avm_master2.lfsr_random_s[12] top.tb_avm_master2.i_avm_master2.lfsr_random_s[11] top.tb_avm_master2.i_avm_master2.lfsr_random_s[10] top.tb_avm_master2.i_avm_master2.lfsr_random_s[9] top.tb_avm_master2.i_avm_master2.lfsr_random_s[8] top.tb_avm_master2.i_avm_master2.lfsr_random_s[7] top.tb_avm_master2.i_avm_master2.lfsr_random_s[6] top.tb_avm_master2.i_avm_master2.lfsr_random_s[5] top.tb_avm_master2.i_avm_master2.lfsr_random_s[4] top.tb_avm_master2.i_avm_master2.lfsr_random_s[3] top.tb_avm_master2.i_avm_master2.lfsr_random_s[2] top.tb_avm_master2.i_avm_master2.lfsr_random_s[1] top.tb_avm_master2.i_avm_master2.lfsr_random_s[0]
+@420
+top.tb_avm_master2.i_avm_master2.state
+top.tb_avm_master2.i_avm_master2.num_read
+@22
+#{top.tb_avm_master2.i_avm_master2.address_s[4:0]} top.tb_avm_master2.i_avm_master2.address_s[4] top.tb_avm_master2.i_avm_master2.address_s[3] top.tb_avm_master2.i_avm_master2.address_s[2] top.tb_avm_master2.i_avm_master2.address_s[1] top.tb_avm_master2.i_avm_master2.address_s[0]
+#{top.tb_avm_master2.i_avm_master2.data_s[15:0]} top.tb_avm_master2.i_avm_master2.data_s[15] top.tb_avm_master2.i_avm_master2.data_s[14] top.tb_avm_master2.i_avm_master2.data_s[13] top.tb_avm_master2.i_avm_master2.data_s[12] top.tb_avm_master2.i_avm_master2.data_s[11] top.tb_avm_master2.i_avm_master2.data_s[10] top.tb_avm_master2.i_avm_master2.data_s[9] top.tb_avm_master2.i_avm_master2.data_s[8] top.tb_avm_master2.i_avm_master2.data_s[7] top.tb_avm_master2.i_avm_master2.data_s[6] top.tb_avm_master2.i_avm_master2.data_s[5] top.tb_avm_master2.i_avm_master2.data_s[4] top.tb_avm_master2.i_avm_master2.data_s[3] top.tb_avm_master2.i_avm_master2.data_s[2] top.tb_avm_master2.i_avm_master2.data_s[1] top.tb_avm_master2.i_avm_master2.data_s[0]
+@28
+#{top.tb_avm_master2.i_avm_master2.byteenable_s[1:0]} top.tb_avm_master2.i_avm_master2.byteenable_s[1] top.tb_avm_master2.i_avm_master2.byteenable_s[0]
+top.tb_avm_master2.i_avm_master2.write_s
+top.tb_avm_master2.i_avm_master2.lfsr_update_s
+@22
+#{top.tb_avm_master2.i_avm_master2.write_base_addr[4:0]} top.tb_avm_master2.i_avm_master2.write_base_addr[4] top.tb_avm_master2.i_avm_master2.write_base_addr[3] top.tb_avm_master2.i_avm_master2.write_base_addr[2] top.tb_avm_master2.i_avm_master2.write_base_addr[1] top.tb_avm_master2.i_avm_master2.write_base_addr[0]
+#{top.tb_avm_master2.i_avm_master2.write_beat_index[3:0]} top.tb_avm_master2.i_avm_master2.write_beat_index[3] top.tb_avm_master2.i_avm_master2.write_beat_index[2] top.tb_avm_master2.i_avm_master2.write_beat_index[1] top.tb_avm_master2.i_avm_master2.write_beat_index[0]
+#{top.tb_avm_master2.i_avm_master2.write_burstcount[3:0]} top.tb_avm_master2.i_avm_master2.write_burstcount[3] top.tb_avm_master2.i_avm_master2.write_burstcount[2] top.tb_avm_master2.i_avm_master2.write_burstcount[1] top.tb_avm_master2.i_avm_master2.write_burstcount[0]
+#{top.tb_avm_master2.i_avm_master2.read_base_addr[4:0]} top.tb_avm_master2.i_avm_master2.read_base_addr[4] top.tb_avm_master2.i_avm_master2.read_base_addr[3] top.tb_avm_master2.i_avm_master2.read_base_addr[2] top.tb_avm_master2.i_avm_master2.read_base_addr[1] top.tb_avm_master2.i_avm_master2.read_base_addr[0]
+#{top.tb_avm_master2.i_avm_master2.read_beat_index[3:0]} top.tb_avm_master2.i_avm_master2.read_beat_index[3] top.tb_avm_master2.i_avm_master2.read_beat_index[2] top.tb_avm_master2.i_avm_master2.read_beat_index[1] top.tb_avm_master2.i_avm_master2.read_beat_index[0]
+#{top.tb_avm_master2.i_avm_master2.read_burstcount[3:0]} top.tb_avm_master2.i_avm_master2.read_burstcount[3] top.tb_avm_master2.i_avm_master2.read_burstcount[2] top.tb_avm_master2.i_avm_master2.read_burstcount[1] top.tb_avm_master2.i_avm_master2.read_burstcount[0]
+@1401200
+-Internal
+@1000200
+-avm_master2
+@c00200
+-avm_memory
+@28
+top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.clk_i
+top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.rst_i
+[color] 6
+top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_waitrequest_o
+[color] 2
+top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_write_i
+[color] 2
+top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_read_i
+@22
+#{top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_address_i[4:0]} top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_address_i[4] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_address_i[3] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_address_i[2] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_address_i[1] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_address_i[0]
+#{top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_writedata_i[15:0]} top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_writedata_i[15] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_writedata_i[14] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_writedata_i[13] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_writedata_i[12] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_writedata_i[11] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_writedata_i[10] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_writedata_i[9] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_writedata_i[8] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_writedata_i[7] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_writedata_i[6] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_writedata_i[5] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_writedata_i[4] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_writedata_i[3] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_writedata_i[2] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_writedata_i[1] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_writedata_i[0]
+@28
+#{top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_byteenable_i[1:0]} top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_byteenable_i[1] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_byteenable_i[0]
+@22
+#{top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_burstcount_i[3:0]} top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_burstcount_i[3] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_burstcount_i[2] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_burstcount_i[1] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_burstcount_i[0]
+@28
+[color] 3
+top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_readdatavalid_o
+@c00022
+#{top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_readdata_o[15:0]} top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_readdata_o[15] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_readdata_o[14] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_readdata_o[13] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_readdata_o[12] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_readdata_o[11] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_readdata_o[10] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_readdata_o[9] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_readdata_o[8] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_readdata_o[7] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_readdata_o[6] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_readdata_o[5] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_readdata_o[4] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_readdata_o[3] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_readdata_o[2] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_readdata_o[1] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_readdata_o[0]
+@28
+top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_readdata_o[15]
+top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_readdata_o[14]
+top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_readdata_o[13]
+top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_readdata_o[12]
+top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_readdata_o[11]
+top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_readdata_o[10]
+top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_readdata_o[9]
+top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_readdata_o[8]
+top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_readdata_o[7]
+top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_readdata_o[6]
+top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_readdata_o[5]
+top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_readdata_o[4]
+top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_readdata_o[3]
+top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_readdata_o[2]
+top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_readdata_o[1]
+top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.avm_readdata_o[0]
+@1401200
+-group_end
+@800200
+-Internal
+@22
+#{top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.burst_address[4:0]} top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.burst_address[4] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.burst_address[3] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.burst_address[2] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.burst_address[1] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.burst_address[0]
+#{top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.write_burstcount[3:0]} top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.write_burstcount[3] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.write_burstcount[2] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.write_burstcount[1] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.write_burstcount[0]
+#{top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.write_address[4:0]} top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.write_address[4] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.write_address[3] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.write_address[2] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.write_address[1] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.write_address[0]
+#{top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.read_burstcount[3:0]} top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.read_burstcount[3] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.read_burstcount[2] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.read_burstcount[1] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.read_burstcount[0]
+#{top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.read_address[4:0]} top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.read_address[4] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.read_address[3] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.read_address[2] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.read_address[1] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.read_address[0]
+#{top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.mem_write_burstcount[3:0]} top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.mem_write_burstcount[3] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.mem_write_burstcount[2] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.mem_write_burstcount[1] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.mem_write_burstcount[0]
+#{top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.mem_read_burstcount[3:0]} top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.mem_read_burstcount[3] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.mem_read_burstcount[2] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.mem_read_burstcount[1] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.mem_read_burstcount[0]
+#{top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.mem_write_address[4:0]} top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.mem_write_address[4] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.mem_write_address[3] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.mem_write_address[2] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.mem_write_address[1] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.mem_write_address[0]
+#{top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.mem_read_address[4:0]} top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.mem_read_address[4] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.mem_read_address[3] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.mem_read_address[2] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.mem_read_address[1] top.tb_avm_master2.i_avm_memory_pause.i_avm_memory.mem_read_address[0]
+@1000200
+-Internal
+@1401200
+-avm_memory
 [pattern_trace] 1
 [pattern_trace] 0
