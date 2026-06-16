@@ -4,15 +4,16 @@ use ieee.numeric_std.all;
 
 entity tb_avm_master2 is
    generic (
-      G_REQ_PAUSE    : integer;
-      G_RESP_PAUSE   : integer
+      G_REQ_PAUSE    : natural := 1;
+      G_RESP_PAUSE   : natural := 1
    );
 end entity tb_avm_master2;
 
 architecture simulation of tb_avm_master2 is
 
-   constant C_DATA_SIZE     : integer := 16;
-   constant C_ADDRESS_SIZE  : integer := 5;
+   constant C_BURST_WIDTH   : natural := 4;
+   constant C_DATA_SIZE     : natural := 16;
+   constant C_ADDRESS_SIZE  : natural := 5;
 
    signal clk               : std_logic;
    signal rst               : std_logic;
@@ -27,7 +28,7 @@ architecture simulation of tb_avm_master2 is
    signal avm_address       : std_logic_vector(C_ADDRESS_SIZE-1 downto 0);
    signal avm_writedata     : std_logic_vector(C_DATA_SIZE-1 downto 0);
    signal avm_byteenable    : std_logic_vector(C_DATA_SIZE/8-1 downto 0);
-   signal avm_burstcount    : std_logic_vector(7 downto 0);
+   signal avm_burstcount    : std_logic_vector(C_BURST_WIDTH-1 downto 0);
    signal avm_readdata      : std_logic_vector(C_DATA_SIZE-1 downto 0);
    signal avm_readdatavalid : std_logic;
    signal avm_waitrequest   : std_logic;
@@ -95,6 +96,7 @@ begin
 
    i_avm_master2 : entity work.avm_master2
       generic map (
+         G_BURST_WIDTH  => C_BURST_WIDTH,
          G_ADDRESS_SIZE => C_ADDRESS_SIZE,
          G_DATA_SIZE    => C_DATA_SIZE
       )
@@ -103,8 +105,8 @@ begin
          rst_i                 => rst,
          start_i               => avm_start,
          wait_o                => avm_wait,
-         write_burstcount_i    => X"01",
-         read_burstcount_i     => X"01",
+         write_burstcount_i    => X"2",
+         read_burstcount_i     => X"2",
          m_avm_write_o         => avm_write,
          m_avm_read_o          => avm_read,
          m_avm_address_o       => avm_address,
@@ -123,6 +125,7 @@ begin
 
    i_avm_memory_pause : entity work.avm_memory_pause
       generic map (
+         G_BURST_WIDTH  => C_BURST_WIDTH,
          G_REQ_PAUSE    => G_REQ_PAUSE,
          G_RESP_PAUSE   => G_RESP_PAUSE,
          G_ADDRESS_SIZE => C_ADDRESS_SIZE,
