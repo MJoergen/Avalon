@@ -20,6 +20,10 @@
 --   within the currently cached region, the buffer is updated (write-through)
 --   with byte-enable granularity.
 --
+--   There is no external mechanism to invalidate the cache on request. In other
+--   words, it is assumed that there is no other master writing to the client
+--   at any time.
+--
 -- Bus interfaces:
 --   s_avm_* : Avalon-MM slave  (toward the client / upstream master)
 --   m_avm_* : Avalon-MM master (toward the memory / downstream slave)
@@ -68,17 +72,17 @@ end entity avm_cache;
 
 architecture synthesis of avm_cache is
 
-   type mem_t is array (0 to G_CACHE_SIZE-1) of std_logic_vector(G_DATA_SIZE-1 downto 0);
-   type t_state is (IDLE_ST, READING_ST);
+   type mem_type is array (0 to G_CACHE_SIZE-1) of std_logic_vector(G_DATA_SIZE-1 downto 0);
+   type state_type is (IDLE_ST, READING_ST);
 
    ---------------------------------------------------------------------------
    -- Registers
    ---------------------------------------------------------------------------
-   signal cache_data    : mem_t;                                               -- Buffer storage (one contiguous line of G_CACHE_SIZE words)
+   signal cache_data    : mem_type;                                            -- Buffer storage (one contiguous line of G_CACHE_SIZE words)
    signal cache_addr    : std_logic_vector(G_ADDRESS_SIZE-1 downto 0);         -- Base address of the currently cached region
    signal cache_count   : natural range 0 to G_CACHE_SIZE;                     -- Number of valid words received so far (0 = empty, G_CACHE_SIZE = full)
    signal rd_burstcount : std_logic_vector(7 downto 0);                        -- Remaining words to forward to the client for the current read burst
-   signal state         : t_state := IDLE_ST;
+   signal state         : state_type := IDLE_ST;
 
    ---------------------------------------------------------------------------
    -- Combinatorial signals
@@ -95,7 +99,22 @@ begin
       report "G_CACHE_SIZE must be even and >= 2" severity failure;
    assert G_CACHE_SIZE <= 255
       report "G_CACHE_SIZE must fit in 8-bit burstcount" severity failure;
+   assert G_CACHE_SIZE < 2**G_ADDRESS_SIZE
+      report "G_CACHE_SIZE must be < 2**G_ADDRESS_SIZE" severity failure;
 
+   -- Compile-Time Validation of G_DATA_SIZE
+   assert G_DATA_SIZE >= 8
+      report "G_DATA_SIZE must be >= 8" severity failure;
+   assert G_DATA_SIZE mod 8 = 0
+      report "G_DATA_SIZE must be a multiple of 8" severity failure;
+
+
+
+   ---------------------------------------------------------------------------
+   -- Compute the offset of the requested address relative to the cache base.
+   -- Unsigned modular subtraction with natural wrap-around on G_ADDRESS_SIZE bits.
+   ---------------------------------------------------------------------------
+   cache_offset_s <= std_logic_vector(unsigned(s_avm_address_i) - unsigned(cache_addr));
 
    ---------------------------------------------------------------------------
    -- cache_filled_s: Asserted for exactly one cycle when the final word of
@@ -121,6 +140,7 @@ begin
    --   Used to perform a write-through update of the buffer contents.
    ---------------------------------------------------------------------------
    cache_wr_hit_s <= '1' when s_avm_write_i = '1' and s_avm_burstcount_i = X"01" and cache_offset_s < cache_count else
+                     '1' when s_avm_write_i = '1' and s_avm_burstcount_i = X"01" and cache_offset_s = cache_count and cache_count < G_CACHE_SIZE and m_avm_readdatavalid_i = '1' else
                      '0';
 
    ---------------------------------------------------------------------------
@@ -137,24 +157,23 @@ begin
    --   Condition 6: Otherwise — wait (fill in progress, no hit).
    ---------------------------------------------------------------------------
    s_avm_waitrequest_o <= '0' when cache_filled_s = '1' and rd_burstcount = X"00" else
-                          '0' when cache_rd_hit_s = '1' and s_avm_write_i = '0' and state = READING_ST else
+                          '0' when cache_rd_hit_s = '1' and s_avm_write_i = '0' and rd_burstcount = X"00" and state = READING_ST else
                            m_avm_waitrequest_i and (m_avm_write_o or m_avm_read_o) when state = IDLE_ST else
                           '1' when rd_burstcount /= X"00" else
                           '0' when cache_count = G_CACHE_SIZE else
                           '1';
 
    ---------------------------------------------------------------------------
-   -- Compute the offset of the requested address relative to the cache base.
-   -- Unsigned modular subtraction with natural wrap-around on G_ADDRESS_SIZE bits.
-   ---------------------------------------------------------------------------
-   cache_offset_s <= std_logic_vector(unsigned(s_avm_address_i) - unsigned(cache_addr));
-
-   ---------------------------------------------------------------------------
    -- Main FSM
    ---------------------------------------------------------------------------
-   p_fsm : process (clk_i)
+   fsm_proc : process (clk_i)
    begin
       if rising_edge(clk_i) then
+        if rst_i = '0' then
+           assert not (s_avm_write_i = '1' and s_avm_read_i = '1')
+              report "Simultaneous read and write not supported" severity failure;
+        end if;
+
          -- Default: clear slave read outputs every cycle (overridden below on hit/valid)
          s_avm_readdata_o      <= (others => '0');
          s_avm_readdatavalid_o <= '0';
@@ -171,9 +190,6 @@ begin
             -- IDLE_ST: No fill in progress. Accept new read or write requests.
             ------------------------------------------------------------------
             when IDLE_ST =>
-               -- Simultaneous read and write is not supported
-               assert not (s_avm_write_i = '1' and s_avm_read_i = '1');
-
                -----------------------------------------------------------------
                -- Write handling: pass through to master bus, with optional
                -- write-through update of cached data using byte-enables.
@@ -220,8 +236,9 @@ begin
                         -- Issue speculative read for the next G_CACHE_SIZE/2 words
                         m_avm_write_o      <= '0';
                         m_avm_read_o       <= '1';
+                        m_avm_byteenable_o <= (others => '1');
                         m_avm_address_o    <= std_logic_vector(unsigned(cache_addr) + G_CACHE_SIZE);
-                        m_avm_burstcount_o <= to_stdlogicvector(G_CACHE_SIZE/2, 8);
+                        m_avm_burstcount_o <= std_logic_vector(to_unsigned(G_CACHE_SIZE/2, 8));
                         rd_burstcount      <= (others => '0'); -- Speculative prefetch: no client burst to forward data to
                         state              <= READING_ST;
                      end if;
@@ -229,8 +246,9 @@ begin
                      -- Cache miss: initiate a full-line read from the requested address
                      m_avm_write_o      <= '0';
                      m_avm_read_o       <= '1';
+                     m_avm_byteenable_o <= (others => '1');
                      m_avm_address_o    <= s_avm_address_i;
-                     m_avm_burstcount_o <= to_stdlogicvector(G_CACHE_SIZE, 8);
+                     m_avm_burstcount_o <= std_logic_vector(to_unsigned(G_CACHE_SIZE, 8));
                      cache_addr         <= s_avm_address_i;
                      cache_count        <= 0;
                      rd_burstcount      <= s_avm_burstcount_i; -- Forward this many words to the client as they arrive
@@ -304,8 +322,9 @@ begin
                            -- Miss: initiate new full-line read
                            m_avm_write_o      <= '0';
                            m_avm_read_o       <= '1';
+                           m_avm_byteenable_o <= (others => '1');
                            m_avm_address_o    <= s_avm_address_i;
-                           m_avm_burstcount_o <= to_stdlogicvector(G_CACHE_SIZE, 8);
+                           m_avm_burstcount_o <= std_logic_vector(to_unsigned(G_CACHE_SIZE, 8));
                            rd_burstcount      <= s_avm_burstcount_i;
                            cache_count        <= 0;
                            cache_addr         <= s_avm_address_i;
@@ -319,8 +338,9 @@ begin
                      if rd_burstcount > 1 then -- account for the word forwarded this cycle
                         m_avm_write_o      <= '0';
                         m_avm_read_o       <= '1';
+                        m_avm_byteenable_o <= (others => '1');
                         m_avm_address_o    <= std_logic_vector(unsigned(cache_addr) + G_CACHE_SIZE);
-                        m_avm_burstcount_o <= to_stdlogicvector(G_CACHE_SIZE, 8);
+                        m_avm_burstcount_o <= std_logic_vector(to_unsigned(G_CACHE_SIZE, 8));
                         cache_count        <= 0;
                         cache_addr         <= std_logic_vector(unsigned(cache_addr) + G_CACHE_SIZE);
                         state              <= READING_ST;
@@ -359,13 +379,17 @@ begin
             s_avm_readdatavalid_o <= '0';
             m_avm_write_o         <= '0';
             m_avm_read_o          <= '0';
+            m_avm_address_o       <= (others => '0');
+            m_avm_writedata_o     <= (others => '0');
+            m_avm_byteenable_o    <= (others => '1');
+            m_avm_burstcount_o    <= (others => '0');
             cache_count           <= 0;
             cache_addr            <= (others => '0');
             rd_burstcount         <= (others => '0');
             state                 <= IDLE_ST;
          end if;
       end if;
-   end process p_fsm;
+   end process fsm_proc;
 
 end architecture synthesis;
 
