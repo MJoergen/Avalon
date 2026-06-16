@@ -28,6 +28,8 @@ architecture simulation of avm_memory is
    -- This defines a type containing an array of bytes
    type   mem_type is array (0 to 2 ** G_ADDRESS_SIZE - 1) of std_logic_vector(G_DATA_SIZE - 1 downto 0);
 
+   signal burst_address : std_logic_vector(G_ADDRESS_SIZE - 1 downto 0);
+
    signal write_burstcount : std_logic_vector(G_BURST_WIDTH - 1 downto 0);
    signal write_address    : std_logic_vector(G_ADDRESS_SIZE - 1 downto 0);
 
@@ -60,6 +62,13 @@ begin
          avm_readdatavalid_o <= '0';
 
          if avm_write_i = '1' and avm_waitrequest_o = '0' then
+            if unsigned(write_burstcount) = 0 then
+               burst_address <= avm_address_i;
+            else
+               assert burst_address = avm_address_i
+                  report "avm_memory: Write burst protocol error"
+                     severity error;
+            end if;
             write_address    <= std_logic_vector(unsigned(mem_write_address) + 1);
             write_burstcount <= std_logic_vector(unsigned(mem_write_burstcount) - 1);
 
