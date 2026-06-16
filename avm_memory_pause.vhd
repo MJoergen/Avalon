@@ -4,10 +4,11 @@ use ieee.numeric_std.all;
 
 entity avm_memory_pause is
    generic (
-      G_REQ_PAUSE    : integer;
-      G_RESP_PAUSE   : integer;
-      G_ADDRESS_SIZE : integer; -- Number of bits
-      G_DATA_SIZE    : integer  -- Number of bits
+      G_BURST_WIDTH  : natural := 8;
+      G_REQ_PAUSE    : natural;
+      G_RESP_PAUSE   : natural;
+      G_ADDRESS_SIZE : natural; -- Number of bits
+      G_DATA_SIZE    : natural  -- Number of bits
    );
    port (
       clk_i               : in  std_logic;
@@ -17,7 +18,7 @@ entity avm_memory_pause is
       avm_address_i       : in  std_logic_vector(G_ADDRESS_SIZE-1 downto 0);
       avm_writedata_i     : in  std_logic_vector(G_DATA_SIZE-1 downto 0);
       avm_byteenable_i    : in  std_logic_vector(G_DATA_SIZE/8-1 downto 0);
-      avm_burstcount_i    : in  std_logic_vector(7 downto 0);
+      avm_burstcount_i    : in  std_logic_vector(G_BURST_WIDTH-1 downto 0);
       avm_readdata_o      : out std_logic_vector(G_DATA_SIZE-1 downto 0);
       avm_readdatavalid_o : out std_logic;
       avm_waitrequest_o   : out std_logic
@@ -31,7 +32,7 @@ architecture simulation of avm_memory_pause is
    signal avm_address       : std_logic_vector(G_ADDRESS_SIZE-1 downto 0);
    signal avm_writedata     : std_logic_vector(G_DATA_SIZE-1 downto 0);
    signal avm_byteenable    : std_logic_vector(G_DATA_SIZE/8-1 downto 0);
-   signal avm_burstcount    : std_logic_vector(7 downto 0);
+   signal avm_burstcount    : std_logic_vector(G_BURST_WIDTH-1 downto 0);
    signal avm_readdata      : std_logic_vector(G_DATA_SIZE-1 downto 0);
    signal avm_readdatavalid : std_logic;
    signal avm_waitrequest   : std_logic;
@@ -40,6 +41,7 @@ begin
 
    i_avm_pause : entity work.avm_pause
       generic map (
+         G_BURST_WIDTH  => G_BURST_WIDTH,
          G_REQ_PAUSE    => G_REQ_PAUSE,
          G_RESP_PAUSE   => G_RESP_PAUSE,
          G_ADDRESS_SIZE => G_ADDRESS_SIZE,
@@ -71,6 +73,7 @@ begin
 
    i_avm_memory : entity work.avm_memory
       generic map (
+         G_BURST_WIDTH  => G_BURST_WIDTH,
          G_ADDRESS_SIZE => G_ADDRESS_SIZE,
          G_DATA_SIZE    => G_DATA_SIZE
       )

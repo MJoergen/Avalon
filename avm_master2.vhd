@@ -58,16 +58,17 @@ library ieee;
 
 entity avm_master2 is
    generic (
-      G_ADDRESS_SIZE : integer; -- Address width in bits (shadow RAM = 2**G_ADDRESS_SIZE words)
-      G_DATA_SIZE    : integer  -- Data word width in bits (must be a multiple of 8)
+      G_BURST_WIDTH  : natural; -- Width of burstcount
+      G_ADDRESS_SIZE : natural; -- Address width in bits (shadow RAM = 2**G_ADDRESS_SIZE words)
+      G_DATA_SIZE    : natural  -- Data word width in bits (must be a multiple of 8)
    );
    port (
       clk_i                 : in    std_logic;
       rst_i                 : in    std_logic;
       start_i               : in    std_logic;                                      -- Pulse high to begin the test
       wait_o                : out   std_logic;                                      -- High while the test is running
-      write_burstcount_i    : in    std_logic_vector(7 downto 0);                   -- Burstcount forwarded on writes (must be X"01")
-      read_burstcount_i     : in    std_logic_vector(7 downto 0);                   -- Burstcount forwarded on reads  (must be X"01")
+      write_burstcount_i    : in    std_logic_vector(G_BURST_WIDTH - 1 downto 0);   -- Burstcount forwarded on writes (must be X"01")
+      read_burstcount_i     : in    std_logic_vector(G_BURST_WIDTH - 1 downto 0);   -- Burstcount forwarded on reads  (must be X"01")
 
       -- Avalon-MM master interface (directly drives the DUT's slave port)
       m_avm_write_o         : out   std_logic;
@@ -75,7 +76,7 @@ entity avm_master2 is
       m_avm_address_o       : out   std_logic_vector(G_ADDRESS_SIZE - 1 downto 0);
       m_avm_writedata_o     : out   std_logic_vector(G_DATA_SIZE - 1 downto 0);
       m_avm_byteenable_o    : out   std_logic_vector(G_DATA_SIZE / 8 - 1 downto 0);
-      m_avm_burstcount_o    : out   std_logic_vector(7 downto 0);
+      m_avm_burstcount_o    : out   std_logic_vector(G_BURST_WIDTH - 1 downto 0);
       m_avm_readdata_i      : in    std_logic_vector(G_DATA_SIZE - 1 downto 0);
       m_avm_readdatavalid_i : in    std_logic;
       m_avm_waitrequest_i   : in    std_logic;
@@ -152,13 +153,16 @@ begin
    -- Compile-time validation
    assert G_DATA_SIZE >= 8
       report "G_DATA_SIZE must be >= 8"
-      severity failure;
+         severity failure;
    assert G_DATA_SIZE mod 8 = 0
       report "G_DATA_SIZE must be a multiple of 8"
-      severity failure;
+         severity failure;
    assert R_WRITE'left <= 63
       report "LFSR field mapping exceeds 64-bit LFSR width; reduce G_ADDRESS_SIZE or G_DATA_SIZE"
-      severity failure;
+         severity failure;
+   assert G_BURST_WIDTH <= 2**G_ADDRESS_SIZE
+      report "G_BURST_WIDTH must be <= 2**G_ADDRESS_SIZE"
+         severity failure;
 
    ---------------------------------------------------------------------------
    -- Combinatorial decode of LFSR fields into transaction parameters.

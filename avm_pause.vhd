@@ -11,10 +11,11 @@ use ieee.numeric_std_unsigned.all;
 
 entity avm_pause is
    generic (
-      G_REQ_PAUSE    : integer;
-      G_RESP_PAUSE   : integer;
-      G_ADDRESS_SIZE : integer; -- Number of bits
-      G_DATA_SIZE    : integer  -- Number of bits
+      G_BURST_WIDTH  : natural := 8;
+      G_REQ_PAUSE    : natural;
+      G_RESP_PAUSE   : natural;
+      G_ADDRESS_SIZE : natural; -- Number of bits
+      G_DATA_SIZE    : natural  -- Number of bits
    );
    port (
       clk_i                 : in  std_logic;
@@ -24,7 +25,7 @@ entity avm_pause is
       s_avm_address_i       : in  std_logic_vector(G_ADDRESS_SIZE-1 downto 0);
       s_avm_writedata_i     : in  std_logic_vector(G_DATA_SIZE-1 downto 0);
       s_avm_byteenable_i    : in  std_logic_vector(G_DATA_SIZE/8-1 downto 0);
-      s_avm_burstcount_i    : in  std_logic_vector(7 downto 0);
+      s_avm_burstcount_i    : in  std_logic_vector(G_BURST_WIDTH-1 downto 0);
       s_avm_readdata_o      : out std_logic_vector(G_DATA_SIZE-1 downto 0);
       s_avm_readdatavalid_o : out std_logic;
       s_avm_waitrequest_o   : out std_logic;
@@ -33,7 +34,7 @@ entity avm_pause is
       m_avm_address_o       : out std_logic_vector(G_ADDRESS_SIZE-1 downto 0);
       m_avm_writedata_o     : out std_logic_vector(G_DATA_SIZE-1 downto 0);
       m_avm_byteenable_o    : out std_logic_vector(G_DATA_SIZE/8-1 downto 0);
-      m_avm_burstcount_o    : out std_logic_vector(7 downto 0);
+      m_avm_burstcount_o    : out std_logic_vector(G_BURST_WIDTH-1 downto 0);
       m_avm_readdata_i      : in  std_logic_vector(G_DATA_SIZE-1 downto 0);
       m_avm_readdatavalid_i : in  std_logic;
       m_avm_waitrequest_i   : in  std_logic
@@ -42,7 +43,7 @@ end entity avm_pause;
 
 architecture synthesis of avm_pause is
 
-   signal rd_burstcount : integer range 0 to 255;
+   signal rd_burstcount : std_logic_vector(G_BURST_WIDTH-1 downto 0);
    signal cnt   : std_logic_vector(16 downto 0);
    signal inc_s : std_logic_vector(16 downto 0);
    signal allow : std_logic;
@@ -71,11 +72,11 @@ begin
          end if;
 
          if s_avm_read_i and not s_avm_waitrequest_o then
-            rd_burstcount <= to_integer(s_avm_burstcount_i);
+            rd_burstcount <= s_avm_burstcount_i;
          end if;
 
          if rst_i = '1' then
-            rd_burstcount <= 0;
+            rd_burstcount <= (others => '0');
          end if;
       end if;
    end process p_rd_burstcount;

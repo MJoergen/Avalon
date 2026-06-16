@@ -4,8 +4,9 @@ library ieee;
 
 entity avm_memory is
    generic (
-      G_ADDRESS_SIZE : integer; -- Number of bits
-      G_DATA_SIZE    : integer  -- Number of bits
+      G_BURST_WIDTH  : natural := 8;
+      G_ADDRESS_SIZE : natural; -- Number of bits
+      G_DATA_SIZE    : natural  -- Number of bits
    );
    port (
       clk_i               : in    std_logic;
@@ -16,7 +17,7 @@ entity avm_memory is
       avm_address_i       : in    std_logic_vector(G_ADDRESS_SIZE - 1 downto 0);
       avm_writedata_i     : in    std_logic_vector(G_DATA_SIZE - 1 downto 0);
       avm_byteenable_i    : in    std_logic_vector(G_DATA_SIZE / 8 - 1 downto 0);
-      avm_burstcount_i    : in    std_logic_vector(7 downto 0);
+      avm_burstcount_i    : in    std_logic_vector(G_BURST_WIDTH - 1 downto 0);
       avm_readdata_o      : out   std_logic_vector(G_DATA_SIZE - 1 downto 0);
       avm_readdatavalid_o : out   std_logic
    );
@@ -27,26 +28,26 @@ architecture simulation of avm_memory is
    -- This defines a type containing an array of bytes
    type   mem_type is array (0 to 2 ** G_ADDRESS_SIZE - 1) of std_logic_vector(G_DATA_SIZE - 1 downto 0);
 
-   signal write_burstcount : std_logic_vector(7 downto 0);
+   signal write_burstcount : std_logic_vector(G_BURST_WIDTH - 1 downto 0);
    signal write_address    : std_logic_vector(G_ADDRESS_SIZE - 1 downto 0);
 
-   signal read_burstcount : std_logic_vector(7 downto 0);
+   signal read_burstcount : std_logic_vector(G_BURST_WIDTH - 1 downto 0);
    signal read_address    : std_logic_vector(G_ADDRESS_SIZE - 1 downto 0);
 
-   signal mem_write_burstcount : std_logic_vector(7 downto 0);
-   signal mem_read_burstcount  : std_logic_vector(7 downto 0);
+   signal mem_write_burstcount : std_logic_vector(G_BURST_WIDTH - 1 downto 0);
+   signal mem_read_burstcount  : std_logic_vector(G_BURST_WIDTH - 1 downto 0);
    signal mem_write_address    : std_logic_vector(G_ADDRESS_SIZE - 1 downto 0);
    signal mem_read_address     : std_logic_vector(G_ADDRESS_SIZE - 1 downto 0);
 
 begin
 
-   mem_write_address    <= avm_address_i when write_burstcount = X"00" else
+   mem_write_address    <= avm_address_i when unsigned(write_burstcount) = 0 else
                            write_address;
-   mem_read_address     <= avm_address_i when read_burstcount = X"00" else
+   mem_read_address     <= avm_address_i when unsigned(read_burstcount) = 0 else
                            read_address;
-   mem_write_burstcount <= avm_burstcount_i when write_burstcount = X"00" else
+   mem_write_burstcount <= avm_burstcount_i when unsigned(write_burstcount) = 0 else
                            write_burstcount;
-   mem_read_burstcount  <= avm_burstcount_i when read_burstcount = X"00" else
+   mem_read_burstcount  <= avm_burstcount_i when unsigned(read_burstcount) = 0 else
                            read_burstcount;
 
    avm_waitrequest_o    <= '0' when unsigned(read_burstcount) = 0 else
