@@ -334,25 +334,38 @@ begin
                   if cache_count >= G_CACHE_SIZE - 1 then
                      -----------------------------------------------------------
                      -- Cache fill complete: mark buffer as full and return to
-                     -- IDLE. Then check for overlapping requests that can be
+                     -- IDLE.  Then check for overlapping requests that can be
                      -- accepted in this same cycle.
                      --
-                     -- Priority (last-assignment-wins in VHDL):
-                     --   continuation read > new read > new write.
-                     -- These blocks are intentionally ordered so that later
-                     -- assignments override earlier ones when multiple
-                     -- conditions are true simultaneously.
+                     -- Priority is explicit via if/elsif ordering (highest
+                     -- priority first).  The default assignments above this
+                     -- chain (cache_count, state) are overridden by whichever
+                     -- branch fires.
                      -----------------------------------------------------------
                      cache_count <= G_CACHE_SIZE;
                      state       <= IDLE_ST;
 
-                     -- (Lowest priority) Accept a new write immediately
-                     if s_avm_write_i = '1' and s_avm_waitrequest_o = '0' then
-                        proc_write_passthrough;
-                     end if;
+                     if rd_burstcount > 1 then
+                        ---------------------------------------------------------
+                        -- (Highest priority) Continuation read: client burst is
+                        -- still pending after fill completed.  Fetch the next
+                        -- G_CACHE_SIZE words from the next sequential address.
+                        -- The threshold is > 1 (not > 0) to account for the
+                        -- word forwarded to the client earlier in this cycle.
+                        ---------------------------------------------------------
+                        m_avm_write_o      <= '0';
+                        m_avm_read_o       <= '1';
+                        m_avm_byteenable_o <= (others => '1');
+                        m_avm_address_o    <= std_logic_vector(unsigned(cache_addr) + G_CACHE_SIZE);
+                        m_avm_burstcount_o <= std_logic_vector(to_unsigned(G_CACHE_SIZE, G_BURST_WIDTH));
+                        cache_count        <= 0;
+                        cache_addr         <= std_logic_vector(unsigned(cache_addr) + G_CACHE_SIZE);
+                        state              <= READING_ST;
 
-                     -- (Medium priority) Accept a new read immediately
-                     if s_avm_read_i = '1' and s_avm_waitrequest_o = '0' then
+                     elsif s_avm_read_i = '1' and s_avm_waitrequest_o = '0' then
+                        ---------------------------------------------------------
+                        -- (Medium priority) Accept a new read immediately.
+                        ---------------------------------------------------------
                         if cache_rd_hit_s = '1' then
                            -- Hit: serve from buffer (no sliding-window check;
                            -- see the NOTE in IDLE_ST for the rationale)
@@ -362,21 +375,13 @@ begin
                            -- Miss: initiate new full-line read
                            proc_read_miss;
                         end if;
-                     end if;
 
-                     -- (Highest priority) Continuation read: client burst is
-                     -- still pending after fill completed. Fetch the next
-                     -- G_CACHE_SIZE words from the next sequential address.
-                     if rd_burstcount > 1 then
-                        -- account for the word forwarded this cycle
-                        m_avm_write_o      <= '0';
-                        m_avm_read_o       <= '1';
-                        m_avm_byteenable_o <= (others => '1');
-                        m_avm_address_o    <= std_logic_vector(unsigned(cache_addr) + G_CACHE_SIZE);
-                        m_avm_burstcount_o <= std_logic_vector(to_unsigned(G_CACHE_SIZE, G_BURST_WIDTH));
-                        cache_count        <= 0;
-                        cache_addr         <= std_logic_vector(unsigned(cache_addr) + G_CACHE_SIZE);
-                        state              <= READING_ST;
+                     elsif s_avm_write_i = '1' and s_avm_waitrequest_o = '0' then
+                        ---------------------------------------------------------
+                        -- (Lowest priority) Accept a new write immediately.
+                        ---------------------------------------------------------
+                        proc_write_passthrough;
+
                      end if;
                   else
                      -- Fill still in progress: advance the word counter
