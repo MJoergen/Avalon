@@ -270,11 +270,41 @@ begin
                      s_avm_readdatavalid_o <= '1';
 
                      --------------------------------------------------------
-                     -- Read-ahead trigger: when the client reads the word at
-                     -- the midpoint (offset = G_CACHE_SIZE/2 - 1), slide the
-                     -- buffer window forward.
+                     -- Read-ahead trigger (threshold check):
                      --
-                     -- NOTE: This sliding-window logic is intentionally NOT
+                     -- When the client reads a word at or past the midpoint
+                     -- (offset >= G_CACHE_SIZE/2 - 1), slide the buffer
+                     -- window forward.
+                     --
+                     -- A threshold (>=) is used instead of an equality (=)
+                     -- to handle the case where the client skips past the
+                     -- exact midpoint.  This can happen when:
+                     --   (a) A speculative fill is in progress (READING_ST)
+                     --       and the client issues hits that advance past the
+                     --       midpoint before the fill completes.  Since no
+                     --       slide fires during READING_ST, the first read
+                     --       hit after returning to IDLE_ST may already be
+                     --       beyond the midpoint.
+                     --   (b) The fill-completion overlap path serves a read
+                     --       hit at or past the midpoint but intentionally
+                     --       does not slide (see NOTE below).  On the next
+                     --       cycle in IDLE_ST, the client's offset is past
+                     --       the midpoint.
+                     --
+                     -- The threshold is safe because cache_rd_hit_s
+                     -- guarantees cache_offset_s is in [0, cache_count - 1],
+                     -- i.e. within the valid buffer range.  The speculative
+                     -- read address and burstcount are independent of the
+                     -- triggering offset — they always fill the upper half
+                     -- of the new window.
+                     --
+                     -- Trade-off: when the slide fires late (offset close to
+                     -- G_CACHE_SIZE - 1), the prefetched data covers less
+                     -- look-ahead.  This degrades gracefully — the client
+                     -- may stall briefly waiting for the speculative fill —
+                     -- but is always better than missing the slide entirely.
+                     --
+                     -- NOTE: The sliding-window logic is intentionally NOT
                      -- duplicated in the READING_ST fill-completion read-hit
                      -- path.  At fill completion the last word has just been
                      -- received via m_avm_readdata_i but the corresponding
@@ -282,11 +312,11 @@ begin
                      -- deferred signal update).  A slide at that instant
                      -- would copy the stale pre-fill value of
                      -- cache_data(G_CACHE_SIZE-1) into the lower half,
-                     -- corrupting the buffer.  The slide will fire correctly
-                     -- one cycle later when the client re-reads at the
-                     -- midpoint in IDLE_ST.
+                     -- corrupting the buffer.  The threshold check here
+                     -- ensures the slide fires on the very next cycle
+                     -- instead, once the buffer is fully committed.
                      --------------------------------------------------------
-                     if cache_offset_s = G_CACHE_SIZE / 2 - 1 then
+                     if cache_offset_s >= G_CACHE_SIZE / 2 - 1 then
                         -- Slide the window: shift the upper half into the lower half
                         cache_data(0 to G_CACHE_SIZE / 2 - 1) <= cache_data(G_CACHE_SIZE / 2 to G_CACHE_SIZE - 1);
                         -- Advance the base address by half the buffer size
@@ -365,10 +395,13 @@ begin
                      elsif s_avm_read_i = '1' and s_avm_waitrequest_o = '0' then
                         ---------------------------------------------------------
                         -- (Medium priority) Accept a new read immediately.
+                        -- No sliding-window check here; see the NOTE in the
+                        -- IDLE_ST read-ahead trigger block for the rationale.
+                        -- The >= threshold there guarantees the slide fires on
+                        -- the very next cycle if the offset is past the midpoint.
                         ---------------------------------------------------------
                         if cache_rd_hit_s = '1' then
-                           -- Hit: serve from buffer (no sliding-window check;
-                           -- see the NOTE in IDLE_ST for the rationale)
+                           -- Hit: serve from buffer
                            s_avm_readdata_o      <= cache_data(to_integer(cache_offset_s));
                            s_avm_readdatavalid_o <= '1';
                         else
