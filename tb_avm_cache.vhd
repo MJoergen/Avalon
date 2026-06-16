@@ -5,8 +5,8 @@ use ieee.numeric_std.all;
 entity tb_avm_cache is
    generic (
       G_CACHE_SIZE : natural := 8;
-      G_REQ_PAUSE  : integer := 0;
-      G_RESP_PAUSE : integer := 0
+      G_REQ_PAUSE  : integer := 1;
+      G_RESP_PAUSE : integer := 1
    );
 end entity tb_avm_cache;
 
@@ -124,7 +124,7 @@ begin
          start_i               => s_avm_start,
          wait_o                => s_avm_wait,
          write_burstcount_i    => "0001",
-         read_burstcount_i     => "0001",
+         read_burstcount_i     => "0010",
          m_avm_write_o         => s_avm_write,
          m_avm_read_o          => s_avm_read,
          m_avm_address_o       => s_avm_address,

@@ -68,7 +68,7 @@ entity avm_master2 is
       start_i               : in    std_logic;                                      -- Pulse high to begin the test
       wait_o                : out   std_logic;                                      -- High while the test is running
       write_burstcount_i    : in    std_logic_vector(G_BURST_WIDTH - 1 downto 0);   -- Burstcount forwarded on writes (must be X"01")
-      read_burstcount_i     : in    std_logic_vector(G_BURST_WIDTH - 1 downto 0);   -- Burstcount forwarded on reads  (must be X"01")
+      read_burstcount_i     : in    std_logic_vector(G_BURST_WIDTH - 1 downto 0);   -- Burstcount forwarded on reads
 
       -- Avalon-MM master interface (directly drives the DUT's slave port)
       m_avm_write_o         : out   std_logic;
@@ -148,6 +148,11 @@ architecture synthesis of avm_master2 is
    subtype  R_BYTEENABLE is natural range G_DATA_SIZE / 8 + R_DATA'left downto R_DATA'left + 1;
    subtype  R_WRITE      is natural range 4 + R_BYTEENABLE'left downto R_BYTEENABLE'left + 1;
 
+
+   signal   read_base_addr  : std_logic_vector(G_ADDRESS_SIZE - 1 downto 0);
+   signal   read_beat_index : std_logic_vector(G_BURST_WIDTH - 1 downto 0);
+   signal   read_burstcount : std_logic_vector(G_BURST_WIDTH - 1 downto 0);
+
 begin
 
    -- Compile-time validation
@@ -181,6 +186,9 @@ begin
    -- Main FSM process
    ---------------------------------------------------------------------------
    master_proc : process (clk_i)
+      -- Expected read data (from shadow memory)
+      variable data_exp_v     : std_logic_vector(G_DATA_SIZE - 1 downto 0);
+      variable read_address_v : std_logic_vector(G_ADDRESS_SIZE - 1 downto 0);
    begin
       if rising_edge(clk_i) then
          lfsr_update_s <= '0';
@@ -220,15 +228,22 @@ begin
                -- Read-data verification
                -- --------------------------------------------------------
                if m_avm_readdatavalid_i = '1' then
-                  if data_exp_o /= m_avm_readdata_i then
+                  read_address_v  := read_base_addr + read_beat_index;
+                  data_exp_v := mem(to_integer(read_address_v));
+                  if data_exp_v /= m_avm_readdata_i then
                      report "Read 0x" & to_hstring(m_avm_readdata_i) &
-                            ", but expected 0x" & to_hstring(data_exp_o)
+                            ", but expected 0x" & to_hstring(data_exp_v)
                         severity failure;
-                     error_o <= '1';
+                     address_o   <= read_base_addr + read_beat_index;
+                     data_exp_o  <= data_exp_v;
+                     data_read_o <= m_avm_readdata_i;
+                     error_o     <= '1';
                   end if;
-                  data_read_o <= m_avm_readdata_i;
-                  state       <= WORKING_ST;
-                  num_read    <= num_read + 1;
+                  num_read        <= num_read + 1;
+                  read_beat_index <= read_beat_index + 1;
+                  if read_beat_index + 1 = read_burstcount then
+                     state <= WORKING_ST;
+                  end if;
                end if;
 
                -- --------------------------------------------------------
@@ -244,7 +259,8 @@ begin
                --       allowing back-to-back pipelining.
                -- --------------------------------------------------------
                if (m_avm_waitrequest_i = '0' or (m_avm_write_o = '0' and m_avm_read_o = '0')) and
-                  (state = WORKING_ST or m_avm_readdatavalid_i = '1') then
+                  ((m_avm_readdatavalid_i = '1' and read_beat_index + 1 = read_burstcount) or
+                  state = WORKING_ST) then
 
                   if written(to_integer(address_s)) /= C_ALL_ONES or write_s = '1' or byteenable_s = 0 then
                      -- ---------------------------------------------------
@@ -288,6 +304,9 @@ begin
                      m_avm_read_o       <= '1';
                      m_avm_address_o    <= address_s;
                      m_avm_burstcount_o <= read_burstcount_i;
+                     read_base_addr     <= address_s;
+                     read_beat_index    <= (others => '0');
+                     read_burstcount    <= read_burstcount_i;
                      state              <= READING_ST;
                   end if;
                end if;
@@ -347,13 +366,6 @@ begin
                   mem(to_integer(m_avm_address_o))(8 * i + 7 downto 8 * i) <= m_avm_writedata_o(8 * i + 7 downto 8 * i);
                end if;
             end loop;
-         end if;
-         if m_avm_waitrequest_i = '0' and m_avm_read_o = '1' then
-            address_o  <= m_avm_address_o;
-            data_exp_o <= mem(to_integer(m_avm_address_o));
-         end if;
-         if rst_i = '1' then
-           data_exp_o <= (others => '0');
          end if;
       end if;
    end process mem_proc;

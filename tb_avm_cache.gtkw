@@ -1,19 +1,18 @@
 [*]
 [*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
-[*] Tue Jun 16 09:45:52 2026
+[*] Tue Jun 16 11:14:58 2026
 [*]
-[dumpfile] "/home/mfj/git/PRIVATE/MJoergen/Avalon/tb_avm_cache.ghw"
-[dumpfile_mtime] "Tue Jun 16 09:37:24 2026"
-[dumpfile_size] 1218981
+[dumpfile] "(null)"
 [savefile] "/home/mfj/git/PRIVATE/MJoergen/Avalon/tb_avm_cache.gtkw"
-[timestart] 17840300000
+[timestart] 453100000
 [size] 1853 1127
 [pos] 0 33
-*-25.986801 18074000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-24.778669 597000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] top.
 [treeopen] top.tb_avm_cache.
 [treeopen] top.tb_avm_cache.i_avm_cache.cache_data.
 [treeopen] top.tb_avm_cache.i_avm_master2.
+[treeopen] top.tb_avm_cache.i_avm_master2.mem.
 [sst_width] 371
 [signals_width] 377
 [sst_expanded] 1
@@ -160,7 +159,14 @@ top.tb_avm_cache.i_avm_master2.num_read
 top.tb_avm_cache.i_avm_master2.byteenable_s[0]
 top.tb_avm_cache.i_avm_master2.write_s
 top.tb_avm_cache.i_avm_master2.lfsr_update_s
+@22
+#{top.tb_avm_cache.i_avm_master2.read_base_addr[4:0]} top.tb_avm_cache.i_avm_master2.read_base_addr[4] top.tb_avm_cache.i_avm_master2.read_base_addr[3] top.tb_avm_cache.i_avm_master2.read_base_addr[2] top.tb_avm_cache.i_avm_master2.read_base_addr[1] top.tb_avm_cache.i_avm_master2.read_base_addr[0]
+#{top.tb_avm_cache.i_avm_master2.read_beat_index[7:0]} top.tb_avm_cache.i_avm_master2.read_beat_index[7] top.tb_avm_cache.i_avm_master2.read_beat_index[6] top.tb_avm_cache.i_avm_master2.read_beat_index[5] top.tb_avm_cache.i_avm_master2.read_beat_index[4] top.tb_avm_cache.i_avm_master2.read_beat_index[3] top.tb_avm_cache.i_avm_master2.read_beat_index[2] top.tb_avm_cache.i_avm_master2.read_beat_index[1] top.tb_avm_cache.i_avm_master2.read_beat_index[0]
+#{top.tb_avm_cache.i_avm_master2.read_burstcount[7:0]} top.tb_avm_cache.i_avm_master2.read_burstcount[7] top.tb_avm_cache.i_avm_master2.read_burstcount[6] top.tb_avm_cache.i_avm_master2.read_burstcount[5] top.tb_avm_cache.i_avm_master2.read_burstcount[4] top.tb_avm_cache.i_avm_master2.read_burstcount[3] top.tb_avm_cache.i_avm_master2.read_burstcount[2] top.tb_avm_cache.i_avm_master2.read_burstcount[1] top.tb_avm_cache.i_avm_master2.read_burstcount[0]
 @1000200
 -avm_master2
+@22
+#{top.tb_avm_cache.i_avm_master2.mem[21][7:0]} top.tb_avm_cache.i_avm_master2.mem[21][7] top.tb_avm_cache.i_avm_master2.mem[21][6] top.tb_avm_cache.i_avm_master2.mem[21][5] top.tb_avm_cache.i_avm_master2.mem[21][4] top.tb_avm_cache.i_avm_master2.mem[21][3] top.tb_avm_cache.i_avm_master2.mem[21][2] top.tb_avm_cache.i_avm_master2.mem[21][1] top.tb_avm_cache.i_avm_master2.mem[21][0]
+#{top.tb_avm_cache.i_avm_master2.mem[22][7:0]} top.tb_avm_cache.i_avm_master2.mem[22][7] top.tb_avm_cache.i_avm_master2.mem[22][6] top.tb_avm_cache.i_avm_master2.mem[22][5] top.tb_avm_cache.i_avm_master2.mem[22][4] top.tb_avm_cache.i_avm_master2.mem[22][3] top.tb_avm_cache.i_avm_master2.mem[22][2] top.tb_avm_cache.i_avm_master2.mem[22][1] top.tb_avm_cache.i_avm_master2.mem[22][0]
 [pattern_trace] 1
 [pattern_trace] 0
